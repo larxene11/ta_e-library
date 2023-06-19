@@ -71,7 +71,7 @@
                         </select>
                         </div>
                             <div class="text-right mt-5">
-                                <a href="{{ route('manage_book.all') }}"
+                                <a href="{{ route('manage_pinjaman.all') }}"
                                     class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
                                 <button type="submit"
                                     class="btn text-primary btn-primary w-24">Save</button>
