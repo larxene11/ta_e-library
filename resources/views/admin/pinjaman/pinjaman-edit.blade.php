@@ -4,108 +4,72 @@
     <div class="content col-span-12">
         <div class="intro-y flex items-center -mt-10">
             <h2 class="text-xl font-medium">
-                Edit Data Buku
+                Edit Data Pinjaman
             </h2>
-            <input type="hidden" value="0" id="package_id">
+            <input type="hidden" value="0" id="pinjaman_id">
         </div>
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">
                 <!-- BEGIN: Form Layout -->
-                <form action="{{ route('manage_book.patch',['books'=>$books]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('manage_pinjaman.patch',['pinjaman'=>$pinjaman]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
                     <input type="hidden" id="deleted_images" name="deleted_images">
-                        <div class="intro-y box p-5">
-                            <div>
-                                <label for="kode_buku"
-                                    class="form-label">Kode Buku</label>
-                                @error('kode_buku')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <input id="kode_buku" name="kode_buku" type="text" class="form-control"
-                                    placeholder="Masukan Kode Buku" value="{{old('kode_buku')??$books->kode_buku}}">
-                            </div>
-                            <div>
-                                <label for="judul"
-                                    class="form-label">Judul Buku</label>
-                                @error('judul')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <input id="judul" name="judul" type="text" class="form-control"
-                                    placeholder="Masukan Judul Buku" value="{{old('judul')??$books->judul}}">
-                            </div>
-                            <div class="mt-3">
-                                <label for="category_id" class="form-label mt-2">Kategori Buku</label>
-                                @error('category_id')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <select name="category_id" id="category_id" data-placeholder="Pilih Kategori Buku"
-                                    class="tom-select w-full">
-                                    <option value="0">None</option>
-                                    @foreach ($categories as $item)
-                                        <option value="{{$item->id}}" {{ $books->category_id==$item->id?'selected':null }}>{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label for="pengarang"
-                                    class="form-label">Nama Pengarang</label>
-                                @error('pengarang')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <input id="pengarang" name="pengarang" type="text" class="form-control"
-                                    placeholder="Masukan Nama Pengarang" value="{{old('pengarang')??$books->pengarang}}">
-                            </div>
-                            <div>
-                                <label for="dana"
-                                    class="form-label">Asal Pengadaan Buku</label>
-                                @error('dana')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <input id="dana" name="dana" type="text" class="form-control"
-                                    placeholder="Masukan Asal Pengadaan Buku" value="{{old('dana')??$books->dana}}">
-                            </div>
-                            <div>
-                                <label for="tahun"
-                                    class="form-label">Tahun Pengadaan Buku</label>
-                                @error('tahun')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <input id="tahun" name="tahun" type="text" class="form-control"
-                                    placeholder="Masukan Tahun Pengadaan Buku" value="{{old('tahun')??$books->tahun}}">
-                            </div>
-                            <div class="mt-3">
-                                <label for="description" class="form-label">Description</label>
-                                @error('description')
-                                    <small class="text-xs text-red-500 ml-1">{{'*'.$message }}</small>
-                                @enderror
-                                <textarea id="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukan Deskripsi Buku">{{ $books->description ?? old('description')}}</textarea>
-                            </div>
-                            <br>
-                            <div class="upload__box">
-                                @error('images[]')
-                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                                @enderror
-                                <div class="upload__btn-box">
-                                    <label class="upload__btn btn btn-primary">
-                                        <p>Unggah Gambar
-                                        </p>
-                                        <input type="file" name="images[]" multiple data-max_length="20"
-                                            class="upload__inputfile">
-                                    </label>
-                                </div>
-                                <div class="upload__img-wrap">
-                                    @foreach ($books->images as $item => $image)
-                                        <div class='upload__img-box'>
-                                            <div style='background-image: url({{ asset('storage/' . $image->src) }})'
-                                                data-number='{{ $item }}' data-id="{{ $image->id }}"
-                                                data-file='{{ 'storage/' . $image->src }}' class='img-bg'>
-                                                <div class='upload__img-close'></div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
+                    <div class="intro-y box p-5">
+                        <div class="mt-3">
+                            <label for="kode_buku" class="form-label mt-2">Kode Buku yang Dipinjam</label>
+                            @error('kode_buku')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <select name="kode_buku" id="kode_buku" data-placeholder="Pilih Kode Buku yang Dipinjam"
+                                class="tom-select w-full">
+                                @foreach ($books as $item)
+                                    <option value="{{ $item->kode_buku }}">{{ $item->kode_buku }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mt-3">
+                            <label for="nis" class="form-label mt-2">NIS</label>
+                            @error('nis')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <select name="nis" id="nis" data-placeholder="Pilih NIS Siswa"
+                                class="tom-select w-full">
+                                @foreach ($students as $item)
+                                    <option value="{{ $item->nis}}">{{ $item->nis }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tgl_pinjaman"
+                                class="form-label">Tanggal Peminjaman</label>
+                            @error('tgl_pinjaman')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input id="tgl_pinjaman" name="tgl_pinjaman" type="date" class="form-control"
+                                placeholder="Masukan Tanggal Peminjaman" value="{{ old('tgl_pinjaman')?? $pinjaman->tgl_pinjaman }}">
+                        </div>
+                        <div>
+                            <label for="tgl_pengembalian"
+                                class="form-label">Tanggal Pengembalian</label>
+                            @error('tgl_pengembalian')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input id="tgl_pengembalian" name="tgl_pengembalian" type="date" class="form-control"
+                                placeholder="Masukan Tanggal Pengembalian" value="{{ old('tgl_pengembalian')?? $pinjaman->tgl_pengembalian }}">
+                        </div>
+                        <div>
+                            <label for="status_pengembalian"
+                                class="form-label">Status Pengembalian</label>
+                            @error('stautus_pengembalian')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <select name="status_pengembalian" id="status_pengembalian" data-placeholder="Pilih Status Pengembalian"
+                            class="tom-select w-full">
+                                <option value="sudah">Sudah</option>
+                                <option value="belum">Belum</option>
+                        </select>
+                        </div>
                             <div class="text-right mt-5">
                                 <a href="{{ route('manage_book.all') }}"
                                     class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
@@ -122,8 +86,8 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('dist/js/view/manage-airport/airport.js') }}"></script>
-    <script>
+    <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>
+    {{-- <script>
 
         function trigger_file_input() {
             $('#service_image').trigger('click');
@@ -140,5 +104,5 @@
 
             return [image, imagePreview];
         }
-    </script>
+    </script> --}}
 @endsection

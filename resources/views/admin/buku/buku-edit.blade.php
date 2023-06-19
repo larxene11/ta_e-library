@@ -6,7 +6,7 @@
             <h2 class="text-xl font-medium">
                 Edit Data Buku
             </h2>
-            <input type="hidden" value="0" id="package_id">
+            <input type="hidden" value="0" id="kode_buku">
         </div>
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">

@@ -55,7 +55,7 @@
                             <td class="text-center">{{ $item->tgl_pinjaman }}</td>
                             <td class="text-center">{{ $item->tgl_pengembalian }}</td>
                             <td class="text-center">{{ $item->denda }}</td>
-                            <td class="text-center">{{ $item->status }}</td>
+                            <td class="text-center">{{ $item->status_pengembalian }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3"
@@ -66,7 +66,7 @@
                                         onclick="deleteModalHandler({{ $index }})"> <i data-lucide="trash-2"
                                             class="w-4 h-4 mr-1"></i> Delete </a>
                                     <input type="hidden" id="delete_route_{{ $index }}"
-                                        value="{{ route('manage_pinjaman.delete', ['books' => $item]) }}">
+                                        value="{{ route('manage_pinjaman.delete', ['pinjaman' => $item]) }}">
                                 </div>
                             </td>
                         </tr>
