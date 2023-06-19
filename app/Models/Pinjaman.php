@@ -32,6 +32,10 @@ class Pinjaman extends Model
     {
         return $this->hasMany(Student::class, 'nis');
     }
+    public function book()
+    {
+        return $this->hasMany(Book::class, 'kode_buku');
+    }
 
     // public function hitungDenda()
     // {
