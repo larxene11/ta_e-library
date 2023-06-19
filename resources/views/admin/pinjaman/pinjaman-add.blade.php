@@ -11,39 +11,41 @@
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">
                 <!-- BEGIN: Form Layout -->
-                <form action="{{ route('manage_book.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('manage_pinjaman.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="intro-y box p-5">
-                        <div>
-                            <label for="kode_buku"
-                                class="form-label">Kode Buku</label>
+                        <div class="mt-3">
+                            <label for="kode_buku" class="form-label mt-2">Kode Buku yang Dipinjam</label>
                             @error('kode_buku')
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
-                            <input id="kode_buku" name="kode_buku" type="text" class="form-control"
-                                placeholder="Masukan Kode Buku" value="{{ old('kode_buku') }}">
-                        </div>
-                        <div>
-                            <label for="judul"
-                                class="form-label">Judul Buku</label>
-                            @error('judul')
-                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                            @enderror
-                            <input id="judul" name="judul" type="text" class="form-control"
-                                placeholder="Masukan Judul Buku" value="{{ old('judul') }}">
-                        </div>
-                        <div class="mt-3">
-                            <label for="category_id" class="form-label mt-2">Kategori Buku</label>
-                            @error('category_id')
-                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                            @enderror
-                            <select name="category_id" id="category_id" data-placeholder="Pilih Kategori Buku"
+                            <select name="kode_buku" id="kode_buku" data-placeholder="Pilih Kode Buku yang Dipinjam"
                                 class="tom-select w-full">
-                                <option value="0">None</option>
-                                @foreach ($categories as $item)
-                                    <option value="{{ $item->id }}" {{ old('category_id')==$item->id?'selected':null }}>{{ $item->name }}</option>
+                                @foreach ($books as $item)
+                                    <option value="{{ $item->kode_buku }}" {{ old('kode_buku')==$item->kode_buku?'selected'}}>{{ $item->kode_buku }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="mt-3">
+                            <label for="nis" class="form-label mt-2">NIS</label>
+                            @error('nis')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <select name="nis" id="nis" data-placeholder="Pilih NIS Siswa"
+                                class="tom-select w-full">
+                                @foreach ($studens as $item)
+                                    <option value="{{ $item->nis}}" {{ old('nis')==$item->nis?'selected' }}>{{ $item->nis }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tgl_pinjaman"
+                                class="form-label">Tanggal Peminjaman</label>
+                            @error('tgl_pinjaman')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input datepicker datepicker-format='dd/mm/yyyy' id="tgl_pinjaman" name="tgl_pinjaman" type="text" class="form-control"
+                                placeholder="Masukan Judul Buku" value="{{ old('judul') }}">
                         </div>
                         <div>
                             <label for="pengarang"

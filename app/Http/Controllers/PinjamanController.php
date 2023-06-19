@@ -67,7 +67,7 @@ class PinjamanController extends Controller
             'tgl_pinjaman' => $validated['tgl_pinjaman'],
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
             'status_pengembalian' => $validated['status_pengembalian'],
-            'denda' => $validated['denda'],
+            'denda' => $validated['denda'] == 0 ? NULL : $validated['denda'],
         ]);
         if ($created_pinjaman) {
             return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Ditambahkan');
@@ -95,7 +95,7 @@ class PinjamanController extends Controller
             'tgl_pinjaman' => $validated['tgl_pinjaman'],
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
             'status_pengembalian' => $validated['status_pengembalian'],
-            'denda' => $validated['denda'],
+            'denda' => $validated['denda'] == 0 ? NULL : $validated['denda'],
         ]);
         if ($updated_pinjaman) {
             return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Di Ubah');
