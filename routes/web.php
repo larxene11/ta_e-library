@@ -21,6 +21,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'pegawai']);
+    Route::get('/login', 'login')->name('login')->middleware('guest');
+    Route::post('/login', 'attemptLogin')->name('attempt_login')->middleware('guest');
+    Route::get('/register', 'register')->name('register')->middleware('guest');
+    Route::post('/register', 'attemptRegister')->name('attempt_register')->middleware('guest');
+    Route::get('/logout', 'logout')->name('logout')->middleware('auth');
+    Route::get('/dashboard/profile/detail/{user:email}', 'detailProfile')->name('profile.detail')->middleware(['auth', 'pegawai']);
+    Route::get('/dashboard/profile/update/{user:email}', 'updateProfile')->name('profile.update')->middleware(['auth', 'pegawai']);
+    Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'pegawai']);
+    Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'pegawai']);
+});
+
 //route view tamplate
 Route::controller(ViewTemplateController::class)->group(function () {
     // drop route to view template

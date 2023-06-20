@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->integer('userable_id')->unique();
+            $table->integer('nis_nip')->unique()->primary();
             $table->string('name');
+            $table->string('alamat');
+            $table->string('jurusan/jabatan');
+            $table->string('tlp');
             $table->string('email')->unique();
             $table->enum('level', ['pegawai', 'siswa'])->default('siswa');
             $table->timestamp('email_verified_at')->nullable();

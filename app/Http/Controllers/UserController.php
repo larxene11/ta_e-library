@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // public function allUser()
-    // {
-    //     $data = [
-    //        'title' => 'Users | E-Library SMANDUTA',
-    //        'users' => User::where('level', 'user')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
-    //     ];
-    //     return view('admin.users.user-all', $data);
-    // }
+    public function allStudent()
+    {
+        $data = [
+           'title' => 'Users | E-Library SMANDUTA',
+           'users' => User::where('level', 'siswa')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+        ];
+        return view('admin.siswa.siswa-all', $data);
+    }
 
     public function login()
     {
@@ -58,8 +58,10 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:8|max:50',
             'email' => 'required|email:dns',
-            'phone' => 'required|numeric',
-            'address' => 'required|string',
+            'nis_nip' => 'required|integer',
+            'alamat' => 'required|string',
+            'tlp' => 'required|numeric',
+            'jurusan_jabatan' => 'required|string',
             'password' => 'required|string',
             'password_confirm' => 'required|same:password'
         ]);
@@ -69,9 +71,11 @@ class UserController extends Controller
         $validated = $validator->validate();
         $user_is_created = User::create([
             'name' => $validated['name'],
+            'nis_nip' => $validated['nis_nip'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'address' => $validated['address'],
+            'tlp' => $validated['tlp'],
+            'alamat' => $validated['alamat'],
+            'jurusan_jabatan' => $validated['jurusan_jabatan'],
             'password' => Hash::make($validated['password']),
         ]);
         if ($user_is_created) {
@@ -96,7 +100,7 @@ class UserController extends Controller
     {
         $data = [
             'title' => 'Update Profile | E-Library SMANDUTA',
-            'user' => $user->where('id', auth()->user()->id)->first()
+            'user' => $user->where('nis_nip', auth()->user()->nis_nip)->first()
         ];
         return view('auth.profile-detail', $data);
     }
@@ -104,7 +108,7 @@ class UserController extends Controller
     {
         $data = [
             'title' => 'Update Profile | E-Library SMANDUTA',
-            'user' => $user->where('id', auth()->user()->id)->first()
+            'user' => $user->where('nis_nip', auth()->user()->nis_nip)->first()
         ];
         return view('auth.profile-update', $data);
     }
@@ -112,7 +116,7 @@ class UserController extends Controller
     public function patchProfile(Request $request, User $user)
     {
         if ($request->email != $user->email) {
-            if (User::where('email', $user->email)->whereNot('id', $user->id)->count()) {
+            if (User::where('email', $user->email)->whereNot('nis_nip', $user->nis_nip)->count()) {
                 return redirect()->back()->withInput()->with('error', 'This Email Has Been Used, Please Input Another Email');
             } else {
                 $email_validator = Validator::make($request->all(), [
@@ -129,9 +133,11 @@ class UserController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:8|max:50',
-            'phone' => 'required|numeric',
-            'address' => 'required|string'
+            'name' => 'required|string',
+            'nis_nip' => 'required|integer',
+            'alamat' => 'required|string',
+            'tlp' => 'required|numeric',
+            'jurusan_jabatan' => 'required|string',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OPPS! <br> An Error Occurred During Updating!');
@@ -139,8 +145,10 @@ class UserController extends Controller
         $validated = $validator->validate();
         $updated_profile = $user->update([
             'name' => $validated['name'],
-            'phone' => $validated['phone'],
-            'address' => $validated['address']
+            'nis_nip' => $validated['nis_nip'],
+            'tlp' => $validated['tlp'],
+            'alamat' => $validated['alamat'],
+            'jurusan_jabatan' => $validated['jurusan_jabatan'],
         ]);
         if ($updated_profile) {
             return redirect()->route('profile.update', ['user' => auth()->user()])->with('success', 'Your Account Successfully Updated');
@@ -150,7 +158,7 @@ class UserController extends Controller
     public function deleteUser(User $user)
     {
         if ($user->delete()) {
-            return redirect()->route('manage_user.all')->with('success', 'User @' . $user->name . ' Successfully Deleted');
+            return redirect()->route('manage_student.all')->with('success', 'User @' . $user->name . ' Successfully Deleted');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
