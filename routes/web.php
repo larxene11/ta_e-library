@@ -5,6 +5,7 @@ use App\Http\Controllers\ViewTemplateController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PinjamanController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,13 +38,12 @@ Route::controller(UserController::class)->group(function () {
 //route view tamplate
 Route::controller(ViewTemplateController::class)->group(function () {
     // drop route to view template
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
-    Route::get('/login', 'login')->name('login');
-    Route::get('/register', 'register')->name('register');
-    Route::get('/buku/all', 'all')->name('buku-all');
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard.index', ['title' => 'Dashboard | E-Library SMANDUTA']);
+    })->name('dashboard')->middleware(['auth', 'pegawai']);
 });
 
-Route::controller(BookController::class)->group(function () {
+Route::middleware(['auth', 'pegawai'])->controller(BookController::class)->group(function () {
     // Book Route
     Route::get('/dashboard/book', 'allBook')->name('manage_book.all');
     Route::get('/dashboard/book/create', 'createBook')->name('manage_book.create');
@@ -54,7 +54,7 @@ Route::controller(BookController::class)->group(function () {
     Route::delete('/dashboard/book/{books:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 
-Route::controller(CategoryController::class)->group(function (){
+Route::middleware(['auth', 'pegawai'])->controller(CategoryController::class)->group(function (){
     // Category Route
     Route::get('/dashboard/categories', 'allCategory')->name('manage_category.all');
     Route::get('/dashboard/category/create', 'createCategory')->name('manage_category.create');
@@ -64,7 +64,7 @@ Route::controller(CategoryController::class)->group(function (){
     Route::delete('/dashboard/category/{category:id}/delete', 'deleteCategory')->name('manage_category.delete');
 });
 
-Route::controller(PinjamanController::class)->group(function (){
+Route::middleware(['auth', 'pegawai'])->controller(PinjamanController::class)->group(function (){
     // Pinjaman Route
     Route::get('/dashboard/pinjaman', 'allPinjaman')->name('manage_pinjaman.all');
     Route::get('/dashboard/pinjaman/create', 'createPinjaman')->name('manage_pinjaman.create');
