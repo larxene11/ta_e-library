@@ -37,6 +37,10 @@ class Book extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function pinjaman()
+    {
+        return $this->hasMany(Pinjaman::class, 'kode_buku');
+    }
 
     // boot
     public static function boot()

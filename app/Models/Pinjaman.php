@@ -28,60 +28,13 @@ class Pinjaman extends Model
     // }
 
     //relations
-    public function student()
+    public function user()
     {
-        return $this->hasMany(Student::class, 'nis');
+        return $this->hasMany(User::class, 'nis_nip');
     }
     public function book()
     {
         return $this->hasMany(Book::class, 'kode_buku');
-    }
-
-    // public function hitungDenda()
-    // {
-    //     $tanggalPengembalian = $this->tgl_pengembalian;
-    //     $tanggalBatas = $this->tanggal_batas_pengembalian;
-
-    //     // Menghitung selisih hari antara tanggal pengembalian dengan tanggal batas
-    //     $tanggalPengembalian = \Carbon\Carbon::parse($tanggalPengembalian);
-    //     $tanggalBatas = \Carbon\Carbon::parse($tanggalBatas);
-    //     $selisihHari = $tanggalPengembalian->diffInDays($tanggalBatas, false);
-
-    //     // Menghitung denda per hari (misalnya Rp 1.000 per hari)
-    //     $dendaPerHari = 1000;
-
-    //     // Menghitung total denda
-    //     $totalDenda = ($selisihHari > 0) ? $selisihHari * $dendaPerHari : 0;
-
-    //     return $totalDenda;
-    // }
-
-    // bootable
-    public static function boot()
-    {
-        parent::boot();
-
-        self::creating(function ($model) {
-        });
-
-        self::created(function ($model) {
-        });
-
-        self::updating(function ($model) {
-            // ... code here
-        });
-
-        self::updated(function ($model) {
-            // ... code here
-        });
-
-        self::deleting(function ($model) {
-            // ... code here
-        });
-
-        self::deleted(function ($model) {
-            $model->detail()->delete();
-        });
     }
 
 }
