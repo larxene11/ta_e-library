@@ -37,6 +37,7 @@ class UserController extends Controller
     }
     public function attemptLogin(Request $request)
     {
+        // dd($request->toArray());
         $validator = Validator::make($request->all(), [
             'email' => 'required|string',
             'password' => 'required|string'
