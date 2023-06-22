@@ -15,8 +15,17 @@ class UserController extends Controller
     public function allStudent()
     {
         $data = [
-           'title' => 'Users | E-Library SMANDUTA',
+           'title' => 'Data Siswa | E-Library SMANDUTA',
            'users' => User::where('level', 'siswa')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+        ];
+        return view('admin.siswa.siswa-all', $data);
+    }
+
+    public function allPegawai()
+    {
+        $data = [
+           'title' => 'Data Pegawai | E-Library SMANDUTA',
+           'users' => User::where('level', 'pegawai')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
         ];
         return view('admin.siswa.siswa-all', $data);
     }
