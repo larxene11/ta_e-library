@@ -25,11 +25,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('pegawai', function (User $user) {
+        Gate::define('Is_pegawai', function (User $user) {
             return $user->level === "pegawai";
         });
 
-        Gate::define('siswa', function (User $user) {
+        Gate::define('Is_siswa', function (User $user) {
             return $user->level === "siswa";
         });
     }
