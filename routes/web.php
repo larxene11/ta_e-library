@@ -19,20 +19,20 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::controller(UserController::class)->group(function () {
-    Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'pegawai']);
+    Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'Is_pegawai']);
     Route::get('/login', 'login')->name('login')->middleware('guest');
     Route::post('/login', 'attemptLogin')->name('attempt_login')->middleware('guest');
     Route::get('/register', 'register')->name('register')->middleware('guest');
     Route::post('/register', 'attemptRegister')->name('attempt_register')->middleware('guest');
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
-    Route::get('/dashboard/profile/detail/{user:email}', 'detailProfile')->name('profile.detail')->middleware(['auth', 'pegawai']);
-    Route::get('/dashboard/profile/update/{user:email}', 'updateProfile')->name('profile.update')->middleware(['auth', 'pegawai']);
-    Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'pegawai']);
-    Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'pegawai']);
+    Route::get('/dashboard/profile/detail/{user:email}', 'detailProfile')->name('profile.detail')->middleware(['auth', 'Is_pegawai']);
+    Route::get('/dashboard/profile/update/{user:email}', 'updateProfile')->name('profile.update')->middleware(['auth', 'Is_pegawai']);
+    Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'Is_pegawai']);
+    Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'Is_pegawai']);
 });
 
 //route view tamplate
@@ -40,10 +40,10 @@ Route::controller(ViewTemplateController::class)->group(function () {
     // drop route to view template
     Route::get('/dashboard', function () {
         return view('admin.dashboard.index', ['title' => 'Dashboard | E-Library SMANDUTA']);
-    })->name('dashboard')->middleware(['auth', 'pegawai']);
+    })->name('dashboard')->middleware(['auth', 'Is_pegawai']);
 });
 
-Route::middleware(['auth', 'pegawai'])->controller(BookController::class)->group(function () {
+Route::middleware(['auth', 'Is_pegawai'])->controller(BookController::class)->group(function () {
     // Book Route
     Route::get('/dashboard/book', 'allBook')->name('manage_book.all');
     Route::get('/dashboard/book/create', 'createBook')->name('manage_book.create');
@@ -54,7 +54,7 @@ Route::middleware(['auth', 'pegawai'])->controller(BookController::class)->group
     Route::delete('/dashboard/book/{books:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 
-Route::middleware(['auth', 'pegawai'])->controller(CategoryController::class)->group(function (){
+Route::middleware(['auth', 'Is_pegawai'])->controller(CategoryController::class)->group(function (){
     // Category Route
     Route::get('/dashboard/categories', 'allCategory')->name('manage_category.all');
     Route::get('/dashboard/category/create', 'createCategory')->name('manage_category.create');
@@ -64,7 +64,7 @@ Route::middleware(['auth', 'pegawai'])->controller(CategoryController::class)->g
     Route::delete('/dashboard/category/{category:id}/delete', 'deleteCategory')->name('manage_category.delete');
 });
 
-Route::middleware(['auth', 'pegawai'])->controller(PinjamanController::class)->group(function (){
+Route::middleware(['auth', 'Is_pegawai'])->controller(PinjamanController::class)->group(function (){
     // Pinjaman Route
     Route::get('/dashboard/pinjaman', 'allPinjaman')->name('manage_pinjaman.all');
     Route::get('/dashboard/pinjaman/create', 'createPinjaman')->name('manage_pinjaman.create');
