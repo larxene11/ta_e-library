@@ -83,7 +83,7 @@
             <!-- BEGIN: Pagination -->
      <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
         <nav class="w-full sm:w-auto sm:mr-auto">
-            {{ $books->links('fragments.pagination') }}
+            {{-- {{ $pinjaman->links('fragments.pagination') }} --}}
         </nav>
     </div>
     <!-- END: Pagination -->
