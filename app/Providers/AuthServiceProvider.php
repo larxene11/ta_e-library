@@ -23,14 +23,20 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void
+    public function boot()
     {
+        $this->registerPolicies();
+
         Gate::define('Is_pegawai', function (User $user) {
-            return $user->level === "pegawai";
+            return $user->level == "pegawai"
+            ? Response::allow()
+            : Response::deny('Kamu Harus Menjadi Pegawai.');
         });
 
         Gate::define('Is_siswa', function (User $user) {
-            return $user->level === "siswa";
+            return $user->level == "siswa"
+            ? Response::allow()
+            : Response::denyWithStatus(403);
         });
     }
 }

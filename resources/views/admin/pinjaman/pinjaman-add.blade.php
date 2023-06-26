@@ -33,8 +33,8 @@
                             @enderror
                             <select name="nis" id="nis" data-placeholder="Pilih NIS Siswa"
                                 class="tom-select w-full">
-                                @foreach ($students as $item)
-                                    <option value="{{ $item->nis}}">{{ $item->nis }}</option>
+                                @foreach ($users as $item)
+                                    <option value="{{ $item->nis_nip}}">{{ $item->nis_nip }}</option>
                                 @endforeach
                             </select>
                         </div>

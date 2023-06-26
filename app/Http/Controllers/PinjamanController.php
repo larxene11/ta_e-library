@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pinjaman;
 use App\Models\Book;
-use App\Models\Student;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -14,9 +14,9 @@ class PinjamanController extends Controller
     {
         $data = [
             'title' => 'Pinjaman | E-Library SMANDUTA',
-            'pinjaman' => Pinjaman::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            'pinjaman' => Pinjaman::latest()->get(),
             'books' => Book::latest()->get(),
-            'students' => Student::latest()->get()
+            'users' => User::where('level', 'siswa')->latest()->get()
         ];
         return view('admin.pinjaman.pinjaman-all', $data);
     }
@@ -25,7 +25,7 @@ class PinjamanController extends Controller
         $data = [
             'title' => 'Add New Pinjaman | E-Library SMANDUTA',
             'books' => Book::latest()->get(),
-            'students' => Student::latest()->get()
+            'users' => User::where('level', 'siswa')->latest()->get()
         ];
         return view('admin.pinjaman.pinjaman-add', $data);
     }
@@ -43,7 +43,7 @@ class PinjamanController extends Controller
             'title' => 'Pinjaman Update | E-Library SMANDUTA',
             'pinjaman' => $pinjaman,
             'books' => Book::latest()->get(),
-            'students' => Student::latest()->get()
+            'users' => User::where('level', 'siswa')->latest()->get()
         ];
         return view('admin.pinjaman.pinjaman-edit', $data);
     }

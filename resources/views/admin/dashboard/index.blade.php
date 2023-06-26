@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-layout')
 
 @section('body')
-    <h2 class="text-2xl">Selamat Datang di Halaman Dashboard {{auth()->user()->level??'Main'}}</h2>
+<h1 class="font-bold capitalize text-2xl">Welcome to {{auth()->user()->level??'Main'}} Dashboard</h1>
 @endsection

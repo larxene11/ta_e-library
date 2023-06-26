@@ -27,7 +27,6 @@
                 </div>
             </a>
             <ul class="">
-                @can('pegawai')
                 <li>
                     <a href="{{ route('manage_book.all') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
@@ -53,7 +52,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('manage_category.all') }}" class="side-menu">
+                    <a href="{{ route('manage_pinjaman.all') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> Pinjaman </div>
                     </a>
@@ -64,7 +63,6 @@
                         <div class="side-menu__title"> Kunjungan </div>
                     </a>
                 </li>
-                @endcan
             </ul>
         </li>
     </ul>
