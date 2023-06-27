@@ -10,31 +10,36 @@ class Kunjungan extends Model
     use HasFactory;
     protected $fillable = ['nama', 'nis', 'alasan_berkunjung', 'tgl_berkunjung'];
 
-    // bootable
-    public static function boot()
-    {
-        parent::boot();
+    // public function kunjungan()
+    // {
+    //     return $this->hasMany(User::class, 'nis_nip');
+    // }
 
-        self::creating(function ($model) {
-        });
+    // // bootable
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        self::created(function ($model) {
-        });
+    //     self::creating(function ($model) {
+    //     });
 
-        self::updating(function ($model) {
-            // ... code here
-        });
+    //     self::created(function ($model) {
+    //     });
 
-        self::updated(function ($model) {
-            // ... code here
-        });
+    //     self::updating(function ($model) {
+    //         // ... code here
+    //     });
 
-        self::deleting(function ($model) {
-            // ... code here
-        });
+    //     self::updated(function ($model) {
+    //         // ... code here
+    //     });
 
-        self::deleted(function ($model) {
-            $model->detail()->delete();
-        });
-    }
+    //     self::deleting(function ($model) {
+    //         // ... code here
+    //     });
+
+    //     self::deleted(function ($model) {
+    //         $model->detail()->delete();
+    //     });
+    // }
 }
