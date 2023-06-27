@@ -46,10 +46,10 @@ Route::controller(GeneralController::class)->group(function () {
 Route::controller(ViewTemplateController::class)->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard.index', ['title' => 'Dashboard | E-Library SMANDUTA']);
-    })->name('dashboard')->middleware(['auth', 'ispegawai']);
+    })->name('dashboard');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->group(function () {
+Route::controller(BookController::class)->group(function () {
     // Book Route
     Route::get('/dashboard/book', 'allBook')->name('manage_book.all');
     Route::get('/dashboard/book/create', 'createBook')->name('manage_book.create');
@@ -60,7 +60,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->gro
     Route::delete('/dashboard/book/{books:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(CategoryController::class)->group(function (){
+Route::controller(CategoryController::class)->group(function (){
     // Category Route
     Route::get('/dashboard/categories', 'allCategory')->name('manage_category.all');
     Route::get('/dashboard/category/create', 'createCategory')->name('manage_category.create');
@@ -70,7 +70,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(CategoryController::class)-
     Route::delete('/dashboard/category/{category:id}/delete', 'deleteCategory')->name('manage_category.delete');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)->group(function (){
+Route::controller(PinjamanController::class)->group(function (){
     // Pinjaman Route
     Route::get('/dashboard/pinjaman', 'allPinjaman')->name('manage_pinjaman.all');
     Route::get('/dashboard/pinjaman/create', 'createPinjaman')->name('manage_pinjaman.create');
@@ -80,7 +80,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::delete('/dashboard/pinjaman/{pinjaman:id}/delete', 'deletePinjaman')->name('manage_pinjaman.delete');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
+Route::controller(KunjunganController::class)->group(function (){
     // Pinjaman Route
     Route::get('/dashboard/kunjungan', 'allkunjungan')->name('manage_kunjungan.all');
     Route::get('/dashboard/kunjungan/create', 'createkunjungan')->name('manage_kunjungan.create');
