@@ -39,9 +39,9 @@ class GeneralController extends Controller
     public function books()
     {
         $data = [
-            'title' => 'books | E-Library SMANDUTA',
+            'title' => 'Books | E-Library SMANDUTA',
             'books' => Book::all(),
-            'name' => 'All books',
+            'name' => 'All Books',
             'categories' => Category::first()->get(),
         ];
         return view('frontpage.category.category', $data);

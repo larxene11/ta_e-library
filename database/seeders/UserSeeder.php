@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'nis_nip' => '1234567',
+            'nis_nip' => 1234567,
             'name' => 'Awik',
             'alamat' => 'jln. cinta',
             'jurusan_jabatan' => 'Petinggi Perpustakaan',
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'level' => 'pegawai'
         ]);
         User::create([
-            'nis_nip' => '171015',
+            'nis_nip' => 171015,
             'name' => 'Eka Ari',
             'alamat' => 'jln. putus',
             'jurusan_jabatan' => 'IPS',

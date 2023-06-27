@@ -111,7 +111,7 @@
 
 @section('script')
 <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>
-    {{-- <script>
+    <script>
         function trigger_file_input() {
             $('#service_image').trigger('click');
         }
@@ -127,5 +127,5 @@
 
             return [image, imagePreview];
         }
-    </script> --}}
+    </script>
 @endsection
