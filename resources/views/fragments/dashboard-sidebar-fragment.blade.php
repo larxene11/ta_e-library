@@ -34,13 +34,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="side-menu">
+                    <a href="{{ route('manage_siswa.all') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> Siswa </div>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="side-menu">
+                    <a href="{{ route('manage_pegawai.all') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> Pegawai </div>
                     </a>
@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="side-menu">
+                    <a href="{{ route('manage_kunjungan.all') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> Kunjungan </div>
                     </a>

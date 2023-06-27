@@ -25,6 +25,7 @@ use App\Http\Controllers\GeneralController;
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard/employees', 'allPegawai')->name('manage_pegawai.all')->middleware(['auth', 'ispegawai']);
     Route::get('/login', 'login')->name('login')->middleware('guest');
     Route::post('/login', 'attemptLogin')->name('attempt_login')->middleware('guest');
     Route::get('/register', 'register')->name('register')->middleware('guest');
@@ -77,4 +78,14 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::get('/dashboard/pinjaman/{pinjaman:id}/update', 'updatePinjaman')->name('manage_pinjaman.update');
     Route::patch('/dashboard/pinjaman/{pinjaman:id}', 'patchPinjaman')->name('manage_pinjaman.patch');
     Route::delete('/dashboard/pinjaman/{pinjaman:id}/delete', 'deletePinjaman')->name('manage_pinjaman.delete');
+});
+
+Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
+    // Pinjaman Route
+    Route::get('/dashboard/kunjungan', 'allkunjungan')->name('manage_kunjungan.all');
+    Route::get('/dashboard/kunjungan/create', 'createkunjungan')->name('manage_kunjungan.create');
+    Route::post('/dashboard/kunjungan/create', 'storekunjungan')->name('manage_kunjungan.store');
+    Route::get('/dashboard/kunjungan/{kunjungan:id}/update', 'updatekunjungan')->name('manage_kunjungan.update');
+    Route::patch('/dashboard/kunjungan/{kunjungan:id}', 'patchkunjungan')->name('manage_kunjungan.patch');
+    Route::delete('/dashboard/kunjungan/{kunjungan:id}/delete', 'deletekunjungan')->name('manage_kunjungan.delete');
 });

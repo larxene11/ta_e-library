@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -22,21 +22,23 @@ class AuthServiceProvider extends ServiceProvider
 
     /**
      * Register any authentication / authorization services.
+     *
+     * @return void
      */
     public function boot()
     {
         $this->registerPolicies();
 
-        Gate::define('Is_pegawai', function (User $user) {
-            return $user->level == "pegawai"
-            ? Response::allow()
-            : Response::deny('Kamu Harus Menjadi Pegawai.');
+        Gate::define('isPegawai', function (User $user) {
+            return $user->level == 'pegawai'
+                ? Response::allow()
+                : Response::deny('Kamu Harus Merupakan Pegawai.');
         });
 
-        Gate::define('Is_siswa', function (User $user) {
-            return $user->level == "siswa"
-            ? Response::allow()
-            : Response::denyWithStatus(403);
+        Gate::define('isSiswa', function (User $user) {
+            return $user->level == 'siswa'
+                ? Response::allow()
+                : Response::denyWithStatus(403);
         });
     }
 }

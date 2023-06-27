@@ -12,7 +12,7 @@ class KunjunganController extends Controller
     {
         $data = [
             'title' => 'Kunjungan | E-Library SMANDUTA',
-            'kunjungan' => Kunjungan::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            'kunjungan' => Kunjungan::latest()->get()->paginate(10)->withQueryString(),
         ];
         return view('admin.kunjungan.kunjungan-all', $data);
     }
@@ -23,13 +23,13 @@ class KunjunganController extends Controller
         ];
         return view('admin.kunjungan.kunjungan-add', $data);
     }
-    // public function detailPinjaman(Pinjaman $pinjaman)
+    // public function detailkunjungan(kunjungan $kunjungan)
     // {
     //     $data = [
-    //         'title' => 'Pinjaman Detail | E-Library SMANDUTA',
-    //         'pinjaman' => $pinjaman
+    //         'title' => 'kunjungan Detail | E-Library SMANDUTA',
+    //         'kunjungan' => $kunjungan
     //     ];
-    //     return view('admin.pinjaman.pinjaman-detail', $data);
+    //     return view('admin.kunjungan.kunjungan-detail', $data);
     // }
     public function updateKunjungan(kunjungan $kunjungan)
     {
@@ -58,42 +58,38 @@ class KunjunganController extends Controller
             'tgl_berkunjung' => $validated['tgl_berkunjung'],
         ]);
         if ($created_kunjungan) {
-            return redirect()->route('manage_kunjungan.all')->with('success', 'Data Pinjaman Berhasil Ditambahkan');
+            return redirect()->route('manage_kunjungan.all')->with('success', 'Data kunjungan Berhasil Ditambahkan');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
     public function patchKunjungan(Request $request, Kunjungan $kunjungan)
     {
         $validator = Validator::make($request->all(), [
-            'kode_buku' => 'required|string',
             'nis' => 'required|integer',
-            'tgl_pinjaman' => 'required|date',
-            'tgl_pengembalian' => 'required|date',
-            'status_pengembalian' => 'required|enum',
-            'denda' => 'required|float',
+            'nama' => 'required|string',
+            'alasan_berkunjung' => 'required|text',
+            'tgl_berkunjung' => 'required|date',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
         }
         $validated = $validator->validated();
-        $pinjaman->touch();
-        $updated_pinjaman = $pinjaman->update([
-            'kode_buku' => $validated['kode_buku'],
+        $kunjungan->touch();
+        $updated_kunjungan = $kunjungan->update([
             'nis' => $validated['nis'],
-            'tgl_pinjaman' => $validated['tgl_pinjaman'],
-            'tgl_pengembalian' => $validated['tgl_pengembalian'],
-            'status_pengembalian' => $validated['status_pengembalian'],
-            'denda' => $validated['denda'],
+            'nama' => $validated['nama'],
+            'alasan_berkunjung' => $validated['alasan_berkunjung'],
+            'tgl_berkunjung' => $validated['tgl_berkunjung'],
         ]);
-        if ($updated_pinjaman) {
-            return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Di Ubah');
+        if ($updated_kunjungan) {
+            return redirect()->route('manage_kunjungan.all')->with('success', 'Data kunjungan Berhasil Di Ubah');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
-    public function deletePinjaman(Pinjaman $pinjaman)
+    public function deletekunjungan(kunjungan $kunjungan)
     {
-        if ($pinjaman->delete()) {
-            return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Dihapus');
+        if ($kunjungan->delete()) {
+            return redirect()->route('manage_kunjungan.all')->with('success', 'Data kunjungan Berhasil Dihapus');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }

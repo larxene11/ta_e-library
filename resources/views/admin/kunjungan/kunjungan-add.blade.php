@@ -4,77 +4,59 @@
     <div class="content col-span-12">
         <div class="intro-y flex items-center -mt-10">
             <h2 class="text-xl font-medium">
-                Buku
+                Tambah Data Kunjungan
             </h2>
             <input type="hidden" value="0" id="package_id">
         </div>
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">
                 <!-- BEGIN: Form Layout -->
-                <div class="intro-y box p-5">
-                    <div>
-                        <label for="crud-form-1" class="form-label">Product Name</label>
-                        <input id="crud-form-1" type="text" class="form-control w-full" placeholder="Input text">
-                    </div>
-                    <div class="mt-3">
-                        <label for="crud-form-2" class="form-label">Category</label>
-                        <select data-placeholder="Select your favorite actors" class="tom-select w-full" id="crud-form-2" multiple>
-                            <option value="1" selected>Sport & Outdoor</option>
-                            <option value="2">PC & Laptop</option>
-                            <option value="3" selected>Smartphone & Tablet</option>
-                            <option value="4">Photography</option>
-                        </select>
-                    </div>
-                    <div class="mt-3">
-                        <label for="crud-form-3" class="form-label">Quantity</label>
-                        <div class="input-group">
-                            <input id="crud-form-3" type="text" class="form-control" placeholder="Quantity" aria-describedby="input-group-1">
-                            <div id="input-group-1" class="input-group-text">pcs</div>
+                <form action="{{ route('manage_kunjungan.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="intro-y box p-5">
+                        <div class="mt-3">
+                            <label for="nis" class="form-label mt-2">NIS</label>
+                            @error('nis')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input id="nis" name="nis" type="text" class="form-control"
+                                placeholder="Masukan NIS Siswa" value="{{ old('NIS') }}">
+                        </div>
+                        <div>
+                            <label for="nama"
+                                class="form-label">Nama Siswa</label>
+                            @error('nama')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input id="tgl_pinjaman" name="tgl_pinjaman" type="text" class="form-control"
+                                placeholder="Masukan Nama Siswa" value="{{ old('nama') }}">
+                        </div>
+                        <div>
+                            <label for="nama"
+                                class="form-label">Alasan Berkunjung</label>
+                            @error('alasan_berkunjung')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input id="alasan_berkunjung" name="alasan_berkunjung" type="text" class="form-control"
+                                placeholder="Masukan Alasan Berkunjung" value="{{ old('alasan_berkunjung') }}">
+                        </div>
+                        <div>
+                            <label for="tgl_berkunjung"
+                                class="form-label">Tanggal Berkunjung</label>
+                            @error('tgl_berkunjung')
+                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                            @enderror
+                            <input id="tgl_berkunjung" name="tgl_berkunjung" type="date" class="form-control"
+                                placeholder="Masukan Tanggal Berkunjung" value="{{ old('tgl_berkunjung') }}">
+                        </div>                        
+                        <div class="text-right mt-5">
+                            <a href="{{ route('manage_kunjungan.all') }}"
+                                class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
+                            <button type="submit"
+                                class="btn text-primary btn-primary w-24">Save</button>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <label for="crud-form-4" class="form-label">Weight</label>
-                        <div class="input-group">
-                            <input id="crud-form-4" type="text" class="form-control" placeholder="Weight" aria-describedby="input-group-2">
-                            <div id="input-group-2" class="input-group-text">grams</div>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <label class="form-label">Price</label>
-                        <div class="sm:grid grid-cols-3 gap-2">
-                            <div class="input-group">
-                                <div id="input-group-3" class="input-group-text">Unit</div>
-                                <input type="text" class="form-control" placeholder="Unit" aria-describedby="input-group-3">
-                            </div>
-                            <div class="input-group mt-2 sm:mt-0">
-                                <div id="input-group-4" class="input-group-text">Wholesale</div>
-                                <input type="text" class="form-control" placeholder="Wholesale" aria-describedby="input-group-4">
-                            </div>
-                            <div class="input-group mt-2 sm:mt-0">
-                                <div id="input-group-5" class="input-group-text">Bulk</div>
-                                <input type="text" class="form-control" placeholder="Bulk" aria-describedby="input-group-5">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <label>Active Status</label>
-                        <div class="form-switch mt-2">
-                            <input type="checkbox" class="form-check-input">
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <label>Description</label>
-                        <div class="mt-2">
-                            <div class="editor">
-                                <p>Content of the editor.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right mt-5">
-                        <button type="button" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-                        <button type="button" class="btn btn-primary w-24">Save</button>
-                    </div>
-                </div>
+                </form>
                 <!-- END: Form Layout -->
             </div>
         </div>
@@ -83,11 +65,8 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('dist/js/view/manage-airport/airport.js') }}"></script>
+    {{-- <script src="{{ asset('dist/js/view/manage-airport/airport.js') }}"></script> --}}
     <script>
-        initEditor('#package_description_idn');
-        initEditor('#package_description_en');
-
         function trigger_file_input() {
             $('#service_image').trigger('click');
         }

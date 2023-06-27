@@ -57,6 +57,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pinjaman::class, 'nis');
     }
+    // public function kunjungan()
+    // {
+    //     return $this->hasMany(Kunjungan::class, 'nis');
+    // }
+
 
 
     // boot
