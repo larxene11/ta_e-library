@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($user as $index=>$item)
+                        @forelse ($users as $index=>$item)
                         <tr class="intro-x">
                             <td class="text-center w-20">{{ $loop->iteration }}</td>
                             <td class="text-center">{{ $item->nis_nip }}</td>
@@ -75,7 +75,7 @@
             <!-- BEGIN: Pagination -->
      <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
         <nav class="w-full sm:w-auto sm:mr-auto">
-            {{ $books->links('fragments.pagination') }}
+            {{ $users->links('fragments.pagination') }}
         </nav>
     </div>
     <!-- END: Pagination -->

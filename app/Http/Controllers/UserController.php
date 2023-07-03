@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $data = [
            'title' => 'Data Siswa | E-Library SMANDUTA',
-           'users' => User::where('level', 'siswa')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+           'users' => User::where('level', 'siswa')->latest()->paginate(10)->withQueryString(),
         ];
         return view('admin.siswa.siswa-all', $data);
     }
@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $data = [
            'title' => 'Data Pegawai | E-Library SMANDUTA',
-           'users' => User::where('level', 'pegawai')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+           'users' => User::where('level', 'pegawai')->latest()->paginate(10)->withQueryString(),
         ];
         return view('admin.siswa.siswa-all', $data);
     }
@@ -55,10 +55,14 @@ class UserController extends Controller
         }
         $validated = $validator->validate();
         if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
-            if (User::where('email', $validated['email'])->first()->level == 'siswa') {
+            // dd(Auth::user());
+            if (Auth::user()->level == 'siswa') {
                 return redirect()->route('main');
+            }else{
+                // dd('yes');
+                return redirect()->intended('/dashboard')->with('success', 'Login Success! <br> Welcome ' . auth()->user()->name);
             }
-            return redirect()->route('dashboard')->with('success', 'Login Success! <br> Welcome ' . auth()->user()->name);
+            
         }
         return redirect()->back()->with('error', 'Login Failed! <br> Please Try Again');
     }
@@ -111,7 +115,7 @@ class UserController extends Controller
             'title' => 'Update Profile | E-Library SMANDUTA',
             'user' => $user->where('nis_nip', auth()->user()->nis_nip)->first()
         ];
-        return view('auth.profile-detail', $data);
+        return view('auth.profile', $data);
     }
     public function updateProfile(User $user)
     {
