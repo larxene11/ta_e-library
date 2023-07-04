@@ -77,7 +77,7 @@ function deleteModalHandler(index) {
 }
 
 //detail images
-function productImages(){
+function booksImages(){
 let thumbnails=document.getElementsByClassName('thumbnail-product');
 let activeImages=document.getElementsByClassName('active_thumb');
 for(var i=0;i<thumbnails.length;i++){

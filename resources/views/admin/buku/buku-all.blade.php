@@ -53,17 +53,17 @@
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3"
-                                        href="{{ route('manage_book.detail', ['books' => $item]) }}"> <i data-lucide="eye"
+                                        href="{{ route('manage_book.detail', ['book' => $item]) }}"> <i data-lucide="eye"
                                             class="w-4 h-4 mr-1"></i> Detail </a>
                                     <a class="flex items-center mr-3"
-                                        href="{{ route('manage_book.update', ['books' => $item]) }}"> <i
+                                        href="{{ route('manage_book.update', ['book' => $item]) }}"> <i
                                             data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit </a>
                                     <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"
                                         data-tw-target="#delete-confirmation-modal"
                                         onclick="deleteModalHandler({{ $index }})"> <i data-lucide="trash-2"
                                             class="w-4 h-4 mr-1"></i> Delete </a>
                                     <input type="hidden" id="delete_route_{{ $index }}"
-                                        value="{{ route('manage_book.delete', ['books' => $item]) }}">
+                                        value="{{ route('manage_book.delete', ['book' => $item]) }}">
                                 </div>
                             </td>
                         </tr>

@@ -54,10 +54,10 @@ Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->gro
     Route::get('/dashboard/book', 'allBook')->name('manage_book.all');
     Route::get('/dashboard/book/create', 'createBook')->name('manage_book.create');
     Route::post('/dashboard/book/create', 'storeBook')->name('manage_book.store');
-    Route::get('/dashboard/book/{books:kode_buku}', 'detailBook')->name('manage_book.detail');
-    Route::get('/dashboard/book/{books:kode_buku}/update', 'updateBook')->name('manage_book.update');
-    Route::patch('/dashboard/book/{books:kode_buku}', 'patchBook')->name('manage_book.patch');
-    Route::delete('/dashboard/book/{books:kode_buku}', 'deleteBook')->name('manage_book.delete');
+    Route::get('/dashboard/book/{book:kode_buku}', 'detailBook')->name('manage_book.detail');
+    Route::get('/dashboard/book/{book:kode_buku}/update', 'updateBook')->name('manage_book.update');
+    Route::patch('/dashboard/book/{book:kode_buku}', 'patchBook')->name('manage_book.patch');
+    Route::delete('/dashboard/book/{book:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(CategoryController::class)->group(function (){

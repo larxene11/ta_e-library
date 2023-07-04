@@ -48,7 +48,7 @@ class Book extends Model
         parent::boot();
 
         self::creating(function ($book) {
-            $book->kode_buku = request()->kode_buku;
+            $book->id = request()->kode_buku;
         });
 
         self::created(function ($book) {
@@ -58,7 +58,7 @@ class Book extends Model
                     'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
                     'src' => 'images/' . $uploaded['src']->basename,
                     'alt' => Image::getAlt($image),
-                    'imageable_id' => $book->kode_buku,
+                    'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
             }
@@ -84,7 +84,7 @@ class Book extends Model
                     'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
                     'src' => 'images/' . $uploaded['src']->basename,
                     'alt' => Image::getAlt($image),
-                    'imageable_id' => $book->kode_buku,
+                    'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
             }

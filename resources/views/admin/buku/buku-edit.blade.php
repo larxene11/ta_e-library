@@ -11,7 +11,7 @@
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">
                 <!-- BEGIN: Form Layout -->
-                <form action="{{ route('manage_book.patch',['books'=>$books]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('manage_book.patch',['book'=>$book]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
                     <input type="hidden" id="deleted_images" name="deleted_images">
@@ -23,7 +23,7 @@
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <input id="kode_buku" name="kode_buku" type="text" class="form-control"
-                                    placeholder="Masukan Kode Buku" value="{{old('kode_buku')??$books->kode_buku}}">
+                                    placeholder="Masukan Kode Buku" value="{{old('kode_buku')??$book->kode_buku}}">
                             </div>
                             <div>
                                 <label for="judul"
@@ -32,7 +32,7 @@
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <input id="judul" name="judul" type="text" class="form-control"
-                                    placeholder="Masukan Judul Buku" value="{{old('judul')??$books->judul}}">
+                                    placeholder="Masukan Judul Buku" value="{{old('judul')??$book->judul}}">
                             </div>
                             <div class="mt-3">
                                 <label for="category_id" class="form-label mt-2">Kategori Buku</label>
@@ -43,7 +43,7 @@
                                     class="tom-select w-full">
                                     <option value="0">None</option>
                                     @foreach ($categories as $item)
-                                        <option value="{{$item->id}}" {{ $books->category_id==$item->id?'selected':null }}>{{$item->name}}</option>
+                                        <option value="{{$item->id}}" {{ $book->category_id==$item->id?'selected':null }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -54,7 +54,7 @@
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <input id="pengarang" name="pengarang" type="text" class="form-control"
-                                    placeholder="Masukan Nama Pengarang" value="{{old('pengarang')??$books->pengarang}}">
+                                    placeholder="Masukan Nama Pengarang" value="{{old('pengarang')??$book->pengarang}}">
                             </div>
                             <div>
                                 <label for="dana"
@@ -63,7 +63,7 @@
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <input id="dana" name="dana" type="text" class="form-control"
-                                    placeholder="Masukan Asal Pengadaan Buku" value="{{old('dana')??$books->dana}}">
+                                    placeholder="Masukan Asal Pengadaan Buku" value="{{old('dana')??$book->dana}}">
                             </div>
                             <div>
                                 <label for="tahun"
@@ -72,14 +72,14 @@
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <input id="tahun" name="tahun" type="text" class="form-control"
-                                    placeholder="Masukan Tahun Pengadaan Buku" value="{{old('tahun')??$books->tahun}}">
+                                    placeholder="Masukan Tahun Pengadaan Buku" value="{{old('tahun')??$book->tahun}}">
                             </div>
                             <div class="mt-3">
                                 <label for="description" class="form-label">Description</label>
                                 @error('description')
                                     <small class="text-xs text-red-500 ml-1">{{'*'.$message }}</small>
                                 @enderror
-                                <textarea id="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukan Deskripsi Buku">{{ $books->description ?? old('description')}}</textarea>
+                                <textarea id="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukan Deskripsi Buku">{{ $book->description ?? old('description')}}</textarea>
                             </div>
                             <br>
                             <div class="upload__box">
@@ -95,7 +95,7 @@
                                     </label>
                                 </div>
                                 <div class="upload__img-wrap">
-                                    @foreach ($books->images as $item => $image)
+                                    @foreach ($book->images as $item => $image)
                                         <div class='upload__img-box'>
                                             <div style='background-image: url({{ asset('storage/' . $image->src) }})'
                                                 data-number='{{ $item }}' data-id="{{ $image->id }}"
