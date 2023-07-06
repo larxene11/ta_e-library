@@ -14,7 +14,7 @@
                 <form action="{{ route('manage_book.patch',['book'=>$book]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
-                    <input type="hidden" id="deleted_images" name="deleted_images">
+                    <input type="hidden" id="deleted_images" name="deleted_images" value="{{ old('deleted_images') }}>
                         <div class="intro-y box p-5">
                             <div>
                                 <label for="kode_buku"
@@ -122,7 +122,7 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('dist/js/view/manage-airport/airport.js') }}"></script>
+    <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>
     <script>
 
         function trigger_file_input() {
@@ -140,5 +140,28 @@
 
             return [image, imagePreview];
         }
+    </script>
+    <script>
+        // Mengambil elemen dengan class 'upload__img-close'
+        var closeButtons = document.getElementsByClassName('upload__img-close');
+    
+        // Menambahkan event listener untuk setiap tombol 'upload__img-close'
+        Array.from(closeButtons).forEach(function(button) {
+            button.addEventListener('click', function() {
+                var imageId = button.getAttribute('data-id');
+                var deletedImagesInput = document.getElementById('deleted_images');
+                var deletedImages = deletedImagesInput.value;
+    
+                // Menambahkan ID gambar yang akan dihapus ke nilai elemen 'deleted_images'
+                if (deletedImages !== '') {
+                    deletedImages += ',';
+                }
+                deletedImages += imageId;
+                deletedImagesInput.value = deletedImages;
+    
+                // Menghapus elemen gambar dari tampilan
+                button.parentNode.parentNode.remove();
+            });
+        });
     </script>
 @endsection

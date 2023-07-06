@@ -65,19 +65,17 @@ class Book extends Model
         });
 
         self::updating(function ($book) {
-
-            $img_array = explode(',', request()->deleted_images);
+            $img_array = explode(',', $book->deleted_images);
             array_pop($img_array);
-
-            // dd($img_array);
-            // dd(Image::whereIn('id', $img_array)->get());
+            
+            dd($book->images);
             foreach ($img_array as $key => $image_id) {
                 $will_deleted_image = Image::find($image_id);
                 if (!is_null($will_deleted_image)) {
                     $will_deleted_image->delete();
                 }
             }
-
+        
             foreach (request()->file('images') ?? [] as $key => $image) {
                 $uploaded = Image::uploadImage($image);
                 Image::create([
@@ -89,6 +87,7 @@ class Book extends Model
                 ]);
             }
         });
+        
 
         self::updated(function ($model) {
             // ... code here
