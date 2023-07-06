@@ -48,7 +48,7 @@ class Book extends Model
         parent::boot();
 
         self::creating(function ($book) {
-            $book->kode_buku = request()->kode_buku;
+            $book->id = request()->kode_buku;
         });
 
         self::created(function ($book) {
@@ -58,37 +58,36 @@ class Book extends Model
                     'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
                     'src' => 'images/' . $uploaded['src']->basename,
                     'alt' => Image::getAlt($image),
-                    'imageable_id' => $book->kode_buku,
+                    'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
             }
         });
 
         self::updating(function ($book) {
-
-            $img_array = explode(',', request()->deleted_images);
+            $img_array = explode(',', $book->deleted_images);
             array_pop($img_array);
-
-            // dd($img_array);
-            // dd(Image::whereIn('id', $img_array)->get());
+            
+            dd($book->images);
             foreach ($img_array as $key => $image_id) {
                 $will_deleted_image = Image::find($image_id);
                 if (!is_null($will_deleted_image)) {
                     $will_deleted_image->delete();
                 }
             }
-
+        
             foreach (request()->file('images') ?? [] as $key => $image) {
                 $uploaded = Image::uploadImage($image);
                 Image::create([
                     'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
                     'src' => 'images/' . $uploaded['src']->basename,
                     'alt' => Image::getAlt($image),
-                    'imageable_id' => $book->kode_buku,
+                    'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
             }
         });
+        
 
         self::updated(function ($model) {
             // ... code here

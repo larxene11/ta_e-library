@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $primaryKey = 'nis_nip';
 
     /**
      * The attributes that are mass assignable.
@@ -61,8 +62,6 @@ class User extends Authenticatable
     // {
     //     return $this->hasMany(Kunjungan::class, 'nis');
     // }
-
-
 
     // boot
     public static function boot()

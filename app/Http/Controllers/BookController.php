@@ -29,19 +29,19 @@ class BookController extends Controller
         return view('admin.buku.buku-add', $data);
     }
 
-    public function detailBook(Book $books)
+    public function detailBook(Book $book)
     {
         $data = [
             'title' => 'Detail Buku | E-Library SMANDUTA',
-            'books' => $books
+            'book' => $book
         ];
         return view('admin.buku.buku-detail', $data);
     }
-    public function updateBook(Book $books)
+    public function updateBook(Book $book)
     {
         $data = [
             'title' => 'Edit Data Buku | E-Library SMANDUTA',
-            'books' => $books,
+            'book' => $book,
             'categories' => Category::latest()->get(),
         ];
         return view('admin.buku.buku-edit', $data);
@@ -77,10 +77,10 @@ class BookController extends Controller
         return redirect()->back()->with('error', 'Error Occured, Please Try Again');
     }
 
-    public function patchBook(Book $books, Request $request)
+    public function patchBook(Book $book, Request $request)
     {
-        if ($request->kode_buku != $books->kode_buku) {
-            if (Book::where('kode_buku', $books->kode_buku)->whereNot('kode_buku', $books->kode_buku)->count()) {
+        if ($request->kode_buku != $book->kode_buku) {
+            if (Book::where('kode_buku', $book->kode_buku)->whereNot('kode_buku', $book->kode_buku)->count()) {
                 return redirect()->back()->withInput()->with('error', 'This book has been registered, please input another book');
             } else {
                 $code_validator = Validator::make($request->all(), [
@@ -92,7 +92,7 @@ class BookController extends Controller
                 }
 
                 $validated_code = $code_validator->validate();
-                $books->update(['kode_buku' => $validated_code['kode_buku']]);
+                $book->update(['kode_buku' => $validated_code['kode_buku']]);
             }
         }
         $validator = Validator::make($request->all(), [
@@ -107,8 +107,8 @@ class BookController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
         }
         $validated = $validator->validated();
-        $books->touch();
-        $updated_book = $books->update([
+        $book->touch();
+        $updated_book = $book->update([
             'judul' => $validated['judul'],
             'category_id' => $validated['category_id'] == 0 ? NULL : $validated['category_id'],
             'pengarang' => $validated['pengarang'],
@@ -117,13 +117,13 @@ class BookController extends Controller
             // 'description' => $validated['description'],
         ]);
         if ($updated_book) {
-            return redirect()->route('manage_book.all')->with('success', 'New Book Successfully Added');
+            return redirect()->route('manage_book.all')->with('success', 'Data Buku berhasil di edit');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again');
     }
-    public function deleteBook(Book $books)
+    public function deleteBook(Book $book)
     {
-        if ($books->delete()) {
+        if ($book->delete()) {
             return redirect()->route('manage_book.all')->with('success', 'Data Buku Berhasil di Hapus');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');

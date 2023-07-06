@@ -11,7 +11,7 @@
             </a>
             <ul class="side-menu__sub-open">
                 <li>
-                    <a href="#" class="side-menu side-menu--active">
+                    <a href="{{ route('dashboard') }}" class="side-menu side-menu--active">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> Welcome </div>
                     </a>

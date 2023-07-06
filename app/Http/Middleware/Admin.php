@@ -16,6 +16,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
+        // dd(auth()->check());
         if (auth()->user()->level != 'pegawai') {
             return redirect()->route('main');
         }

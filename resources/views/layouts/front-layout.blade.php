@@ -11,7 +11,7 @@
 @section('base_body')
     <div class="font-poppins">
         <!-- BEGIN: Navbar -->
-        @include('fragments.navbar-fragment')
+        @include('fragments.header-fragment')
         <!-- END: Navbar -->
         <!-- BEGIN: Body -->
         <div class="lg:pt-20 pt-16">

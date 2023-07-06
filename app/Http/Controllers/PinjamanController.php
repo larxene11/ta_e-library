@@ -54,8 +54,7 @@ class PinjamanController extends Controller
             'nis' => 'required|integer',
             'tgl_pinjaman' => 'required|date',
             'tgl_pengembalian' => 'required|date',
-            'status_pengembalian' => 'required|enum',
-            'denda' => 'required|float',
+            'status_pengembalian' => 'required|string',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
@@ -67,7 +66,6 @@ class PinjamanController extends Controller
             'tgl_pinjaman' => $validated['tgl_pinjaman'],
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
             'status_pengembalian' => $validated['status_pengembalian'],
-            'denda' => $validated['denda'] == 0 ? NULL : $validated['denda'],
         ]);
         if ($created_pinjaman) {
             return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Ditambahkan');
@@ -81,7 +79,7 @@ class PinjamanController extends Controller
             'nis' => 'required|integer',
             'tgl_pinjaman' => 'required|date',
             'tgl_pengembalian' => 'required|date',
-            'status_pengembalian' => 'required|enum',
+            'status_pengembalian' => 'required|string',
             'denda' => 'required|float',
         ]);
         if ($validator->fails()) {
