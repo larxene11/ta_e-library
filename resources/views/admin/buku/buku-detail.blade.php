@@ -13,7 +13,7 @@
             <div class="intro-y box p-8">
                 <div class="md:flex md:flex-row gap-5">
                     <div class="md:flex-shrink-0 basis-4/12 justify-center">              
-                        <img class="featured-img" src="storage/app/public/images/LNzyaYFStVmlF3pVL84LHH7WYc9CrJYWsvgjzMHn.jpg" alt="{{ $book->judul }}">
+                        <img class="featured-img" src="{{ asset($book->images->count() ? 'storage/'. $book->images->first()->src : 'dist/images/default.jpg') }}" alt="{{ $book->judul }}">
                     </div>
                     <div class="md:flex-shrink-0 basis-5/12">
                         <div class="flex flex-row gap-2">
