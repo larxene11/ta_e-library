@@ -12,30 +12,45 @@ use Illuminate\Support\Facades\Validator;
 
 class GeneralController extends Controller
 {
+    
+    public function search(Request $request)
+    {
+        $data = [
+            'title' => 'Search Results | E-Library SMANDUTA',
+            $searchQuery = $request->input('query'),
+
+            $results = Book::where(function ($queryBuilder) use ($searchQuery) {
+                $queryBuilder->whereHas('category', function ($query) use ($searchQuery) {
+                    $query->where('name', 'LIKE', "%{$searchQuery}%");
+                })
+                ->orWhere('pengarang', 'LIKE', "%{$searchQuery}%")
+                ->orWhere('judul', 'LIKE', "%{$searchQuery}%");
+            })->get(),
+            'results' => $results
+        ];
+        
+
+        return view('frontpage.buku.search-result', $data);
+    }
+    
+
+
+
     public function main()
     {
-        $books = Book::all();
+        // $books = Book::all();
         $data = [
             'title' => 'Homepage | E-Library SMANDUTA',
-            'books' => $books,
-            // 'best_deals' => Product::bestDeal($books)->all(),
-            // 'best_sellers' => Product::bestSeller($books),
-            'categories' => collect(Category::get()->each(function ($item) {
-                $item->product_count = $item->books->count();
-            })->sortByDesc('product_count')->values()->all()),
+            // 'books' => $books,
+            // // 'best_deals' => Product::bestDeal($books)->all(),
+            // // 'best_sellers' => Product::bestSeller($books),
+            // 'categories' => collect(Category::get()->each(function ($item) {
+            //     $item->product_count = $item->books->count();
+            // })->sortByDesc('product_count')->values()->all()),
         ];
         return view('frontpage.main.main', $data);
     }
-    public function category(Category $category)
-    {
-        $data = [
-            'title' => 'Category | E-Library SMANDUTA',
-            'books' => $category->books,
-            'name' => $category->name,
-            'categories' => Category::get(),
-        ];
-        return view('frontpage.category.category', $data);
-    }
+    
     public function books()
     {
         $data = [

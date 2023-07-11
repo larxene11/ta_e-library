@@ -39,6 +39,8 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(GeneralController::class)->group(function () {
     Route::get('/', 'main')->name('main');
+    Route::get('/buku/search/results', 'search')->name('buku-search');
+
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
 });
 
