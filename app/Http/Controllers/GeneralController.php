@@ -14,28 +14,19 @@ class GeneralController extends Controller
 {
     public function main()
     {
-        $books = Book::all();
+        // $books = Book::all();
         $data = [
             'title' => 'Homepage | E-Library SMANDUTA',
-            'books' => $books,
-            // 'best_deals' => Product::bestDeal($books)->all(),
-            // 'best_sellers' => Product::bestSeller($books),
-            'categories' => collect(Category::get()->each(function ($item) {
-                $item->product_count = $item->books->count();
-            })->sortByDesc('product_count')->values()->all()),
+            // 'books' => $books,
+            // // 'best_deals' => Product::bestDeal($books)->all(),
+            // // 'best_sellers' => Product::bestSeller($books),
+            // 'categories' => collect(Category::get()->each(function ($item) {
+            //     $item->product_count = $item->books->count();
+            // })->sortByDesc('product_count')->values()->all()),
         ];
         return view('frontpage.main.main', $data);
     }
-    public function category(Category $category)
-    {
-        $data = [
-            'title' => 'Category | E-Library SMANDUTA',
-            'books' => $category->books,
-            'name' => $category->name,
-            'categories' => Category::get(),
-        ];
-        return view('frontpage.category.category', $data);
-    }
+    
     public function books()
     {
         $data = [
