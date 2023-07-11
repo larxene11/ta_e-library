@@ -12,6 +12,30 @@ use Illuminate\Support\Facades\Validator;
 
 class GeneralController extends Controller
 {
+    
+    public function search(Request $request)
+    {
+        $data = [
+            'title' => 'Search Results | E-Library SMANDUTA',
+            $searchQuery = $request->input('query'),
+
+            $results = Book::where(function ($queryBuilder) use ($searchQuery) {
+                $queryBuilder->whereHas('category', function ($query) use ($searchQuery) {
+                    $query->where('name', 'LIKE', "%{$searchQuery}%");
+                })
+                ->orWhere('pengarang', 'LIKE', "%{$searchQuery}%")
+                ->orWhere('judul', 'LIKE', "%{$searchQuery}%");
+            })->get(),
+            'results' => $results
+        ];
+        
+
+        return view('frontpage.buku.search-result', $data);
+    }
+    
+
+
+
     public function main()
     {
         // $books = Book::all();
