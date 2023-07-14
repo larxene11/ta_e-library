@@ -12,6 +12,7 @@
                     <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Home</a>
                     <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Catalog</a>
                     <a href="{{ route('login') }}" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Sign Up</a>
+                    <a href="{{ route('password.request') }}" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Reset Password</a>
                 </div>
             </div>
         </div>

@@ -31,6 +31,10 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/register', 'register')->name('register')->middleware('guest');
     Route::post('/register', 'attemptRegister')->name('attempt_register')->middleware('guest');
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
+    Route::get('/forgot-password', 'requestEmail')->name('password.request')->middleware('guest');
+    Route::post('/forgot-password', 'checkEmail')->name('password.email')->middleware('guest');
+    Route::get('/reset-password/{token}', 'resetPassword')->name('password.reset')->middleware('guest');
+    Route::post('/reset-password', 'updatePassword')->name('password.update')->middleware('guest');
     Route::get('/dashboard/profile/detail', 'detailProfile')->name('profile.detail')->middleware(['auth', 'ispegawai']);
     Route::get('/dashboard/profile/update', 'updateProfile')->name('profile.update')->middleware(['auth', 'ispegawai']);
     Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'ispegawai']);
