@@ -24,10 +24,34 @@
     </div>
     {{-- BANNER --}}
     {{-- Tombol Search --}}
-    <div class="flex justify-center pb-10 mt-3 mb-8">
-        <form action="{{ route('buku-search') }}" method="GET">
-            <input type="text" placeholder="Cari buku" class="border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pnb-blue focus:border-transparent">
-            <button type="submit" class="bg-slate-500 text-white px-4 py-2 rounded-r-md">Cari</button>
-        </form>
+        <div class="flex justify-center pb-10 mt-3 mb-8">
+            <form action="{{ route('buku-search') }}" method="GET">
+                <input type="text" placeholder="Cari buku" class="border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pnb-blue focus:border-transparent">
+                <button type="submit" class="bg-slate-500 text-white px-4 py-2 rounded-r-md">Cari</button>
+            </form>
+        </div>
+    {{-- Tombol Search --}}
+    {{-- Categories --}}
+    <div class="flex flex-wrap w-full justify-center items-center md:gap-2 lg:gap-4 gap-4">
+        @foreach ($category->take(5) as $data)
+            <a href="#">
+                {{-- {{ route('listing_books', ['books' => $data]) }} --}}
+                <div
+                    class="lg:w-[150px] md:w-[110px] lg:h-32 md:h-24 w-28 min-h-[100px] flex flex-col rounded-md shadow border border-slate-300 hover:border-yellow-400 hover:shadow-yellow-400 duration-300 hover:-translate-y-1 hover:shadow-md transition ease-linear text-center justify-center items-center lg:py-3 md:py-3 md:px-1 py-2 px-1">
+                    <img src="{{ asset('dist/images/default.jpg') }}" alt="icon-categories"
+                        class="lg:w-12 md:w-7 w-8 mx-auto">
+                    <h5 class="lg:text-sm text-xs font-medium mt-2">{{ $data->name }}</h5>
+                </div>
+            </a>
+        @endforeach
+        <a href="#">
+            {{-- {{ route('listing_books', ['books' => $data]) }} --}}
+            <div
+                class="lg:w-[150px] md:w-[110px] lg:h-32 md:h-24 w-28 min-h-[100px] flex flex-col rounded-md shadow border border-slate-300 hover:border-yellow-400 hover:shadow-yellow-400 duration-300 hover:-translate-y-1 hover:shadow-md transition ease-linear text-center justify-center items-center lg:py-3 md:py-3 md:px-1 py-2 px-1">
+                <img src="{{ asset('dist/images/default.jpg') }}" alt="icon-categories"
+                    class="lg:w-12 md:w-7 w-8 mx-auto">
+                <h5 class="lg:text-sm text-xs font-medium mt-2">See more..</h5>
+            </div>
+        </a>
     </div>
 @endsection

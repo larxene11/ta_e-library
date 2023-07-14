@@ -38,10 +38,11 @@ class GeneralController extends Controller
 
     public function main()
     {
-        // $books = Book::all();
+        $books = Book::all();
         $data = [
             'title' => 'Homepage | E-Library SMANDUTA',
-            // 'books' => $books,
+            'category' => Category::get(),
+            'books' => $books,
             // // 'best_deals' => Product::bestDeal($books)->all(),
             // // 'best_sellers' => Product::bestSeller($books),
             // 'categories' => collect(Category::get()->each(function ($item) {

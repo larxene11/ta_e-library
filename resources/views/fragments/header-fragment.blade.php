@@ -9,9 +9,9 @@
             </div>
             <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Beranda</a>
-                    <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Katalog</a>
-                    <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Kontak</a>
+                    <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Catalog</a>
+                    <a href="{{ route('login') }}" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Sign Up</a>
                 </div>
             </div>
         </div>

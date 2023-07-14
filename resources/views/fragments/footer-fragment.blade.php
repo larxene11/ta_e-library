@@ -7,10 +7,10 @@
                 </a>
                 <p class="text-white text-base mt-1 pl-4">Perpustakaan SMA Negeri 2 Kuta</p>
             </div>
-            <div class="flex space-x-4">
-                <a href="#" class="text-white hover:text-blue-800 text-sm">Beranda</a>
-                <a href="#" class="text-white hover:text-blue-800  text-sm">Katalog</a>
-                <a href="#" class="text-white hover:text-blue-800  text-sm">Kontak</a>
+            <div class="flex space-x-4 mr-3">
+                <a href="#" class="text-white hover:text-blue-800 text-sm">Home</a>
+                <a href="#" class="text-white hover:text-blue-800  text-sm">Catalog</a>
+                <a href="#" class="text-white hover:text-blue-800  text-sm">Sign Up</a>
             </div>
         </div>
         <hr class="border-gray-700 my-6">
