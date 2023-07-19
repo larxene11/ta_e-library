@@ -33,8 +33,15 @@ class GeneralController extends Controller
         return view('frontpage.buku.search-result', $data);
     }
     
-
-
+    public function booksByCategory($categoryId)
+    {
+        $data = [
+            'title' => 'Books By Category | E-Library SMANDUTA',
+            'category' => Category::get(),
+            'books' => Book::where('category_id', $categoryId)->get(),
+        ];
+        return view('books_by_category', compact('books'));
+    }
 
     public function main()
     {

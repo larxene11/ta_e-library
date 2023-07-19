@@ -45,7 +45,6 @@
             </a>
         @endforeach
         <a href="#">
-            {{-- {{ route('listing_books', ['books' => $data]) }} --}}
             <div
                 class="lg:w-[150px] md:w-[110px] lg:h-32 md:h-24 w-28 min-h-[100px] flex flex-col rounded-md shadow border border-slate-300 hover:border-yellow-400 hover:shadow-yellow-400 duration-300 hover:-translate-y-1 hover:shadow-md transition ease-linear text-center justify-center items-center lg:py-3 md:py-3 md:px-1 py-2 px-1">
                 <img src="{{ asset('dist/images/default.jpg') }}" alt="icon-categories"

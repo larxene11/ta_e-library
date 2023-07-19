@@ -49,22 +49,4 @@
             mobileMenu.classList.toggle('hidden'); // Tampilkan/sembunyikan menu saat tombol diklik
         });
     </script>
-    <script>
-        // Ambil elemen-elemen yang dibutuhkan
-        const userMenuButton = document.getElementById('user-menu-button');
-        const userMenu = document.getElementById('user-menu');
-      
-        // Tambahkan event listener untuk tombol User Menu
-        userMenuButton.addEventListener('click', function() {
-          userMenu.classList.toggle('hidden'); // Tampilkan/sembunyikan menu saat tombol diklik
-        });
-      
-        // Menutup menu ketika user mengklik di luar menu
-        document.addEventListener('click', function(event) {
-          const targetElement = event.target;
-          if (!userMenu.contains(targetElement) && targetElement !== userMenuButton) {
-            userMenu.classList.add('hidden');
-          }
-        });
-    </script>
 @endsection

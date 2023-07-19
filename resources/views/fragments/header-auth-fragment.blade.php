@@ -19,7 +19,7 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:block">
       <div class="ml-10 md:mt-1 flex items-baseline space-x-4">
-        <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+        <a href="{{ route('main') }}" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Home</a>
         <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">Catalog</a>
         <a href="#" class="text-black hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium">History</a>
         <!-- BEGIN: Account Menu -->
@@ -29,21 +29,21 @@
               <img alt="Midone - HTML Admin Template" src="/image/icon/avatar.png">
           </div>
           <div class="dropdown-menu w-56">
-              <ul class="dropdown-content bg-primary text-white">
+              <ul class="dropdown-content bg-white text-black">
                   <li class="p-2">
                       <div class="font-medium">{{ auth()->user()->name ??'Username'}}</div>
-                      <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500 capitalize">{{auth()->user()->level??'user'}}
+                      <div class="text-xs text-black mt-0.5 dark:text-slate-500 capitalize">{{auth()->user()->level??'user'}}
                       </div>
                   </li>
                   <li>
-                      <hr class="dropdown-divider border-white/[0.08]">
+                      <hr class="dropdown-divider border-black">
                   </li>
                   <li>
-                      <a href="{{ route('profile.detail') }}" class="dropdown-item hover:bg-white/5"> <i data-lucide="user"
+                      <a href="{{ route('my-account') }}" class="dropdown-item hover:bg-white/5"> <i data-lucide="user"
                               class="w-4 h-4 mr-2"></i> Profile </a>
                   </li>
                   <li>
-                      <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock"
+                      <a href="{{ route('password.request') }}" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock"
                               class="w-4 h-4 mr-2"></i> Reset Password </a>
                   </li>
                   <li>
