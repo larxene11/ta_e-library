@@ -12,7 +12,7 @@ class KunjunganController extends Controller
     {
         $data = [
             'title' => 'Kunjungan | E-Library SMANDUTA',
-            'kunjungan' => Kunjungan::latest()->get()->paginate(10)->withQueryString(),
+            'kunjungan' => Kunjungan::latest(),
         ];
         return view('admin.kunjungan.kunjungan-all', $data);
     }

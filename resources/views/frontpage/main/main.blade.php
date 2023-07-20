@@ -55,16 +55,16 @@
     {{-- End Categories --}}
     {{-- Buku all --}}
     <div class="px-5 mt-5">
-        <h1 class="font-semibold lg:text-2xl mb-5 lg:text-left md:text-left text-center ">
+        <h3 class="font-semibold lg:text-2xl mb-5 lg:text-left md:text-left text-center ">
             Buku yang baru ditambahkan
-        </h1>
+        </h3>
         <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
             @foreach ($books as $items)
                 <div class="block">
                     <a href="#">
                         <div
                             class="rounded-lg border hover:shadow-lg transition duration-300 ease-linear hover:-translate-y-2 bg-white max-w-sm min-h-full">
-                            <img class="rounded-t-lg lg:h-[200px] md:h-[100px] h-[100px] w-full object-cover object-center"
+                            <img class="rounded-t-lg lg:h-[200px] md:h-[100px] h-[100px] w-full object-center"
                                 src="{{ asset('storage/' . $items->images->first()->thumb) }}" alt="{{ $items->name }}" />
                             <div class="lg:p-3 md:p-3 p-2">
                                 <h5 class="text-gray-900 lg:text-lg md:text-sm text-xs font-semibold">{{ $items->judul }}

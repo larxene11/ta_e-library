@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PinjamanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\KunjunganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,7 +88,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
-    // Pinjaman Route
+    // kunjungan Route
     Route::get('/dashboard/kunjungan', 'allkunjungan')->name('manage_kunjungan.all');
     Route::get('/dashboard/kunjungan/create', 'createkunjungan')->name('manage_kunjungan.create');
     Route::post('/dashboard/kunjungan/create', 'storekunjungan')->name('manage_kunjungan.store');
