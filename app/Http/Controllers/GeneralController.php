@@ -15,21 +15,20 @@ class GeneralController extends Controller
     
     public function search(Request $request)
     {
-        $data = [
-            'title' => 'Search Results | E-Library SMANDUTA',
-            $searchQuery = $request->input('query'),
+        $searchQuery = $request->input('query');
 
-            $results = Book::where(function ($queryBuilder) use ($searchQuery) {
-                $queryBuilder->whereHas('category', function ($query) use ($searchQuery) {
-                    $query->where('name', 'LIKE', "%{$searchQuery}%");
-                })
-                ->orWhere('pengarang', 'LIKE', "%{$searchQuery}%")
-                ->orWhere('judul', 'LIKE', "%{$searchQuery}%");
-            })->get(),
+        $results = Book::where(function ($queryBuilder) use ($searchQuery) {
+            $queryBuilder->whereHas('category', function ($query) use ($searchQuery) {
+                $query->where('name', 'LIKE', "%{$searchQuery}%");
+            })
+            ->orWhere('pengarang', 'LIKE', "%{$searchQuery}%")
+            ->orWhere('judul', 'LIKE', "%{$searchQuery}%");
+        })->get();
+
+        $data = [
+            'title' => 'Hasil Pencarian | E-Library SMANDUTA',
             'results' => $results
         ];
-        
-
         return view('frontpage.buku.search-result', $data);
     }
     
@@ -40,21 +39,16 @@ class GeneralController extends Controller
             'category' => Category::get(),
             'books' => Book::where('category_id', $categoryId)->get(),
         ];
-        return view('books_by_category', compact('books'));
+        return view('frontpage.buku.search-result', $data);
     }
 
     public function main()
     {
-        $books = Book::all();
+        $books = Book::orderBy('created_at', 'desc')->take(5)->get();
         $data = [
             'title' => 'Homepage | E-Library SMANDUTA',
             'category' => Category::get(),
             'books' => $books,
-            // // 'best_deals' => Product::bestDeal($books)->all(),
-            // // 'best_sellers' => Product::bestSeller($books),
-            // 'categories' => collect(Category::get()->each(function ($item) {
-            //     $item->product_count = $item->books->count();
-            // })->sortByDesc('product_count')->values()->all()),
         ];
         return view('frontpage.main.main', $data);
     }
