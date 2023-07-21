@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('nis')->unique();
             $table->date('tgl_pinjaman');
             $table->date('tgl_pengembalian');
-            $table->enum('status_pengembalian', ['sudah', 'belum']);
+            $table->enum('status_pengembalian', ['sudah', 'belum'])->default('belum');
             $table->float('denda');
             $table->timestamps();
         });

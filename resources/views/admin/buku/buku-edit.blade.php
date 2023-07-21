@@ -14,7 +14,7 @@
                 <form action="{{ route('manage_book.patch',['book'=>$book]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
-                    <input type="hidden" id="deleted_images" name="deleted_images" value="{{ old('deleted_images') }}>
+                    <input type="hidden" id="deleted_images" name="deleted_images" value="{{ old('deleted_images') }}">
                         <div class="intro-y box p-5">
                             <div>
                                 <label for="kode_buku"
@@ -55,6 +55,33 @@
                                 @enderror
                                 <input id="pengarang" name="pengarang" type="text" class="form-control"
                                     placeholder="Masukan Nama Pengarang" value="{{old('pengarang')??$book->pengarang}}">
+                            </div>
+                            <div>
+                                <label for="penerbit"
+                                    class="form-label">Penerbit</label>
+                                @error('penerbit')
+                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                                @enderror
+                                <input id="penerbit" name="penerbit" type="text" class="form-control"
+                                    placeholder="Masukan Nama Penerbit" value="{{old('penerbit')??$book->penerbit}}">
+                            </div>
+                            <div>
+                                <label for="tahun_terbit"
+                                    class="form-label">Tahun Terbit</label>
+                                @error('tahun_terbit')
+                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                                @enderror
+                                <input id="tahun_terbit" name="tahun_terbit" type="text" class="form-control"
+                                    placeholder="Masukan Tahun Terbit" value="{{old('tahun_terbit')??$book->tahun_terbit}}">
+                            </div>
+                            <div>
+                                <label for="no_rak"
+                                    class="form-label">No Rak Buku</label>
+                                @error('no_rak')
+                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                                @enderror
+                                <input id="no_rak" name="no_rak" type="text" class="form-control"
+                                    placeholder="Masukan No Rak Buku" value="{{old('no_rak')??$book->no_rak}}">
                             </div>
                             <div>
                                 <label for="dana"
