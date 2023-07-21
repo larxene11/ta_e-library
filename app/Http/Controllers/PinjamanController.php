@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PinjamanCreated;
+use App\Events\PinjamanUpdated;
 use App\Models\Pinjaman;
 use App\Models\Book;
 use App\Models\User;
@@ -47,6 +49,7 @@ class PinjamanController extends Controller
         ];
         return view('admin.pinjaman.pinjaman-edit', $data);
     }
+    
     public function storePinjaman(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,7 +57,6 @@ class PinjamanController extends Controller
             'nis' => 'required|integer',
             'tgl_pinjaman' => 'required|date',
             'tgl_pengembalian' => 'required|date',
-            'status_pengembalian' => 'required|string',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
@@ -65,13 +67,14 @@ class PinjamanController extends Controller
             'nis' => $validated['nis'],
             'tgl_pinjaman' => $validated['tgl_pinjaman'],
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
-            'status_pengembalian' => $validated['status_pengembalian'],
         ]);
+        event(new PinjamanCreated($created_pinjaman));
         if ($created_pinjaman) {
             return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Ditambahkan');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
+
     public function patchPinjaman(Request $request, Pinjaman $pinjaman)
     {
         $validator = Validator::make($request->all(), [
@@ -80,7 +83,6 @@ class PinjamanController extends Controller
             'tgl_pinjaman' => 'required|date',
             'tgl_pengembalian' => 'required|date',
             'status_pengembalian' => 'required|string',
-            'denda' => 'required|float',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
@@ -93,8 +95,8 @@ class PinjamanController extends Controller
             'tgl_pinjaman' => $validated['tgl_pinjaman'],
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
             'status_pengembalian' => $validated['status_pengembalian'],
-            'denda' => $validated['denda'] == 0 ? NULL : $validated['denda'],
         ]);
+        event(new PinjamanUpdated($pinjaman));
         if ($updated_pinjaman) {
             return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Di Ubah');
         }

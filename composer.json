@@ -50,9 +50,16 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [],
+            "discover": [
+                "App\\"
+            ],
+            "should-discover": [
+                "App\\"
+            ]
         }
     },
+    
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
