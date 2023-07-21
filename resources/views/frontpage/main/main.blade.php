@@ -22,12 +22,65 @@
             </h5>
         </div>
     </div>
-    {{-- BANNER --}}
+    {{-- End BANNER --}}
     {{-- Tombol Search --}}
-    <div class="flex justify-center pb-10 mt-3 mb-8">
-        <form action="{{ route('buku-search') }}" method="GET">
-            <input type="text" placeholder="Cari buku" class="border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pnb-blue focus:border-transparent">
-            <button type="submit" class="bg-slate-500 text-white px-4 py-2 rounded-r-md">Cari</button>
-        </form>
+        <div class="flex justify-center pb-10 mt-3 mb-8">
+            <form action="{{ route('buku-search') }}" method="GET">
+                <input type="text" placeholder="Cari buku" class="border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pnb-blue focus:border-transparent">
+                <button type="submit" class="bg-slate-500 text-white px-4 py-2 rounded-r-md">Cari</button>
+            </form>
+        </div>
+    {{-- End Tombol Search --}}
+    {{-- Categories --}}
+    <div class="flex flex-wrap w-full justify-center items-center md:gap-2 lg:gap-4 gap-4">
+        @foreach ($category->take(5) as $data)
+            <a href="#">
+                <div
+                    class="lg:w-[150px] md:w-[110px] lg:h-32 md:h-24 w-28 min-h-[100px] flex flex-col rounded-md shadow border border-slate-300 hover:border-yellow-400 hover:shadow-yellow-400 duration-300 hover:-translate-y-1 hover:shadow-md transition ease-linear text-center justify-center items-center lg:py-3 md:py-3 md:px-1 py-2 px-1">
+                    <img src="{{ asset('dist/images/default.jpg') }}" alt="icon-categories"
+                        class="lg:w-12 md:w-7 w-8 mx-auto">
+                    <h5 class="lg:text-sm text-xs font-medium mt-2">{{ $data->name }}</h5>
+                </div>
+            </a>
+        @endforeach
+        <a href="#">
+            <div
+                class="lg:w-[150px] md:w-[110px] lg:h-32 md:h-24 w-28 min-h-[100px] flex flex-col rounded-md shadow border border-slate-300 hover:border-yellow-400 hover:shadow-yellow-400 duration-300 hover:-translate-y-1 hover:shadow-md transition ease-linear text-center justify-center items-center lg:py-3 md:py-3 md:px-1 py-2 px-1">
+                <img src="{{ asset('dist/images/default.jpg') }}" alt="icon-categories"
+                    class="lg:w-12 md:w-7 w-8 mx-auto">
+                <h5 class="lg:text-sm text-xs font-medium mt-2">See more..</h5>
+            </div>
+        </a>
     </div>
+    {{-- End Categories --}}
+    {{-- Buku all --}}
+    <div class="px-5 mt-5">
+        <h3 class="font-semibold lg:text-2xl mb-5 lg:text-left md:text-left text-center ">
+            Buku yang baru ditambahkan
+        </h3>
+        <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
+            @foreach ($books as $items)
+                <div class="block">
+                    <a href="#">
+                        <div
+                            class="rounded-lg border hover:shadow-lg transition duration-300 ease-linear hover:-translate-y-2 bg-white max-w-sm min-h-full">
+                            <img class="rounded-t-lg lg:h-[200px] md:h-[100px] h-[100px] w-full object-center"
+                                src="{{ asset('storage/' . $items->images->first()->thumb) }}" alt="{{ $items->name }}" />
+                            <div class="lg:p-3 md:p-3 p-2">
+                                <h5 class="text-gray-900 lg:text-lg md:text-sm text-xs font-semibold">{{ $items->judul }}
+                                </h5>
+                                <p
+                                    class="text-gray-700 font-medium bg-gray-100 rounded-md px-2 w-fit text-xs md:text-sm mb-4">
+                                    {{ $items->category->name }}
+                                </p>
+                                <p class="text-gray-700 font-medium lg:text-base text-sm">
+                                    {{ $items->pengarang }} </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    {{-- End Buku all --}}
 @endsection

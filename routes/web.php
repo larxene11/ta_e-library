@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PinjamanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\KunjunganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,10 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/register', 'register')->name('register')->middleware('guest');
     Route::post('/register', 'attemptRegister')->name('attempt_register')->middleware('guest');
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
+    Route::get('/forgot-password', 'requestEmail')->name('password.request')->middleware('guest');
+    Route::post('/forgot-password', 'checkEmail')->name('password.email')->middleware('guest');
+    Route::get('/reset-password/{token}', 'resetPassword')->name('password.reset')->middleware('guest');
+    Route::post('/reset-password', 'updatePassword')->name('password.update')->middleware('guest');
     Route::get('/dashboard/profile/detail', 'detailProfile')->name('profile.detail')->middleware(['auth', 'ispegawai']);
     Route::get('/dashboard/profile/update', 'updateProfile')->name('profile.update')->middleware(['auth', 'ispegawai']);
     Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'ispegawai']);
@@ -40,7 +45,7 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(GeneralController::class)->group(function () {
     Route::get('/', 'main')->name('main');
     Route::get('/buku/search/results', 'search')->name('buku-search');
-
+    Route::get('/buku/{category:name}', 'booksByCategory')->name('buku-category');
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
 });
 
@@ -83,7 +88,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
-    // Pinjaman Route
+    // kunjungan Route
     Route::get('/dashboard/kunjungan', 'allkunjungan')->name('manage_kunjungan.all');
     Route::get('/dashboard/kunjungan/create', 'createkunjungan')->name('manage_kunjungan.create');
     Route::post('/dashboard/kunjungan/create', 'storekunjungan')->name('manage_kunjungan.store');

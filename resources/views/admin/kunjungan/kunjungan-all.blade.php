@@ -3,11 +3,11 @@
 <!-- BEGIN: Content -->
     <div class="content">
         <h2 class="intro-y text-lg font-medium mt-10">
-            Data List Pinjaman
+            Data List Kunjungan
         </h2>
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-                <a href="{{ route('manage_pinjaman.create') }}" class="btn btn-primary shadow-md mr-2">Tambah Pinjaman</a>
+                <a href="{{ route('manage_kunjungan.create') }}" class="btn btn-primary shadow-md mr-2">Tambah Kunjungan</a>
                 <div class="dropdown">
                     <button class="dropdown-toggle btn px-2 box" aria-expanded="false" data-tw-toggle="dropdown">
                         <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-lucide="plus"></i> </span>
@@ -38,35 +38,31 @@
                         <tr>
                             <th class="whitespace-nowrap">No</th>
                             <th class="text-center whitespace-nowrap">NIS</th>
-                            <th class="text-center whitespace-nowrap">KODE BUKU</th>
-                            <th class="text-center whitespace-nowrap">TANGGAL PINJAMAN</th>
-                            <th class="text-center whitespace-nowrap">TANGGAL PENGEMBALIAN</th>
-                            <th class="text-center whitespace-nowrap">DENDA</th>
-                            <th class="text-center whitespace-nowrap">STATUS</th>
+                            <th class="text-center whitespace-nowrap">NAMA</th>
+                            <th class="text-center whitespace-nowrap">ALASAN BERKUNJUNG</th>
+                            <th class="text-center whitespace-nowrap">TANGGAL BERKUNJUNG</th>
                             <th class="text-center whitespace-nowrap">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($pinjaman as $index=>$item)
+                        @forelse ($kunjungan as $index=>$item)
                         <tr class="intro-x">
                             <td class="text-center w-20">{{ $loop->iteration }}</td>
                             <td class="text-center">{{ $item->nis }}</td>
-                            <td class="text-center">{{ $item->kode_buku }}</td>
-                            <td class="text-center">{{ $item->tgl_pinjaman }}</td>
-                            <td class="text-center">{{ $item->tgl_pengembalian }}</td>
-                            <td class="text-center">{{ $item->denda }}</td>
-                            <td class="text-center">{{ $item->status_pengembalian }}</td>
+                            <td class="text-center">{{ $item->nama }}</td>
+                            <td class="text-center">{{ $item->alasan_berkunjung }}</td>
+                            <td class="text-center">{{ $item->tgl_berkunjung }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3"
-                                        href="{{ route('manage_pinjaman.update', ['books' => $item]) }}"> <i
+                                        href="{{ route('manage_kunjungan.update', ['books' => $item]) }}"> <i
                                             data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit </a>
                                     <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"
                                         data-tw-target="#delete-confirmation-modal"
                                         onclick="deleteModalHandler({{ $index }})"> <i data-lucide="trash-2"
                                             class="w-4 h-4 mr-1"></i> Delete </a>
                                     <input type="hidden" id="delete_route_{{ $index }}"
-                                        value="{{ route('manage_pinjaman.delete', ['pinjaman' => $item]) }}">
+                                        value="{{ route('manage_kunjungan.delete', ['kunjungan' => $item]) }}">
                                 </div>
                             </td>
                         </tr>

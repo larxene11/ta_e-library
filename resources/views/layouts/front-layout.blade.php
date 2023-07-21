@@ -8,9 +8,22 @@
 @endsection
 
 @section('base_body')
+    @if (session()->has('status'))
+    @include('fragments.alert')
+    @endif
+    @if (session()->has('status'))
+    @include('fragments.error')
+    @endif
+    @if (session()->has('status'))
+    @include('fragments.success')
+    @endif
     <div class="font-poppins">
         <!-- BEGIN: Navbar -->
-        @include('fragments.header-fragment')
+        @guest
+            @include('fragments.header-fragment')
+        @else
+            @include('fragments.header-auth-fragment')
+        @endguest
         <!-- END: Navbar -->
         <!-- BEGIN: Body -->
         <div class="">
@@ -25,4 +38,15 @@
 
 @section('base_script')
     @yield('script')
+    <script src="{{ asset('dist/js/app.js') }}"></script>
+    <script>
+        // Ambil elemen tombol hamburger dan menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+      
+        // Tambahkan event listener untuk tombol hamburger
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden'); // Tampilkan/sembunyikan menu saat tombol diklik
+        });
+    </script>
 @endsection

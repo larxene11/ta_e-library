@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Book extends Model
 {
     use HasFactory;
     protected $primaryKey = 'kode_buku';
     protected $keyType = 'string';
-    protected $fillable = ['kode_buku', 'judul', 'category_id', 'pengarang', 'dana', 'tahun', 'description'];
+    protected $fillable = ['kode_buku', 'judul', 'category_id', 'pengarang', 'dana', 'tahun', 'description', 'penerbit', 'tahun_terbit', 'status', 'no_rak'];
 
     public function scopeFilter($query, array $filters)
     {
@@ -31,7 +32,7 @@ class Book extends Model
     //relation
     public function images()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphOne(Image::class, 'imageable');
     }
     public function category()
     {
@@ -42,7 +43,6 @@ class Book extends Model
         return $this->hasMany(Pinjaman::class, 'kode_buku');
     }
 
-    // boot
     public static function boot()
     {
         parent::boot();
@@ -52,12 +52,12 @@ class Book extends Model
         });
 
         self::created(function ($book) {
-            foreach (request()->file('images') ?? [] as $key => $image) {
-                $uploaded = Image::uploadImage($image);
-                Image::create([
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+            if (request()->hasFile('image')) {
+                $uploaded = Image::uploadImage(request()->file('image'));
+                $book->image()->create([
+                    'alt' => Image::getAlt(request()->file('image')),
                     'src' => 'images/' . $uploaded['src']->basename,
-                    'alt' => Image::getAlt($image),
+                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
                     'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
@@ -65,42 +65,28 @@ class Book extends Model
         });
 
         self::updating(function ($book) {
-            $img_array = explode(',', $book->deleted_images);
-            array_pop($img_array);
-            
-            dd($book->images);
-            foreach ($img_array as $key => $image_id) {
-                $will_deleted_image = Image::find($image_id);
-                if (!is_null($will_deleted_image)) {
-                    $will_deleted_image->delete();
+            // ... code here
+        });
+
+        self::updated(function ($book) {
+            if (request()->hasFile('image')) {
+                $uploaded = Image::uploadImage(request()->file('image'));
+                if ($book->image ?? false) {
+                    Storage::delete($book->image->thumb);
+                    Storage::delete($book->image->src);
                 }
-            }
-        
-            foreach (request()->file('images') ?? [] as $key => $image) {
-                $uploaded = Image::uploadImage($image);
-                Image::create([
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+                $book->image()->update([
+                    'alt' => Image::getAlt(request()->file('image')),
                     'src' => 'images/' . $uploaded['src']->basename,
-                    'alt' => Image::getAlt($image),
+                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
                     'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
             }
         });
-        
-
-        self::updated(function ($model) {
-            // ... code here
-        });
-
-        self::deleting(function ($book) {
-            foreach ($book->images as $key => $image) {
-                $image->delete();
-            }
-        });
 
         self::deleted(function ($book) {
+            $book->image()->delete();
         });
     }
-
 }

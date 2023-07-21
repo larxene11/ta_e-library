@@ -37,4 +37,10 @@ class Pinjaman extends Model
         return $this->hasMany(Book::class, 'kode_buku');
     }
 
+    // // Fungsi untuk menangani pengembalian buku
+    // public function selesaiPinjam()
+    // {
+    //     $this->book->status = 'Ada';
+    //     $this->book->save();
+    // }
 }

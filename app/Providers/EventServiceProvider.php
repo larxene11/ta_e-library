@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\PinjamanCreated;
+use App\Events\PinjamanUpdated;
+use App\Listeners\UpdateStatusBuku;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +20,14 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        PinjamanCreated::class => [
+            UpdateStatusBuku::class,
+        ],
+
+        PinjamanCreated::class => [
+            UpdateStatusBuku::class,
         ],
     ];
 
