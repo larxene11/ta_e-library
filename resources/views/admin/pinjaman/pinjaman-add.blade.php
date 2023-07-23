@@ -22,7 +22,7 @@
                             <select name="kode_buku" id="kode_buku" data-placeholder="Pilih Kode Buku yang Dipinjam"
                                 class="tom-select w-full">
                                 @foreach ($books as $item)
-                                    <option value="{{ $item->kode_buku }}">{{ $item->kode_buku }}</option>
+                                    <option value="{{ $item->kode_buku }}">{{ $item->kode_buku }} {{ $item->judul }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -37,24 +37,6 @@
                                     <option value="{{ $item->nis_nip}}">{{ $item->nis_nip }}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div>
-                            <label for="tgl_pinjaman"
-                                class="form-label">Tanggal Peminjaman</label>
-                            @error('tgl_pinjaman')
-                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                            @enderror
-                            <input id="tgl_pinjaman" name="tgl_pinjaman" type="date" class="form-control"
-                                placeholder="Masukan Judul Buku" value="{{ old('tgl_pinjaman') }}">
-                        </div>
-                        <div>
-                            <label for="tgl_pengembalian"
-                                class="form-label">Tanggal Pengembalian</label>
-                            @error('tgl_pengembalian')
-                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                            @enderror
-                            <input id="tgl_pengembalian" name="tgl_pengembalian" type="date" class="form-control"
-                                placeholder="Masukan Judul Buku" value="{{ old('tgl_pengembalian') }}">
                         </div>
                         <div class="text-right mt-5">
                             <a href="{{ route('manage_pinjaman.all') }}"

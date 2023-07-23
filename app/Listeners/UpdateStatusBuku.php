@@ -6,6 +6,7 @@ use App\Events\PinjamanCreated;
 use App\Events\PinjamanUpdated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class UpdateStatusBuku implements ShouldQueue
 {
@@ -21,7 +22,7 @@ class UpdateStatusBuku implements ShouldQueue
         $pinjaman = $event->pinjaman;
         $buku = $pinjaman->book->first();
 
-        dd($buku);
+        // Log::info('Nilai $buku:', ['books' => $buku]);
         // Periksa status buku sebelumnya
         $previousStatus = $buku->status;
 

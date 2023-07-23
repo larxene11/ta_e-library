@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PinjamanCreated;
-use App\Events\PinjamanUpdated;
-use App\Models\Pinjaman;
+use Carbon\Carbon;
 use App\Models\Book;
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Pinjaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class PinjamanController extends Controller
 {
@@ -55,24 +56,51 @@ class PinjamanController extends Controller
         $validator = Validator::make($request->all(), [
             'kode_buku' => 'required|string',
             'nis' => 'required|integer',
-            'tgl_pinjaman' => 'required|date',
-            'tgl_pengembalian' => 'required|date',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
         }
         $validated = $validator->validated();
-        $created_pinjaman = Pinjaman::create([
-            'kode_buku' => $validated['kode_buku'],
-            'nis' => $validated['nis'],
-            'tgl_pinjaman' => $validated['tgl_pinjaman'],
-            'tgl_pengembalian' => $validated['tgl_pengembalian'],
-        ]);
-        event(new PinjamanCreated($created_pinjaman));
-        if ($created_pinjaman) {
-            return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Ditambahkan');
+        // Menggunakan Carbon untuk mengisi tanggal secara otomatis
+        $tgl_pinjaman = Carbon::now(); // Tanggal saat ini
+        $tgl_pengembalian = Carbon::now()->addDays(7); // Tambah 7 hari dari tanggal saat ini
+        $books = Book::findOrFail($request->kode_buku)->only('status');
+
+        if ($books['status'] != 'ada') {
+            Session::flash('error', 'Buku saat ini tidak tersedia');
+            return redirect('manage_pinjaman.create');
+        } else {
+            $count = Pinjaman::where('nis', $request->nis)->where('status_pengembalian', 'belum')->count();
+    
+            if ($count >= 3) {
+                Session::flash('error', 'Siswa sudah mencapai limit peminjaman <br> Tolong kembalikan buku kembali');
+                return redirect('manage_pinjaman.create');
+            } else {
+                try {
+                    DB::beginTransaction();
+    
+                    // Simpan data pinjaman
+                    Pinjaman::create([
+                        'kode_buku' => $validated['kode_buku'],
+                        'nis' => $validated['nis'],
+                        'tgl_pinjaman' => $tgl_pinjaman,
+                        'tgl_pengembalian' => $tgl_pengembalian,
+                    ]);
+    
+                    // Perbarui status buku menjadi 'tidak'
+                    $books = Book::findOrFail($request->kode_buku);
+                    $books->status = 'tidak';
+                    $books->save();
+    
+                    DB::commit(); // Commit transaksi jika tidak ada error
+    
+                    return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Ditambahkan');
+                } catch (\Throwable $th) {
+                    DB::rollBack(); // Rollback transaksi jika terjadi error
+                    return redirect()->back()->with('error', 'Error Occurred, Please Try Again!');
+                }
+            }
         }
-        return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
 
     public function patchPinjaman(Request $request, Pinjaman $pinjaman)
@@ -96,7 +124,7 @@ class PinjamanController extends Controller
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
             'status_pengembalian' => $validated['status_pengembalian'],
         ]);
-        event(new PinjamanUpdated($pinjaman));
+        // event(new PinjamanUpdated($pinjaman));
         if ($updated_pinjaman) {
             return redirect()->route('manage_pinjaman.all')->with('success', 'Data Pinjaman Berhasil Di Ubah');
         }

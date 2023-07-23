@@ -41,7 +41,7 @@ class Book extends Model
     }
     public function pinjaman()
     {
-        return $this->hasMany(Pinjaman::class, 'kode_buku');
+        return $this->hasMany(Pinjaman::class, 'book_id');
     }
 
     public static function boot()

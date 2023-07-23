@@ -40,6 +40,7 @@
                             <th class="text-center whitespace-nowrap">KODE BUKU</th>
                             <th class="text-center whitespace-nowrap">JUDUL</th>
                             <th class="text-center whitespace-nowrap">PENGARANG</th>
+                            <th class="text-center whitespace-nowrap">STATUS</th>
                             <th class="text-center whitespace-nowrap">ACTIONS</th>
                         </tr>
                     </thead>
@@ -50,6 +51,7 @@
                             <td class="text-center">{{ $item->kode_buku }}</td>
                             <td class="text-center">{{ $item->judul }}</td>
                             <td class="text-center">{{ $item->pengarang }}</td>
+                            <td class="text-center">{{ $item->status }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3"
