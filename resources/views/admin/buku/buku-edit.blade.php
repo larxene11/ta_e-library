@@ -109,28 +109,19 @@
                                 <textarea id="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukan Deskripsi Buku">{{ $book->description ?? old('description')}}</textarea>
                             </div>
                             <br>
-                            <div class="upload__box">
-                                @error('images[]')
+                            <div class="upload__box mt-3">
+                                @error('image')
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <div class="upload__btn-box">
                                     <label class="upload__btn btn btn-primary">
-                                        <p>Unggah Gambar
-                                        </p>
-                                        <input type="file" name="images[]" multiple data-max_length="20"
-                                            class="upload__inputfile">
+                                        <p>Choose An Image</p>
+                                        <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
                                     </label>
                                 </div>
                                 <div class="upload__img-wrap">
-                                    @foreach ($book->images as $item => $image)
-                                        <div class='upload__img-box'>
-                                            <div style='background-image: url({{ asset('storage/' . $image->src) }})'
-                                                data-number='{{ $item }}' data-id="{{ $image->id }}"
-                                                data-file='{{ 'storage/' . $image->src }}' class='img-bg'>
-                                                <div class='upload__img-close'></div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                    <img id="img_preview" class="upload__img-box" src="{{ isset($book->images->src)?asset('storage/'.$book->images->src):''}}"
+                                     alt="{{ isset($book->images->alt)?$book->images->alt:''}}">
                                 </div>
                             </div>
                             <div class="text-right mt-5">

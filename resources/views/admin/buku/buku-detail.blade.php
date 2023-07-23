@@ -13,7 +13,7 @@
             <div class="intro-y box p-8">
                 <div class="md:flex md:flex-row gap-5">
                     <div class="md:flex-shrink-0 basis-4/12 justify-center">              
-                        <img class="featured-img" src="{{ asset($book->images->count() ? 'storage/'. $book->images->first()->src : 'dist/images/default.jpg') }}" alt="{{ $book->judul }}">
+                        <img class="featured-img" src="{{ asset($book->images->count() ? 'storage/' . $book->images->src : 'dist/images/default.jpg')}}" alt="{{ $book->judul }}">
                     </div>
                     <div class="md:flex-shrink-0 basis-5/12">
                         <div class="flex flex-row gap-2">
@@ -52,6 +52,10 @@
                             <label for="price" class="basis-1/3 capitalize tracking-wide text-sm text-black font-semibold mb-2">Pendanaan Buku</label>
                             <p class="basis-2/3 text-sm mb-2">: {{ $book->dana }}</p>
                         </div>
+                        <div class="flex flex-row flex-none gap-2">
+                            <label for="price" class="basis-1/3 capitalize tracking-wide text-sm text-black font-semibold mb-2">Ketersediaan Buku</label>
+                            <p class="basis-2/3 text-sm mb-2">: {{ $book->status }}</p>
+                        </div>
                     </div>
                     <div class="text-sm text-black mt-5 ml-2">
                         <p class="capitalize tracking-wide text-sm text-black font-semibold">Description</p>
@@ -59,8 +63,8 @@
                         <div class="text-right mt-5">
                             <a href="{{ route('manage_book.all') }}"
                                 class="btn btn-outline-secondary w-24 mr-1">Back</a>
-                            <a href="{{ route('manage_book.update') }}"
-                                class="btn text-primary btn-primary w-24">Update</a>
+                            <a href="#"
+                                class="btn text-white btn-primary w-24">Update</a>
                         </div>
                     </div>
                 </div>

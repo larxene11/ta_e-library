@@ -55,9 +55,9 @@
     {{-- End Categories --}}
     {{-- Buku all --}}
     <div class="px-5 mt-5">
-        <h3 class="font-semibold lg:text-2xl mb-5 lg:text-left md:text-left text-center ">
+        <h4 class="font-semibold lg:text-2xl mb-5 lg:text-left md:text-left text-center ">
             Buku yang baru ditambahkan
-        </h3>
+        </h4>
         <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
             @foreach ($books as $items)
                 <div class="block">

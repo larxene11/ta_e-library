@@ -56,19 +56,6 @@
                             <input id="tgl_pengembalian" name="tgl_pengembalian" type="date" class="form-control"
                                 placeholder="Masukan Judul Buku" value="{{ old('tgl_pengembalian') }}">
                         </div>
-                        <div>
-                            <label for="status_pengembalian"
-                                class="form-label">Status Pengembalian</label>
-                            @error('stautus_pengembalian')
-                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                            @enderror
-                            <select name="status_pengembalian" id="status_pengembalian" data-placeholder="Pilih Status Pengembalian"
-                            class="tom-select w-full">
-                                <option value="sudah">Sudah</option>
-                                <option value="belum">Belum</option>
-                        </select>
-                        </div>
-                        
                         <div class="text-right mt-5">
                             <a href="{{ route('manage_pinjaman.all') }}"
                                 class="btn btn-outline-secondary w-24 mr-1">Cancel</a>

@@ -19,14 +19,15 @@ class UpdateStatusBuku implements ShouldQueue
     {
         // Ambil data buku yang terkait dengan data pinjaman yang baru ditambahkan
         $pinjaman = $event->pinjaman;
-        $buku = $pinjaman->book;
+        $buku = $pinjaman->book->first();
 
+        dd($buku);
         // Periksa status buku sebelumnya
         $previousStatus = $buku->status;
 
         // Periksa apakah status pinjaman adalah "selesai" atau "kembali".
         // Jika ya, atur status buku menjadi "Ada"; jika tidak, atur status buku menjadi "Tidak".
-        if ($pinjaman->status === 'sudah') {
+        if ($pinjaman->status_pengembalian === 'sudah') {
             $buku->status = 'ada';
         } else {
             $buku->status = 'tidak';
