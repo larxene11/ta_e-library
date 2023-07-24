@@ -110,7 +110,6 @@ class PinjamanController extends Controller
             'nis' => 'required|integer',
             'tgl_pinjaman' => 'required|date',
             'tgl_pengembalian' => 'required|date',
-            'status_pengembalian' => 'required|string',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Input Failed!<br>Please Try Again With Correct Input');
@@ -122,7 +121,6 @@ class PinjamanController extends Controller
             'nis' => $validated['nis'],
             'tgl_pinjaman' => $validated['tgl_pinjaman'],
             'tgl_pengembalian' => $validated['tgl_pengembalian'],
-            'status_pengembalian' => $validated['status_pengembalian'],
         ]);
         // event(new PinjamanUpdated($pinjaman));
         if ($updated_pinjaman) {
@@ -130,6 +128,7 @@ class PinjamanController extends Controller
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
+
     public function deletePinjaman(Pinjaman $pinjaman)
     {
         if ($pinjaman->delete()) {

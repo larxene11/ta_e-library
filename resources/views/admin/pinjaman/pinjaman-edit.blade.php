@@ -15,7 +15,7 @@
                     @csrf
                     @method('patch')
                     <input type="hidden" id="deleted_images" name="deleted_images">
-                    <div class="intro-y box p-5">
+                    < class="intro-y box p-5">
                         <div class="mt-3">
                             <label for="kode_buku" class="form-label mt-2">Kode Buku yang Dipinjam</label>
                             @error('kode_buku')
@@ -58,24 +58,11 @@
                             <input id="tgl_pengembalian" name="tgl_pengembalian" type="date" class="form-control"
                                 placeholder="Masukan Tanggal Pengembalian" value="{{ old('tgl_pengembalian')?? $pinjaman->tgl_pengembalian }}">
                         </div>
-                        <div>
-                            <label for="status_pengembalian"
-                                class="form-label">Status Pengembalian</label>
-                            @error('stautus_pengembalian')
-                                <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
-                            @enderror
-                            <select name="status_pengembalian" id="status_pengembalian" data-placeholder="Pilih Status Pengembalian"
-                            class="tom-select w-full">
-                                <option value="sudah">Sudah</option>
-                                <option value="belum">Belum</option>
-                        </select>
-                        </div>
-                            <div class="text-right mt-5">
-                                <a href="{{ route('manage_pinjaman.all') }}"
-                                    class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
-                                <button type="submit"
-                                    class="btn text-primary btn-primary w-24">Save</button>
-                            </div>
+                        <div class="text-right mt-5">
+                            <a href="{{ route('manage_pinjaman.all') }}"
+                                class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
+                            <button type="submit"
+                                class="btn text-primary btn-primary w-24">Save</button>
                         </div>
                 </form>
                 <!-- END: Form Layout -->
