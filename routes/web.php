@@ -82,6 +82,8 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::get('/dashboard/pinjaman', 'allPinjaman')->name('manage_pinjaman.all');
     Route::get('/dashboard/pinjaman/create', 'createPinjaman')->name('manage_pinjaman.create');
     Route::post('/dashboard/pinjaman/create', 'storePinjaman')->name('manage_pinjaman.store');
+    Route::get('/dashboard/pengembalian', 'kembaliBuku')->name('manage_kembali.save');
+    Route::post('/dashboard/pengembalian/save', 'saveKembali')->name('manage_kembali.update');
     Route::get('/dashboard/pinjaman/{pinjaman:id}/update', 'updatePinjaman')->name('manage_pinjaman.update');
     Route::patch('/dashboard/pinjaman/{pinjaman:id}', 'patchPinjaman')->name('manage_pinjaman.patch');
     Route::delete('/dashboard/pinjaman/{pinjaman:id}/delete', 'deletePinjaman')->name('manage_pinjaman.delete');

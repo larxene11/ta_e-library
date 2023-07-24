@@ -129,6 +129,35 @@ class PinjamanController extends Controller
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
 
+    public function kembaliBuku(){
+        $data = [
+            'title' => 'Pengembalian Buku | E-Library SMANDUTA',
+            'books' => Book::latest()->get(),
+            'users' => User::where('level', 'siswa')->latest()->get()
+        ];
+        return view('admin.pinjaman.kembali-buku', $data);
+    }
+
+    public function saveKembali(Request $request){
+        $rent = Pinjaman::where('nis', $request->nis)->where('kode_buku',$request->kode_buku)
+        ->where('status_pengembalian', 'belum');
+        $rentData = $rent->first();
+        $countRent = $rent->count();
+
+        if ($countRent == 1) {
+            $rentData->status_pengembalian = 'sudah';
+            $rentData->save();
+            // Perbarui status buku menjadi 'ada'
+            $books = Book::findOrFail($request->kode_buku);
+            $books->status = 'ada';
+            $books->save();
+            return redirect()->route('manage_pinjaman.all')->with('success', 'Buku Berhasil dikembalikan');
+        } else {
+            return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
+        }
+        
+    }
+
     public function deletePinjaman(Pinjaman $pinjaman)
     {
         if ($pinjaman->delete()) {
