@@ -26,11 +26,10 @@ use App\Http\Controllers\KunjunganController;
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'ispegawai']);
-    Route::get('/dashboard/employees', 'allPegawai')->name('manage_pegawai.all')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard/students/create', 'addStudent')->name('manage_siswa.add')->middleware(['auth', 'ispegawai']);
     Route::get('/login', 'login')->name('login')->middleware('guest');
     Route::post('/login', 'attemptLogin')->name('attempt_login')->middleware('guest');
-    Route::get('/register', 'register')->name('register')->middleware('guest');
-    Route::post('/register', 'attemptRegister')->name('attempt_register')->middleware('guest');
+    Route::post('/dashboard/students/store', 'attemptRegister')->name('attempt_register')->middleware(['auth', 'ispegawai']);
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
     Route::get('/forgot-password', 'requestEmail')->name('password.request')->middleware('guest');
     Route::post('/forgot-password', 'checkEmail')->name('password.email')->middleware('guest');
