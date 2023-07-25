@@ -1,19 +1,21 @@
-<footer class="bg-gray-600">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex flex-col md:flex-row md:justify-between">
-            <div class="mb-6 md:mb-0">
-                <a href="#" class="text-white font-bold text-xl">
-                    <img alt="E-Library SMANDUTA" class="h-auto w-20" src="{{ asset('dist/images/logofooter.png') }}">
-                </a>
-                <p class="text-white text-base mt-1 pl-4">Perpustakaan SMA Negeri 2 Kuta</p>
-            </div>
-            <div class="flex space-x-4 mr-3">
-                <a href="#" class="text-white hover:text-blue-800 text-sm">Home</a>
-                <a href="#" class="text-white hover:text-blue-800  text-sm">Catalog</a>
-                <a href="#" class="text-white hover:text-blue-800  text-sm">Sign Up</a>
-            </div>
+<footer class="bg-slate-700 rounded-lg shadow">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="{{ route('main') }}" class="flex items-center mb-4 sm:mb-0">
+                <img src="{{ asset('dist/images/logofooter.png') }}" class="h-8 mr-3" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-Library SMANDUTA</span>
+            </a>
+            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Catalog</a>
+                </li>
+            </ul>
         </div>
-        <hr class="border-gray-700 my-6">
-        <p class="text-white text-sm text-center">© 2023 Your Website. All rights reserved.</p>
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://sman2kuta.sch.id/" class="hover:underline">SMANDUTA™</a>. All Rights Reserved.</span>
     </div>
 </footer>
+
