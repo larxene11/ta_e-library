@@ -173,7 +173,7 @@ class UserController extends Controller
         Session::flush();
         session()->invalidate();
         Auth::logout();
-        return redirect()->route('login')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
+        return redirect()->route('main')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
     }
     public function detailProfile(User $user)
     {

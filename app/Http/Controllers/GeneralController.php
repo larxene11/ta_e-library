@@ -44,7 +44,7 @@ class GeneralController extends Controller
 
     public function main()
     {
-        $books = Book::orderBy('created_at', 'desc')->take(5)->get();
+        $books = Book::orderBy('created_at', 'desc')->take(4)->get();
         $data = [
             'title' => 'Homepage | E-Library SMANDUTA',
             'category' => Category::get(),
