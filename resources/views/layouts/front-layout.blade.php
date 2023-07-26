@@ -8,13 +8,13 @@
 @endsection
 
 @section('base_body')
-    @if (session()->has('status'))
+    @if (session()->has('alert'))
     @include('fragments.alert')
     @endif
-    @if (session()->has('status'))
+    @if (session()->has('error'))
     @include('fragments.error')
     @endif
-    @if (session()->has('status'))
+    @if (session()->has('success'))
     @include('fragments.success')
     @endif
     <div class="font-poppins">
@@ -38,15 +38,4 @@
 
 @section('base_script')
     @yield('script')
-    <script src="{{ asset('dist/js/app.js') }}"></script>
-    <script>
-        // Ambil elemen tombol hamburger dan menu
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-      
-        // Tambahkan event listener untuk tombol hamburger
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden'); // Tampilkan/sembunyikan menu saat tombol diklik
-        });
-    </script>
 @endsection

@@ -23,12 +23,22 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div> --}}
+                <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
                 <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-                    <div class="w-56 relative text-slate-500">
-                        <input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
-                        <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i> 
-                    </div>
+                    <form action="{{ route('manage_book.all') }}" method="get">
+                        <div class="flex justify-center items-center">
+                            @if (request('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}"> 
+                            @endif
+                            <div class="flex">
+                                <input type="text" name="search" class="form-control w-56 box pr-10" style="border-top-right-radius: 0!important;
+                                    border-bottom-right-radius: 0!important;" placeholder="Search...">
+                                <button type="submit" class="bg-[#2d2d2d]" style="border-top-right-radius: 0.25rem!important;
+                                    border-bottom-right-radius: 0.25rem!important;"><i class="w-4 h-4 mx-3 text-white rounded-sm"  data-lucide="search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <!-- BEGIN: Data List -->
@@ -40,6 +50,7 @@
                             <th class="text-center whitespace-nowrap">KODE BUKU</th>
                             <th class="text-center whitespace-nowrap">JUDUL</th>
                             <th class="text-center whitespace-nowrap">PENGARANG</th>
+                            <th class="text-center whitespace-nowrap">STATUS</th>
                             <th class="text-center whitespace-nowrap">ACTIONS</th>
                         </tr>
                     </thead>
@@ -50,6 +61,7 @@
                             <td class="text-center">{{ $item->kode_buku }}</td>
                             <td class="text-center">{{ $item->judul }}</td>
                             <td class="text-center">{{ $item->pengarang }}</td>
+                            <td class="text-center">{{ $item->status }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3"

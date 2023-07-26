@@ -14,7 +14,7 @@
                 <form action="{{ route('manage_book.patch',['book'=>$book]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
-                    <input type="hidden" id="deleted_images" name="deleted_images" value="{{ old('deleted_images') }}>
+                    <input type="hidden" id="deleted_images" name="deleted_images" value="{{ old('deleted_images') }}">
                         <div class="intro-y box p-5">
                             <div>
                                 <label for="kode_buku"
@@ -57,6 +57,33 @@
                                     placeholder="Masukan Nama Pengarang" value="{{old('pengarang')??$book->pengarang}}">
                             </div>
                             <div>
+                                <label for="penerbit"
+                                    class="form-label">Penerbit</label>
+                                @error('penerbit')
+                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                                @enderror
+                                <input id="penerbit" name="penerbit" type="text" class="form-control"
+                                    placeholder="Masukan Nama Penerbit" value="{{old('penerbit')??$book->penerbit}}">
+                            </div>
+                            <div>
+                                <label for="tahun_terbit"
+                                    class="form-label">Tahun Terbit</label>
+                                @error('tahun_terbit')
+                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                                @enderror
+                                <input id="tahun_terbit" name="tahun_terbit" type="text" class="form-control"
+                                    placeholder="Masukan Tahun Terbit" value="{{old('tahun_terbit')??$book->tahun_terbit}}">
+                            </div>
+                            <div>
+                                <label for="no_rak"
+                                    class="form-label">No Rak Buku</label>
+                                @error('no_rak')
+                                    <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
+                                @enderror
+                                <input id="no_rak" name="no_rak" type="text" class="form-control"
+                                    placeholder="Masukan No Rak Buku" value="{{old('no_rak')??$book->no_rak}}">
+                            </div>
+                            <div>
                                 <label for="dana"
                                     class="form-label">Asal Pengadaan Buku</label>
                                 @error('dana')
@@ -82,28 +109,19 @@
                                 <textarea id="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukan Deskripsi Buku">{{ $book->description ?? old('description')}}</textarea>
                             </div>
                             <br>
-                            <div class="upload__box">
-                                @error('images[]')
+                            <div class="upload__box mt-3">
+                                @error('image')
                                     <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                                 @enderror
                                 <div class="upload__btn-box">
                                     <label class="upload__btn btn btn-primary">
-                                        <p>Unggah Gambar
-                                        </p>
-                                        <input type="file" name="images[]" multiple data-max_length="20"
-                                            class="upload__inputfile">
+                                        <p>Choose An Image</p>
+                                        <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
                                     </label>
                                 </div>
                                 <div class="upload__img-wrap">
-                                    @foreach ($book->images as $item => $image)
-                                        <div class='upload__img-box'>
-                                            <div style='background-image: url({{ asset('storage/' . $image->src) }})'
-                                                data-number='{{ $item }}' data-id="{{ $image->id }}"
-                                                data-file='{{ 'storage/' . $image->src }}' class='img-bg'>
-                                                <div class='upload__img-close'></div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                    <img id="img_preview" class="upload__img-box" src="{{ isset($book->images->src)?asset('storage/'.$book->images->src):''}}"
+                                     alt="{{ isset($book->images->alt)?$book->images->alt:''}}">
                                 </div>
                             </div>
                             <div class="text-right mt-5">

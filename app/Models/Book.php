@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class Book extends Model
 {
     use HasFactory;
+    protected $table = 'books'; // Nama tabel di database
     protected $primaryKey = 'kode_buku';
     protected $keyType = 'string';
     protected $fillable = ['kode_buku', 'judul', 'category_id', 'pengarang', 'dana', 'tahun', 'description', 'penerbit', 'tahun_terbit', 'status', 'no_rak'];
@@ -21,11 +22,13 @@ class Book extends Model
                 $query->where('name', $category);
             });
         });
-
+    
         $query->when($filters['search'] ?? false, function ($query, $search) {
-            return $query->where('judul', 'like', '%' . $search . '%')->orWhere('kode_buku', function ($query) use ($search) {
-                $query->orWhere('pengarang', 'like', '%' . $search . '%');
-            });
+            return $query->where('judul', 'like', '%' . $search . '%')
+                         ->orWhere(function ($query) use ($search) {
+                             $query->where('kode_buku', 'like', '%' . $search . '%')
+                                   ->orWhere('pengarang', 'like', '%' . $search . '%');
+                         });
         });
     }
 
@@ -40,7 +43,7 @@ class Book extends Model
     }
     public function pinjaman()
     {
-        return $this->hasMany(Pinjaman::class, 'kode_buku');
+        return $this->hasMany(Pinjaman::class, 'book_id');
     }
 
     public static function boot()
@@ -52,33 +55,26 @@ class Book extends Model
         });
 
         self::created(function ($book) {
-            if (request()->hasFile('image')) {
-                $uploaded = Image::uploadImage(request()->file('image'));
-                $book->image()->create([
-                    'alt' => Image::getAlt(request()->file('image')),
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
-                    'imageable_id' => $book->id,
-                    'imageable_type' => "App\Models\Book"
-                ]);
-            }
+            $image = request()->file('image');
+            $uploaded = Image::uploadImage($image);
+            Image::create([
+                'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+                'src' => 'images/' . $uploaded['src']->basename,
+                'alt' => Image::getAlt($image),
+                'imageable_id' => $book->id,
+                'imageable_type' => "App\Models\Book"
+            ]);
         });
 
         self::updating(function ($book) {
-            // ... code here
-        });
-
-        self::updated(function ($book) {
+            $new_image = request()->file('image');
             if (request()->hasFile('image')) {
-                $uploaded = Image::uploadImage(request()->file('image'));
-                if ($book->image ?? false) {
-                    Storage::delete($book->image->thumb);
-                    Storage::delete($book->image->src);
-                }
-                $book->image()->update([
-                    'alt' => Image::getAlt(request()->file('image')),
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+                $book->images()->delete();
+                $updated = Image::uploadImage($new_image);
+                Image::create([
+                    'thumb' => 'thumbnails/' . $updated['thumb']->basename,
+                    'src' => 'images/' . $updated['src']->basename,
+                    'alt' => Image::getAlt($new_image),
                     'imageable_id' => $book->id,
                     'imageable_type' => "App\Models\Book"
                 ]);
@@ -86,7 +82,7 @@ class Book extends Model
         });
 
         self::deleted(function ($book) {
-            $book->image()->delete();
+            $book->images()->delete();
         });
     }
 }

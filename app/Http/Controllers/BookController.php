@@ -52,10 +52,13 @@ class BookController extends Controller
         $validator = Validator::make($request->all(), [
             'judul' => 'required|string',
             'kode_buku' => 'required|string|unique:books,kode_buku',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|numeric',
             'pengarang' => 'required|string',
+            'penerbit' => 'required|string',
             'dana' => 'required|string',
-            'tahun' => 'required|integer',
+            'tahun' => 'required|numeric',
+            'tahun_terbit' => 'required|numeric',
+            'no_rak' => 'required|numeric',
             'description' => 'nullable|string',
         ]);
         if ($validator->fails()) {
@@ -67,8 +70,11 @@ class BookController extends Controller
             'kode_buku' => $validated['kode_buku'],
             'category_id' => $validated['category_id'] == 0 ? NULL : $validated['category_id'],
             'pengarang' => $validated['pengarang'],
+            'penerbit' => $validated['penerbit'],
             'dana' => $validated['dana'],
             'tahun' => $validated['tahun'],
+            'tahun_terbit' => $validated['tahun_terbit'],
+            'no_rak' => $validated['no_rak'],
             'description' => $validated['description'],
         ]);
         if ($created_book) {
@@ -97,10 +103,13 @@ class BookController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'judul' => 'required|string',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|numeric',
             'pengarang' => 'required|string',
+            'penerbit' => 'required|string',
             'dana' => 'required|string',
-            'tahun' => 'required|integer',
+            'tahun' => 'required|numeric',
+            'tahun_terbit' => 'required|numeric',
+            'no_rak' => 'required|numeric',
             'description' => 'nullable|string',
         ]);
         if ($validator->fails()) {
@@ -112,8 +121,11 @@ class BookController extends Controller
             'judul' => $validated['judul'],
             'category_id' => $validated['category_id'] == 0 ? NULL : $validated['category_id'],
             'pengarang' => $validated['pengarang'],
+            'penerbit' => $validated['penerbit'],
             'dana' => $validated['dana'],
             'tahun' => $validated['tahun'],
+            'tahun_terbit' => $validated['tahun_terbit'],
+            'no_rak' => $validated['no_rak'],
             // 'description' => $validated['description'],
         ]);
         if ($updated_book) {

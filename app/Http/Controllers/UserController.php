@@ -24,6 +24,14 @@ class UserController extends Controller
         return view('admin.siswa.siswa-all', $data);
     }
 
+    public function addStudent()
+    {
+        $data = [
+           'title' => 'Tambah Data Siswa | E-Library SMANDUTA',
+        ];
+        return view('admin.siswa.siswa-add', $data);
+    }
+
     public function requestEmail()
     {
         $data = [
@@ -75,7 +83,7 @@ class UserController extends Controller
         );
      
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('main')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 
@@ -125,22 +133,27 @@ class UserController extends Controller
         }
         return redirect()->back()->with('error', 'Login Failed! <br> Please Try Again');
     }
+    
     public function attemptRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:8|max:50',
-            'email' => 'required|email:dns',
+            'email' => 'required|email:dns|unique:users,email',
             'nis_nip' => 'required|integer',
             'alamat' => 'required|string',
             'tlp' => 'required|numeric',
             'jurusan_jabatan' => 'required|string',
-            'password' => 'required|string',
-            'password_confirm' => 'required|same:password'
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OOPS! <br> An Error Occurred During Registration!');
         }
+
         $validated = $validator->validate();
+
+        // Generate a random password
+        $generatedPassword = 'password123'; // Adjust the password length as needed
+
         $user_is_created = User::create([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],
@@ -148,25 +161,19 @@ class UserController extends Controller
             'tlp' => $validated['tlp'],
             'alamat' => $validated['alamat'],
             'jurusan_jabatan' => $validated['jurusan_jabatan'],
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make($generatedPassword),
         ]);
-        if ($user_is_created) {
-            if ($request->redirect_login) {
-                if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
-                    return redirect()->route('auth')->with('success', 'Login Success! <br> Welcome ' . auth()->user()->name);
-                }
-                return redirect()->route('login')->with('error', 'Otomatic Login Failed! <br> Try Login using Manual Method!');
-            }
-            return redirect()->route('login')->with('success', 'New Account Created! <br> Please Login Using Your New Account');
+        if ($user_is_created->fails()) {
+            return redirect()->back()->with('error', 'OOPS! <br> Kesalahan Dalam menambahkan data!');
         }
-        redirect()->route('login')->with('error', 'Register Failed! <br> Please Try Again Later!');
+        return redirect()->route('manage_siswa.all')->with('success', 'Data Siswa berhasil ditambahkan!');
     }
     public function logout()
     {
         Session::flush();
         session()->invalidate();
         Auth::logout();
-        return redirect()->route('login')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
+        return redirect()->route('main')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
     }
     public function detailProfile(User $user)
     {

@@ -4,14 +4,14 @@
     <div class="content col-span-12">
         <div class="intro-y flex items-center -mt-10">
             <h2 class="text-xl font-medium">
-                Tambah Data Pinjaman
+                Form Pengembalian Buku
             </h2>
             <input type="hidden" value="0" id="package_id">
         </div>
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">
                 <!-- BEGIN: Form Layout -->
-                <form action="{{ route('manage_pinjaman.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('manage_kembali.update') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="intro-y box p-5">
                         <div class="mt-3">

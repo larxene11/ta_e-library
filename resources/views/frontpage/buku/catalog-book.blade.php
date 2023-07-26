@@ -1,15 +1,15 @@
 @extends('layouts.front-layout')
+@section('head')
+@endsection
 @section('body')
+<div class="container mx-auto">
     {{-- BANNER --}}
     <div class="lg:h-full w-full md:h-[500px] h-[500px] relative">
         <img src="{{ asset('dist/images/book1.jpg') }}" alt="" class="object-cover object-center w-full h-96">
         <div class="text-center text-white absolute top-[50%] left-[50%] -translate-x-[50%] w-full -translate-y-[50%]">
-            <h1 class="uppercase lg:px-96 md:px-32 px-10 font-bold lg:text-6xl md:text-3xl text-xl"
-                style="text-shadow: 2px 2px 10px rgb(70, 70, 70);">Selamat Datang di Perpustakaan SMA Negeri 2 Kuta
-            </h1>
-            <h5 class="lg:text-xl md:text-lg text-base font-normal lg:mt-5 mt-2 md:px-32 px-10"
-                style="text-shadow: 2px 2px 10px rgb(70, 70, 70);">Membaca Adalah Jembatan Menuju Kesuksesan
-            </h5>
+            <h2 class="uppercase lg:px-96 md:px-32 px-10 font-bold lg:text-6xl md:text-5xl text-3xl"
+                style="text-shadow: 2px 2px 10px rgb(70, 70, 70);">Hasil Pencarian
+            </h2>
         </div>
     </div>
     {{-- End BANNER --}}
@@ -41,13 +41,12 @@
         </div>
     </form>
     {{-- End Search --}}
-    {{-- Buku all --}}
     <div class="px-5 my-5">
-        <h4 class="font-semibold lg:text-2xl mb-3 lg:text-left md:text-left text-center ">
-            Buku yang baru ditambahkan
-        </h4>
+        <h3>
+            All Book
+        </h3>
         <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
-            @foreach ($books as $items)
+            @forelse ($books as $items)
                 <div class="block">
                     <a href="#">
                         <div
@@ -67,8 +66,14 @@
                         </div>
                     </a>
                 </div>
-            @endforeach
+                @empty
+                <div class="">
+                    <h3 class="text-red-500 text-center">Data Buku tidak ditemukan.</h3>
+                </div>
+                
+            @endforelse
         </div>
     </div>
-    {{-- End Buku all --}}
+        
+</div>
 @endsection

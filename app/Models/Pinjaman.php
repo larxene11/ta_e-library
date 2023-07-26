@@ -34,7 +34,7 @@ class Pinjaman extends Model
     }
     public function book()
     {
-        return $this->hasMany(Book::class, 'kode_buku');
+        return $this->hasMany(Book::class, 'book_id');
     }
 
     // // Fungsi untuk menangani pengembalian buku

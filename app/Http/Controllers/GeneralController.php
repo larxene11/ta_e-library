@@ -13,55 +13,36 @@ use Illuminate\Support\Facades\Validator;
 class GeneralController extends Controller
 {
     
-    public function search(Request $request)
+    public function katalog()
     {
-        $searchQuery = $request->input('query');
-
-        $results = Book::where(function ($queryBuilder) use ($searchQuery) {
-            $queryBuilder->whereHas('category', function ($query) use ($searchQuery) {
-                $query->where('name', 'LIKE', "%{$searchQuery}%");
-            })
-            ->orWhere('pengarang', 'LIKE', "%{$searchQuery}%")
-            ->orWhere('judul', 'LIKE', "%{$searchQuery}%");
-        })->get();
-
         $data = [
-            'title' => 'Hasil Pencarian | E-Library SMANDUTA',
-            'results' => $results
+            'title' => 'Books Catalog | E-Library SMANDUTA',
+            'books' => Book::latest()->filter(request(['search']))->get()->groupBy('judul'),
+            'category' => Category::latest()->get()
         ];
-        return view('frontpage.buku.search-result', $data);
+        return view('frontpage.buku.catalog-book', $data);
     }
     
-    public function booksByCategory($categoryId)
+    public function booksByCategory(Category $category)
     {
         $data = [
-            'title' => 'Books By Category | E-Library SMANDUTA',
-            'category' => Category::get(),
-            'books' => Book::where('category_id', $categoryId)->get(),
+            'title' => 'Books Catalog | Bali Tour Driver',
+            'books' => $category->books,
+            'name' => $category->name,
+            'category' => Category::latest()->get()
         ];
-        return view('frontpage.buku.search-result', $data);
+        return view('frontpage.buku.catalog-book', $data);
     }
 
     public function main()
     {
-        $books = Book::orderBy('created_at', 'desc')->take(5)->get();
+        $books = Book::orderBy('created_at', 'desc')->take(4)->get();
         $data = [
             'title' => 'Homepage | E-Library SMANDUTA',
             'category' => Category::get(),
             'books' => $books,
         ];
         return view('frontpage.main.main', $data);
-    }
-    
-    public function books()
-    {
-        $data = [
-            'title' => 'Books | E-Library SMANDUTA',
-            'books' => Book::all(),
-            'name' => 'All Books',
-            'categories' => Category::first()->get(),
-        ];
-        return view('frontpage.category.category', $data);
     }
 
     public function detailBook(Book $books)

@@ -26,11 +26,10 @@ use App\Http\Controllers\KunjunganController;
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'ispegawai']);
-    Route::get('/dashboard/employees', 'allPegawai')->name('manage_pegawai.all')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard/students/create', 'addStudent')->name('manage_siswa.add')->middleware(['auth', 'ispegawai']);
     Route::get('/login', 'login')->name('login')->middleware('guest');
     Route::post('/login', 'attemptLogin')->name('attempt_login')->middleware('guest');
-    Route::get('/register', 'register')->name('register')->middleware('guest');
-    Route::post('/register', 'attemptRegister')->name('attempt_register')->middleware('guest');
+    Route::post('/dashboard/students/store', 'attemptRegister')->name('attempt_register')->middleware(['auth', 'ispegawai']);
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
     Route::get('/forgot-password', 'requestEmail')->name('password.request')->middleware('guest');
     Route::post('/forgot-password', 'checkEmail')->name('password.email')->middleware('guest');
@@ -44,8 +43,8 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(GeneralController::class)->group(function () {
     Route::get('/', 'main')->name('main');
-    Route::get('/buku/search/results', 'search')->name('buku-search');
-    Route::get('/buku/{category:name}', 'booksByCategory')->name('buku-category');
+    Route::get('/catalog', 'katalog')->name('buku-catalog');
+    Route::get('/catalog/{category:name}/books', 'booksByCategory')->name('buku-category');
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
 });
 
@@ -82,6 +81,8 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::get('/dashboard/pinjaman', 'allPinjaman')->name('manage_pinjaman.all');
     Route::get('/dashboard/pinjaman/create', 'createPinjaman')->name('manage_pinjaman.create');
     Route::post('/dashboard/pinjaman/create', 'storePinjaman')->name('manage_pinjaman.store');
+    Route::get('/dashboard/pengembalian', 'kembaliBuku')->name('manage_kembali.save');
+    Route::post('/dashboard/pengembalian/save', 'saveKembali')->name('manage_kembali.update');
     Route::get('/dashboard/pinjaman/{pinjaman:id}/update', 'updatePinjaman')->name('manage_pinjaman.update');
     Route::patch('/dashboard/pinjaman/{pinjaman:id}', 'patchPinjaman')->name('manage_pinjaman.patch');
     Route::delete('/dashboard/pinjaman/{pinjaman:id}/delete', 'deletePinjaman')->name('manage_pinjaman.delete');
