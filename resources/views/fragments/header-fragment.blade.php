@@ -13,10 +13,10 @@
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
       <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg bg-cyan-700 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-cyan-700">
         <li>
-          <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Home</a>
+          <a href="{{ route('main') }}" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Home</a>
         </li>
         <li>
-          <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Catalog</a>
+          <a href="{{ route('buku-catalog') }}" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Catalog</a>
         </li>
         <li>
           <a href="{{ route('login') }}" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Sign In</a>

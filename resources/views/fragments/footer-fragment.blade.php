@@ -6,12 +6,24 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-Library SMANDUTA</span>
             </a>
             <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                <li>
-                    <a href="#" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
-                </li>
+                @guest
+                    <li>
+                        <a href="#" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
+                    </li>
+                @else
+                    <li>
+                        <a href="#" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 text-white hover:underline md:mr-6">Riwayat</a>
+                    </li>
+                @endguest
             </ul>
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

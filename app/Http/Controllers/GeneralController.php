@@ -16,21 +16,22 @@ class GeneralController extends Controller
     public function katalog()
     {
         $data = [
-            'title' => 'Hasil Pencarian | E-Library SMANDUTA',
-            'books' => Book::latest()->filter(request(['category', 'search'])),
+            'title' => 'Books Catalog | E-Library SMANDUTA',
+            'books' => Book::latest()->filter(request(['search']))->get()->groupBy('judul'),
             'category' => Category::latest()->get()
         ];
         return view('frontpage.buku.catalog-book', $data);
     }
     
-    public function booksByCategory($categoryId)
+    public function booksByCategory(Category $category)
     {
         $data = [
-            'title' => 'Books By Category | E-Library SMANDUTA',
-            'category' => Category::get(),
-            'books' => Book::where('category_id', $categoryId)->get(),
+            'title' => 'Books Catalog | Bali Tour Driver',
+            'books' => $category->books,
+            'name' => $category->name,
+            'category' => Category::latest()->get()
         ];
-        return view('frontpage.buku.search-result', $data);
+        return view('frontpage.buku.catalog-book', $data);
     }
 
     public function main()
@@ -42,17 +43,6 @@ class GeneralController extends Controller
             'books' => $books,
         ];
         return view('frontpage.main.main', $data);
-    }
-    
-    public function books()
-    {
-        $data = [
-            'title' => 'Books | E-Library SMANDUTA',
-            'books' => Book::all(),
-            'name' => 'All Books',
-            'categories' => Category::first()->get(),
-        ];
-        return view('frontpage.category.category', $data);
     }
 
     public function detailBook(Book $books)

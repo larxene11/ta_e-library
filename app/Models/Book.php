@@ -22,11 +22,13 @@ class Book extends Model
                 $query->where('name', $category);
             });
         });
-
+    
         $query->when($filters['search'] ?? false, function ($query, $search) {
-            return $query->where('judul', 'like', '%' . $search . '%')->orWhere('kode_buku', function ($query) use ($search) {
-                $query->orWhere('pengarang', 'like', '%' . $search . '%');
-            });
+            return $query->where('judul', 'like', '%' . $search . '%')
+                         ->orWhere(function ($query) use ($search) {
+                             $query->where('kode_buku', 'like', '%' . $search . '%')
+                                   ->orWhere('pengarang', 'like', '%' . $search . '%');
+                         });
         });
     }
 

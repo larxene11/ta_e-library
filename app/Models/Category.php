@@ -23,10 +23,8 @@ class Category extends Model
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%')->orWhereHas('books', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')->orWhere('kode_buku', '=', $search);
+            return $query->where('name', 'like', '%' . $search . '%');
             });
-        });
     }
     public static function boot()
     {

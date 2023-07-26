@@ -37,7 +37,7 @@
         <a href="{{ route('main') }}" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Home</a>
       </li>
       <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Catalog</a>
+        <a href="{{ route('buku-catalog') }}" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">Catalog</a>
       </li>
       <li>
         <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-white md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0 ">History</a>
