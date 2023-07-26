@@ -13,23 +13,14 @@ use Illuminate\Support\Facades\Validator;
 class GeneralController extends Controller
 {
     
-    public function search(Request $request)
+    public function katalog()
     {
-        $searchQuery = $request->input('query');
-
-        $results = Book::where(function ($queryBuilder) use ($searchQuery) {
-            $queryBuilder->whereHas('category', function ($query) use ($searchQuery) {
-                $query->where('name', 'LIKE', "%{$searchQuery}%");
-            })
-            ->orWhere('pengarang', 'LIKE', "%{$searchQuery}%")
-            ->orWhere('judul', 'LIKE', "%{$searchQuery}%");
-        })->get();
-
         $data = [
             'title' => 'Hasil Pencarian | E-Library SMANDUTA',
-            'results' => $results
+            'books' => Book::latest()->filter(request(['category', 'search'])),
+            'category' => Category::latest()->get()
         ];
-        return view('frontpage.buku.search-result', $data);
+        return view('frontpage.buku.catalog-book', $data);
     }
     
     public function booksByCategory($categoryId)
