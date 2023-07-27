@@ -44,6 +44,7 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(GeneralController::class)->group(function () {
     Route::get('/', 'main')->name('main');
     Route::get('/catalog', 'katalog')->name('buku-catalog');
+    Route::get('/book/{books:judul}', 'detailBook')->name('buku-detail');
     Route::get('/catalog/{category:name}/books', 'booksByCategory')->name('buku-category');
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
 });

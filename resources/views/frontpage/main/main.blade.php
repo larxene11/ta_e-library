@@ -41,7 +41,7 @@
         </div>
     </form>
     {{-- End Search --}}
-    {{-- Buku all --}}
+    {{-- Buku New --}}
     <div class="px-5 my-5">
         <h4 class="font-semibold lg:text-2xl mb-3 lg:text-left md:text-left text-center ">
             Buku yang baru ditambahkan
@@ -49,7 +49,7 @@
         <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
             @foreach ($books as $items)
                 <div class="block">
-                    <a href="#">
+                    <a href="{{ route('buku-detail', ['books' => $items]) }}">
                         <div
                             class="rounded-lg border hover:shadow-lg transition duration-300 ease-linear hover:-translate-y-2 bg-white max-w-sm min-h-full">
                             <img class="rounded-t-lg lg:h-[200px] md:h-[100px] object-cover h-[100px] w-full object-center"
@@ -70,5 +70,54 @@
             @endforeach
         </div>
     </div>
-    {{-- End Buku all --}}
+    {{-- End Buku New --}}
+
+    {{-- Buku yang sering dipinjam  --}}
+    <div class="px-5 my-5">
+        <h4 class="font-semibold lg:text-2xl mb-3 lg:text-left md:text-left text-center ">
+            Buku yang sering di pinjam
+        </h4>
+        <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
+            @foreach ($mostBorrow as $books)
+                <div class="block">
+                    <a href="{{ route('buku-detail', ['books' => $items]) }}">
+                        <div
+                            class="rounded-lg border hover:shadow-lg transition duration-300 ease-linear hover:-translate-y-2 bg-white max-w-sm min-h-full">
+                            <img class="rounded-t-lg lg:h-[200px] md:h-[100px] object-cover h-[100px] w-full object-center"
+                            src="{{ asset($books->images->count() ? 'storage/' . $books->images->src : 'dist/images/default.jpg')}}" alt="{{ $books->judul }}" />
+                            <div class="lg:p-3 md:p-3 p-2">
+                                <h5 class="text-gray-900 lg:text-lg md:text-sm text-xs font-semibold">{{ $books->judul }}
+                                </h5>
+                                <p
+                                    class="text-gray-700 font-normal lg:text-base text-sm">
+                                    {{ $books->borrow_count }} kali di pinjam
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    {{-- End Buku yang sering dipinjam --}}
+    {{-- user yang sering melakukan pinjaman --}}
+    <div class="p-5 bg-cyan-50">
+        <h4 class="font-semibold lg:text-2xl mb-3 lg:text-left md:text-left text-center ">
+            Pembaca Terbaik
+        </h4>
+        <div class="flex">
+            @foreach ($users as $borrowers)
+            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
+                <div class="flex flex-col items-center py-3">
+                    <img class="w-24 h-24 mb-3 rounded-full shadow-lg" 
+                    src="{{ asset($borrowers->images->count() ? 'storage/' . $borrowers->images->src : 'dist/images/user.jpeg')}}" alt="{{ $borrowers->name }}"/>
+                    <h5 class="mb-1 text-xl font-medium text-gray-900 ">{{ $borrowers->name }}</h5>
+                    <span class="text-sm text-gray-500 ">{{ $borrowers->borrow_count }} Loans</span>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    
+
 @endsection
