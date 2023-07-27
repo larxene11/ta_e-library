@@ -1,6 +1,4 @@
 @extends('layouts.front-layout')
-@section('head')
-@endsection
 @section('body')
 <div class="container mx-auto">
     {{-- BANNER --}}
@@ -8,7 +6,7 @@
         <img src="{{ asset('dist/images/book1.jpg') }}" alt="" class="object-cover object-center w-full h-96">
         <div class="text-center text-white absolute top-[50%] left-[50%] -translate-x-[50%] w-full -translate-y-[50%]">
             <h2 class="uppercase lg:px-96 md:px-32 px-10 font-bold lg:text-6xl md:text-5xl text-3xl"
-                style="text-shadow: 2px 2px 10px rgb(70, 70, 70);">Hasil Pencarian
+                style="text-shadow: 2px 2px 10px rgb(70, 70, 70);">Catalog Books
             </h2>
         </div>
     </div>
@@ -42,13 +40,10 @@
     </form>
     {{-- End Search --}}
     <div class="px-5 my-5">
-        <h3>
-            All Book
-        </h3>
         <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
             @forelse ($books as $items)
                 <div class="block">
-                    <a href="#">
+                    <a href="{{ route('buku-detail', ['books' => $items]) }}">
                         <div
                             class="rounded-lg border hover:shadow-lg transition duration-300 ease-linear hover:-translate-y-2 bg-white max-w-sm min-h-full">
                             <img class="rounded-t-lg lg:h-[200px] md:h-[100px] object-cover h-[100px] w-full object-center"
@@ -70,7 +65,6 @@
                 <div class="">
                     <h3 class="text-red-500 text-center">Data Buku tidak ditemukan.</h3>
                 </div>
-                
             @endforelse
         </div>
     </div>
