@@ -54,7 +54,7 @@ class User extends Authenticatable
     //relation
     public function images()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphOne(Image::class, 'imageable');
     }
     public function pinjaman()
     {
@@ -70,61 +70,35 @@ class User extends Authenticatable
     {
         parent::boot();
         self::creating(function ($user) {
-            $user->nis_nip = request()->nis_nip;
             $user->level = 'siswa';
         });
-
-        self::created(function ($user) {
-            foreach (request()->file('images') ?? [] as $key => $image) {
-                $uploaded = Image::uploadImage($image);
-                Image::create([
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'alt' => Image::getAlt($image),
-                    'imageable_id' => $user->nis_nip,
-                    'imageable_type' => "App\Models\User"
-                ]);
-            }
-        });
-
+        
         self::updating(function ($user) {
-
-            $img_array = explode(',', request()->deleted_images);
-            array_pop($img_array);
-
-            // dd($img_array);
-            // dd(Image::whereIn('id', $img_array)->get());
-            foreach ($img_array as $key => $image_id) {
-                $will_deleted_image = Image::find($image_id);
-                if (!is_null($will_deleted_image)) {
-                    $will_deleted_image->delete();
-                }
-            }
-
-            foreach (request()->file('images') ?? [] as $key => $image) {
-                $uploaded = Image::uploadImage($image);
+            $new_image = request()->file('image');
+            if (request()->hasFile('image')) {
+                $user->images()->delete();
+                $updated = Image::uploadImage($new_image);
                 Image::create([
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'alt' => Image::getAlt($image),
+                    'thumb' => 'thumbnails/' . $updated['thumb']->basename,
+                    'src' => 'images/' . $updated['src']->basename,
+                    'alt' => Image::getAlt($new_image),
                     'imageable_id' => $user->nis_nip,
                     'imageable_type' => "App\Models\User"
                 ]);
-            }
-        });
-
-        self::updated(function ($model) {
-            // ... code here
-        });
-
-        self::deleting(function ($user) {
-            foreach ($user->images as $key => $image) {
-                $image->delete();
+            }else{
+                $uploaded = Image::uploadImage($new_image);
+                Image::create([
+                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+                    'src' => 'images/' . $uploaded['src']->basename,
+                    'alt' => Image::getAlt($new_image),
+                    'imageable_id' => $user->nis_nip,
+                    'imageable_type' => "App\Models\User"
+                ]);
             }
         });
 
         self::deleted(function ($user) {
-            $user->detail()->delete();
+            $user->images()->delete();
         });
     }
 }

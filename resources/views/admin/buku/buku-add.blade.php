@@ -107,19 +107,19 @@
                             <textarea id="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" name="description" placeholder="Input Product Description">{{ old('description')??''}}</textarea>
                         </div>
                         <br>
-                        <div class="upload__box">
-                            @error('images[]')
+                        <div class="upload__box mt-3">
+                            @error('image')
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
                             <div class="upload__btn-box">
                                 <label class="upload__btn btn btn-primary">
-                                    <p class="">Unggah Gambar  
-                                    </p>
-                                    <input type="file" name="images[]" multiple data-max_length="20"
-                                        class="upload__inputfile">
+                                    <p>Choose An Image</p>
+                                    <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
                                 </label>
                             </div>
-                            <div class="upload__img-wrap"></div>
+                            <div class="upload__img-wrap">
+                                <img id="img_preview" class="upload__img-box" src="" alt="">
+                            </div>
                         </div>
                         <div class="text-right mt-5">
                             <a href="{{ route('manage_book.all') }}"
@@ -139,20 +139,16 @@
 @section('script')
 <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>
     <script>
-        function trigger_file_input() {
-            $('#service_image').trigger('click');
-        }
+        function logoPreview(){
+            let inputImg=document.getElementById("img_upload");
+            let imgPreview=document.getElementById("img_preview");   
 
-        function previewImage(inputEl, imageEl) {
-            const image = document.querySelector(inputEl)
-            const imagePreview = document.querySelector(imageEl);
-            const fileImage = new FileReader();
-            fileImage.readAsDataURL(image.files[0]);
-            fileImage.onload = function(e) {
-                imagePreview.src = e.target.result;
+            let imgReader=new FileReader();
+            imgReader.readAsDataURL(inputImg.files[0]);
+            console.log(inputImg.files[0]);
+            imgReader.onload=function(e){
+                imgPreview.setAttribute("src",e.target.result);
             }
-
-            return [image, imagePreview];
         }
     </script>
 @endsection

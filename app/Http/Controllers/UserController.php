@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -217,11 +218,25 @@ class UserController extends Controller
             'alamat' => 'required|string',
             'tlp' => 'required|numeric',
             'jurusan_jabatan' => 'required|string',
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg'
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OPPS! <br> An Error Occurred During Updating!');
         }
         $validated = $validator->validate();
+        // dd($validated);
+        // // Proses upload gambar jika ada
+        // if ($request->hasFile('profile_picture')) {
+        //     // Hapus gambar lama jika ada
+        //     if ($user->profile_picture) {
+        //         Storage::disk('public')->delete($user->profile_picture);
+        //     }
+
+        //     // Upload gambar baru dan simpan pathnya
+        //     $imagePaths = self::uploadImage($request->file('profile_picture'));
+        //     $validatedData['profile_picture'] = $imagePaths['src'];
+        // }
+
         $updated_profile = $user->update([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],

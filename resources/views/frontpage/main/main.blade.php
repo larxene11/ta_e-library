@@ -110,7 +110,7 @@
             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                 <div class="flex flex-col items-center py-3">
                     <img class="w-24 h-24 mb-3 rounded-full shadow-lg" 
-                    src="{{ asset($borrowers->images->count() ? 'storage/' . $borrowers->images->src : 'dist/images/user.jpeg')}}" alt="{{ $borrowers->name }}"/>
+                    src="{{ asset($borrowers->images ? 'storage/' . $borrowers->images->src : 'dist/images/user.jpeg')}}" alt="{{ $borrowers->name }}"/>
                     <h5 class="mb-1 text-xl font-medium text-gray-900 ">{{ $borrowers->name }}</h5>
                     <span class="text-sm text-gray-500 ">{{ $borrowers->borrow_count }} Loans</span>
                 </div>

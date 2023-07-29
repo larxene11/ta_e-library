@@ -7,7 +7,7 @@
   <div class="flex items-center md:order-2">
       <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
         <span class="sr-only">Open user menu</span>
-        <img class="w-8 h-8 rounded-full" src="{{ asset(auth()->user()->images->count() ? 'storage/' . auth()->user()->images->src : 'dist/images/user.jpeg')}}" alt="user photo">
+        <img class="w-8 h-8 rounded-full" src="{{ asset(auth()->user()->images ? 'storage/' . auth()->user()->images->src : 'dist/images/user.jpeg')}}" alt="user photo">
       </button>
       <!-- Dropdown menu -->
       <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow " id="user-dropdown">

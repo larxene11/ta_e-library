@@ -6,10 +6,12 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Pinjaman;
+use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class GeneralController extends Controller
@@ -49,11 +51,12 @@ class GeneralController extends Controller
         ->get();
 
         //pengambilan data user yang sering meminjam
-        $mostFrequentBorrowers = User::select(DB::raw('MAX(users.name) as name'), DB::raw('COUNT(pinjamen.id) as borrow_count'))
+        $mostFrequentBorrowers = User::select('users.nis_nip', 'users.name', DB::raw('COUNT(pinjamen.id) as borrow_count'))
         ->join('pinjamen', 'pinjamen.nis', '=', 'users.nis_nip')
-        ->groupBy('users.nis_nip')
+        ->groupBy('users.nis_nip', 'users.name')
         ->orderByDesc('borrow_count')
         ->limit(4)
+        ->with('images') // Load relasi images untuk mencegah N + 1 query
         ->get();
 
         $data = [
@@ -82,7 +85,7 @@ class GeneralController extends Controller
     public function my_account(User $user)
     {
         $data = [
-            'user' => $user->where('nis_nip', auth()->user()->id)->first(),
+            'user' => $user->where('nis_nip', auth()->user()->nis_nip)->first(),
             'title' => 'Profile | E-Library SMANDUTA',
         ];
         return view('frontpage.profile.my-account', $data);
@@ -104,6 +107,7 @@ class GeneralController extends Controller
     
     public function patchProfile(Request $request, User $user)
     {
+        // dd($request->image);
         if ($request->email != $user->email) {
             if (User::where('email', $user->email)->whereNot('nis_nip', $user->nis_nip)->count()) {
                 return redirect()->back()->withInput()->with('error', 'This Email Has Been Used, Please Input Another Email');
@@ -127,11 +131,29 @@ class GeneralController extends Controller
             'alamat' => 'required|string',
             'tlp' => 'required|numeric',
             'jurusan_jabatan' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg'
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OPPS! <br> An Error Occurred During Updating!');
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OPPS! <br> ada yang salah dalam melakukan update');
         }
         $validated = $validator->validate();
+
+        $new_image = request()->file('image');
+        // Proses upload gambar jika ada
+        if ($request->hasFile('image')) {
+            if ($user->images) {
+                $user->images()->delete();
+                Storage::delete($user->images);
+            }
+            $uploaded = Image::uploadImage($new_image);
+                Image::create([
+                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+                    'src' => 'images/' . $uploaded['src']->basename,
+                    'alt' => Image::getAlt($new_image),
+                    'imageable_id' => $user->nis_nip,
+                    'imageable_type' => "App\Models\User"
+                ]);
+        }
         $updated_profile = $user->update([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],
@@ -144,4 +166,5 @@ class GeneralController extends Controller
         }
         redirect()->route('my-account')->with('error', 'Update Proccess Failed! <br> Please Try Again Later!');
     }
+
 }
