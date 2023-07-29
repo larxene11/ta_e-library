@@ -47,6 +47,8 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('/book/{books:judul}', 'detailBook')->name('buku-detail');
     Route::get('/catalog/{category:name}/books', 'booksByCategory')->name('buku-category');
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
+    Route::patch('/my-account/update/{user:email}', 'patchProfile')->name('manage-update.profile')->middleware('auth');
+    Route::get('/loan-history', 'showLoanHistory')->name('loan-history')->middleware('auth');
 });
 
 //route view tamplate

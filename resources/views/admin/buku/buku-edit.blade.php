@@ -116,8 +116,8 @@
                                 <div class="upload__btn-box">
                                     <label class="upload__btn btn btn-primary">
                                         <p>Choose An Image</p>
-                                        <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
                                     </label>
+                                    <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
                                 </div>
                                 <div class="upload__img-wrap">
                                     <img id="img_preview" class="upload__img-box" src="{{ isset($book->images->src)?asset('storage/'.$book->images->src):''}}"
