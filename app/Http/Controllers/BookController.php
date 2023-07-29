@@ -7,6 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class BookController extends Controller
 {
@@ -27,6 +29,13 @@ class BookController extends Controller
             'categories' => Category::latest()->get(),
         ];
         return view('admin.buku.buku-add', $data);
+    }
+
+    public function exportPdf()
+    {
+        $books = Book::all();
+        $pdf = Pdf::loadView('pdf.buku-pdf', ['books' => $books]);
+        return $pdf->download('LaporanBuku-'.Carbon::now()->timestamp.'.pdf');
     }
 
     public function detailBook(Book $book)

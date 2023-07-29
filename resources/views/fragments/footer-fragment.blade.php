@@ -8,20 +8,20 @@
             <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                 @guest
                     <li>
-                        <a href="#" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
+                        <a href="{{ route('main') }}" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
+                        <a href="{{ route('buku-catalog') }}" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
                     </li>
                 @else
                     <li>
-                        <a href="#" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
+                        <a href="{{ route('main') }}" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
+                        <a href="{{ route('buku-catalog') }}" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
                     </li>
                     <li>
-                        <a href="#" class="mr-4 text-white hover:underline md:mr-6">Riwayat</a>
+                        <a href="{{ route('loan-history') }}" class="mr-4 text-white hover:underline md:mr-6">History</a>
                     </li>
                 @endguest
             </ul>

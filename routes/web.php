@@ -47,6 +47,8 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('/book/{books:judul}', 'detailBook')->name('buku-detail');
     Route::get('/catalog/{category:name}/books', 'booksByCategory')->name('buku-category');
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
+    Route::patch('/my-account/update/{user:email}', 'patchProfile')->name('manage-update.profile')->middleware('auth');
+    Route::get('/loan-history', 'showLoanHistory')->name('loan-history')->middleware('auth');
 });
 
 //route view tamplate
@@ -64,6 +66,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->gro
     Route::get('/dashboard/book/{book:kode_buku}', 'detailBook')->name('manage_book.detail');
     Route::get('/dashboard/book/{book:kode_buku}/update', 'updateBook')->name('manage_book.update');
     Route::patch('/dashboard/book/{book:kode_buku}', 'patchBook')->name('manage_book.patch');
+    Route::get('/export-pdf', 'exportPdf')->name('exportPDF.buku');
     Route::delete('/dashboard/book/{book:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 

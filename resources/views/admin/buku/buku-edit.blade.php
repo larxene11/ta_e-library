@@ -116,8 +116,8 @@
                                 <div class="upload__btn-box">
                                     <label class="upload__btn btn btn-primary">
                                         <p>Choose An Image</p>
-                                        <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
                                     </label>
+                                    <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="bookPreview()">
                                 </div>
                                 <div class="upload__img-wrap">
                                     <img id="img_preview" class="upload__img-box" src="{{ isset($book->images->src)?asset('storage/'.$book->images->src):''}}"
@@ -147,16 +147,18 @@
             $('#service_image').trigger('click');
         }
 
-        function previewImage(inputEl, imageEl) {
-            const image = document.querySelector(inputEl)
-            const imagePreview = document.querySelector(imageEl);
-            const fileImage = new FileReader();
-            fileImage.readAsDataURL(image.files[0]);
-            fileImage.onload = function(e) {
-                imagePreview.src = e.target.result;
-            }
+        function bookPreview(){
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img_preview');
 
-            return [image, imagePreview];
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
         }
     </script>
     <script>
