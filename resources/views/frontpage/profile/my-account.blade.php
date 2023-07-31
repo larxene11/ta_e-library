@@ -1,7 +1,7 @@
 @extends('layouts.front-layout')
 @section('body')
     {{-- BANNER --}}
-    <div class="lg:h-full w-full md:h-[500px] h-[500px] relative">
+    <div class="lg:h-full w-full md:h-[300px] h-[250px] relative">
         <img src="{{ asset('dist/images/book1.jpg') }}" alt="" class="object-cover object-center w-full h-96">
         <div class="text-center text-white absolute top-[50%] left-[50%] -translate-x-[50%] w-full -translate-y-[50%]">
             <h2 class="uppercase lg:px-96 md:px-32 px-10 font-bold lg:text-6xl md:text-5xl text-3xl"
@@ -15,13 +15,15 @@
             @csrf
             @method('PATCH')
             <div class="flex">
-                <div class="items-center justify-center mb-4">
+                <div class="items-center justify-center mr-6 mb-4">
                     <div class="w-40 h-40 bg-gray-300 overflow-hidden">
                         <img src="{{ asset($user->images ? 'storage/' . $user->images->src : 'dist/images/user.jpeg')}}" alt="user photo" class="img-preview">
                     </div>
-                    <div class="upload__box items-center mt-4">
-                        <label for="upload__btn profile_picture" class="block text-gray-700 font-bold">Profile Picture</label>
-                        <input type="file" name="image" id="img_upload" class="upload__inputfile form-input mt-1 w-full" onchange="userPreview()" accept="image/*">
+                    <div class="bg-cyan-700 p-1 text-center rounded-md mt-4">
+                        <label for="img_upload" class="text-white font-bold">
+                            <span class="text-sm">Change Picture</span>
+                            <input type="file" name="image" id="img_upload" class="opacity-0 absolute" onchange="userPreview()" accept="image/*">
+                        </label>
                     </div>
                 </div>
                 <div class="flex-grow">

@@ -9,14 +9,15 @@
             <div class="block xl:grid grid-cols-2 gap-4">
                 <!-- BEGIN: Login Info -->
                 <div class="hidden xl:flex flex-col min-h-screen">
-                    <a href="" class="-intro-x flex items-center pt-5">
-                        <img alt="E-Library SMANDUTA" class="w-6" src="{{ asset('dist/images/logo-asli.jpg') }}">
+                    <a href="{{ route('main') }}" class="-intro-x flex items-center pt-5">
+                        <img alt="E-Library SMANDUTA" class="w-6" src="{{ asset('dist/images/logofooter.png') }}">
                         <span class="text-white text-lg ml-3"> E-Library SMANDUTA </span> 
                     </a>
                     <div class="my-auto">
-                        <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="dist/images/illustration.svg">
-                        <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
-                            Sign In to Your Account.
+                        <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="dist/images/burunghantu.svg">
+                        <div class="-intro-x text-white font-normal text-3xl leading-tight mt-10">
+                            The more that you read, 
+                            <br>the more things you will know.
                         </div>
                     </div>
                 </div>
@@ -29,7 +30,7 @@
                             <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
                                 Sign In
                             </h2>
-                            <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">A few more clicks to sign in to your account. Manage all your e-commerce accounts in one place</div>
+                            <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">A few more clicks to sign in to your account. Enjoy your travel to E-Library SMANDUTA</div>
                             <div class="intro-x mt-8">
                                 <div class="mt-4">
                                     <input type="email" name="email" class="intro-x login__input form-control py-3 px-4"
@@ -51,7 +52,7 @@
                             </div>
                             <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
                                 <button
-                                    class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">Login</button>
+                                    class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">Sign In</button>
                             </div>
                         </form>
                     </div>

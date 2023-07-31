@@ -3,8 +3,6 @@
 @section('base_head')
     <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}" />
     {{-- @vite('resources/css/app.css') --}}
-    <script src="https://cdn.tiny.cloud/1/6fjd6rxh56kvz196ef63ti9bcq7vzntiwag1137qu07ckjx6/tinymce/6/tinymce.min.js"
-        referrerpolicy="origin"></script>
     @yield('head')
 @endsection
 
@@ -40,11 +38,6 @@
 
         <!-- BEGIN: JS Assets-->
         <script src="{{ asset('dist/js/app.js') }}"></script>
-        <script>
-            tinymce.init({
-                selector: 'textarea#default-editor'
-            });
-        </script>
         <!-- END: JS Assets-->
     </div>
 @endsection

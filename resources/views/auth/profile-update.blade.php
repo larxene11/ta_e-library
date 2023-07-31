@@ -17,55 +17,55 @@
                     </h2>
                 </div>
                 <div class="p-5">
-                    <div class="flex flex-col-reverse xl:flex-row">
-                        <div class="flex-1 mt-6 xl:mt-0">
-                            <div class="grid grid-cols-12 gap-x-5">
-                                <div class="col-span-12 2xl:col-span-6">
-                                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('profile.patch',['user' => auth()->user()]) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="flex flex-col-reverse xl:flex-row">
+                            <div class="flex-1 mt-6 xl:mt-0">
+                                <div class="grid grid-cols-12 gap-x-5">
+                                    <div class="col-span-12 2xl:col-span-6">
                                         <div>
-                                            <label for="update-profile-form-1" class="form-label">Display Name</label>
-                                            <input id="update-profile-form-1" type="text" class="form-control" placeholder="Input text" value="Kevin Spacey">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input id="name" type="text" name="name" class="form-control" placeholder="Input Your Name" value="{{ $user->name }}">
                                         </div>
                                         <div class="mt-3">
-                                            <label for="update-profile-form-2" class="form-label">Nearest MRT Station</label>
-                                            <input id="update-profile-form-1" type="text" class="form-control" placeholder="Input text" value="Kevin Spacey">
+                                            <label for="nis_nip" class="form-label">NIP</label>
+                                            <input id="nis_nip" type="text" name="nis_nip" class="form-control" placeholder="Input Your NIP" value="{{ $user->nis_nip }}">
                                         </div>
-                                        <div class="mt-3 2xl:mt-0">
-                                            <label for="update-profile-form-3" class="form-label">Postal Code</label>
-                                            <select id="update-profile-form-3" data-search="true" class="tom-select w-full">
-                                                <option value="1">018906 - 1 STRAITS BOULEVARD SINGA...</option>
-                                                <option value="2">018910 - 5A MARINA GARDENS DRIVE...</option>
-                                                <option value="3">018915 - 100A CENTRAL BOULEVARD...</option>
-                                                <option value="4">018925 - 21 PARK STREET MARINA...</option>
-                                                <option value="5">018926 - 23 PARK STREET MARINA...</option>
-                                            </select>
+                                        <div class="mt-3">
+                                            <label for="update-profile-form-3" class="form-label">Email</label>
+                                            <input id="email" type="text" name="email" class="form-control" placeholder="Input Your Email" value="{{ $user->email }}">
                                         </div>
                                         <div class="mt-3">
                                             <label for="update-profile-form-4" class="form-label">Phone Number</label>
-                                            <input id="update-profile-form-4" type="text" class="form-control" placeholder="Input text" value="65570828">
+                                            <input id="tlp" type="text" name="tlp" class="form-control" placeholder="Input Your Phone Number" value="{{ $user->tlp }}">
+                                        </div>
+                                        <div class="mt-3">
+                                            <label for="update-profile-form-4" class="form-label">Position</label>
+                                            <input id="jurusan_jabatan" type="text" name="jurusan_jabatan" class="form-control" placeholder="Input Your Position" value="{{ $user->jurusan_jabatan }}">
                                         </div>
                                         <div class="mt-3">
                                             <label for="update-profile-form-5" class="form-label">Address</label>
-                                            <textarea id="update-profile-form-5" class="form-control" placeholder="Adress">10 Anson Road, International Plaza, #10-11, 079903 Singapore, Singapore</textarea>
+                                            <textarea id="alamat" name="alamat" class="form-control" placeholder="Input Your Address">{{ $user->alamat }}</textarea>
                                         </div>
-                                    </form>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-20 mt-3">Save</button>
+                            </div>
+                            <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
+                                <div class="border-2 border-dashed shadow-sm border-slate-200/60 dark:border-darkmode-400 rounded-md p-5">
+                                    <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
+                                        <img class="rounded-md img-preview" src="{{ asset($user->images ? 'storage/' . $user->images->src : 'dist/images/user.jpeg')}}" alt="user photo">
+                                        <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-danger right-0 top-0 -mr-2 -mt-2"> <i data-lucide="x" class="w-4 h-4"></i> </div>
+                                    </div>
+                                    <div class="mx-auto cursor-pointer relative mt-5">
+                                        <label class="btn btn-primary w-full">Change Photo</label>
+                                        <input type="file" name="image" id="img_upload" class="w-full h-full top-0 left-0 absolute opacity-0" onchange="userPreview()">
+                                    </div>
                                 </div>
                             </div>
-                            <button type="" class="btn btn-primary w-20 mt-3">Save</button>
                         </div>
-                        <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
-                            <div class="border-2 border-dashed shadow-sm border-slate-200/60 dark:border-darkmode-400 rounded-md p-5">
-                                <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-                                    <img class="rounded-md" alt="Midone - HTML Admin Template" src="dist/images/profile-10.jpg">
-                                    <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-danger right-0 top-0 -mr-2 -mt-2"> <i data-lucide="x" class="w-4 h-4"></i> </div>
-                                </div>
-                                <div class="mx-auto cursor-pointer relative mt-5">
-                                    <button class="btn btn-primary w-full">Change Photo</button>
-                                    <input type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- END: Display Information -->
@@ -73,4 +73,23 @@
     </div>
 </div>
 <!-- END: Content -->
+@endsection
+@section('script')
+
+<script>
+    
+function userPreview(){
+    const image = document.querySelector('#img_upload');
+    const imgPreview = document.querySelector('.img-preview');
+
+    imgPreview.style.display = 'block';
+
+    const oFReader = new FileReader();
+    oFReader.readAsDataURL(image.files[0]);
+
+    oFReader.onload = function(oFREvent) {
+        imgPreview.src = oFREvent.target.result;
+    }
+}
+</script>
 @endsection

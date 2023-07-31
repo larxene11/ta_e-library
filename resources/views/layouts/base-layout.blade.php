@@ -11,6 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>{{ $title }}</title>
     @yield('base_head')
+    <link rel="shortcut icon" type="image/png" href="{{ asset('dist/images/logofooter.png') }}" />
 </head>
 
 <body>
