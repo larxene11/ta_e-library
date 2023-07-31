@@ -29,19 +29,19 @@
             <ul class="">
                 <li>
                     <a href="{{ route('manage_book.all') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                        <div class="side-menu__icon"> <i data-lucide="book"></i> </div>
                         <div class="side-menu__title"> Buku </div>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('manage_siswa.all') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                        <div class="side-menu__icon"> <i data-lucide="user"></i> </div>
                         <div class="side-menu__title"> Siswa </div>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('manage_category.all') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                        <div class="side-menu__icon"> <i data-lucide="list"></i> </div>
                         <div class="side-menu__title"> Kategori Buku </div>
                     </a>
                 </li>

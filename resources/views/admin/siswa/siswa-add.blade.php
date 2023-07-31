@@ -15,13 +15,15 @@
                     @csrf
                     <div class="intro-y box p-5">
                         <div class="mt-4">
-                            <input type="text" name="nis_nip" class="intro-x login__input form-control py-3 px-4"
+                            <label for="nis_nip" class="form-label">NIS</label>
+                            <input type="text" name="nis_nip" class="form-control"
                                 placeholder="Input Nomor Induk Siswa">
                             @error('nis_nip')
                                 <small class="text-xs text-red-500 ml-1 mt-1">{{ '*' . $message }}</small>
                             @enderror
                         </div>
                         <div class="mt-4">
+                            <label for="name" class="form-label">Name</label>
                             <input type="text" name="name" class="intro-x login__input form-control py-3 px-4"
                                 placeholder="Full Name">
                             @error('name')
@@ -29,6 +31,7 @@
                             @enderror
                         </div>
                         <div class="mt-4">
+                            <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" class="intro-x login__input form-control py-3 px-4"
                                 placeholder="Email">
                             @error('email')
@@ -36,6 +39,7 @@
                             @enderror
                         </div>
                         <div class="mt-4">
+                            <label for="tlp" class="form-label">Phone Number</label>
                             <input type="text" name="tlp" class="intro-x login__input form-control py-3 px-4"
                                 placeholder="Phone Number (+62xxxxxxxx)">
                             @error('tlp')
@@ -43,6 +47,7 @@
                             @enderror
                         </div>
                         <div class="mt-4">
+                            <label for="alamat" class="form-label">Address</label>
                             <input type="text" name="alamat" class="intro-x login__input form-control py-3 px-4"
                                 placeholder="Address">
                             @error('alamat')
@@ -50,8 +55,9 @@
                             @enderror
                         </div>
                         <div class="mt-4">
+                            <label for="jurusan" class="form-label">Departement</label>
                             <input type="text" name="jurusan_jabatan" class="intro-x login__input form-control py-3 px-4"
-                                placeholder="Jurusan">
+                                placeholder="Department">
                             @error('jurusan_jabatan')
                                 <small class="text-xs text-red-500 ml-1 mt-1">{{ '*' . $message }}</small>
                             @enderror

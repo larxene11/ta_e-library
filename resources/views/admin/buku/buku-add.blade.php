@@ -114,11 +114,11 @@
                             <div class="upload__btn-box">
                                 <label class="upload__btn btn btn-primary">
                                     <p>Choose An Image</p>
-                                    <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="logoPreview()">
+                                    <input type="file" name="image" id="img_upload" class="upload__inputfile" onchange="bookPreview()">
                                 </label>
                             </div>
                             <div class="upload__img-wrap">
-                                <img id="img_preview" class="upload__img-box" src="" alt="">
+                                <img id="img_preview" class="upload__img-box img_preview" src="" alt="">
                             </div>
                         </div>
                         <div class="text-right mt-5">
@@ -138,17 +138,19 @@
 
 @section('script')
 <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>
-    <script>
-        function logoPreview(){
-            let inputImg=document.getElementById("img_upload");
-            let imgPreview=document.getElementById("img_preview");   
+<script>
+    function bookPreview(){
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img_preview');
 
-            let imgReader=new FileReader();
-            imgReader.readAsDataURL(inputImg.files[0]);
-            console.log(inputImg.files[0]);
-            imgReader.onload=function(e){
-                imgPreview.setAttribute("src",e.target.result);
-            }
+        imgPreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
         }
-    </script>
+    }
+</script>
 @endsection

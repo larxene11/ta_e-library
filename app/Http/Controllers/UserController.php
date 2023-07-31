@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -195,6 +196,7 @@ class UserController extends Controller
 
     public function patchProfile(Request $request, User $user)
     {
+        // dd($request->image);
         if ($request->email != $user->email) {
             if (User::where('email', $user->email)->whereNot('nis_nip', $user->nis_nip)->count()) {
                 return redirect()->back()->withInput()->with('error', 'This Email Has Been Used, Please Input Another Email');
@@ -218,25 +220,29 @@ class UserController extends Controller
             'alamat' => 'required|string',
             'tlp' => 'required|numeric',
             'jurusan_jabatan' => 'required|string',
-            // 'image' => 'nullable|image|mimes:jpeg,png,jpg'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg'
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OPPS! <br> An Error Occurred During Updating!');
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OPPS! <br> ada yang salah dalam melakukan update');
         }
         $validated = $validator->validate();
-        // dd($validated);
-        // // Proses upload gambar jika ada
-        // if ($request->hasFile('profile_picture')) {
-        //     // Hapus gambar lama jika ada
-        //     if ($user->profile_picture) {
-        //         Storage::disk('public')->delete($user->profile_picture);
-        //     }
 
-        //     // Upload gambar baru dan simpan pathnya
-        //     $imagePaths = self::uploadImage($request->file('profile_picture'));
-        //     $validatedData['profile_picture'] = $imagePaths['src'];
-        // }
-
+        $new_image = request()->file('image');
+        // Proses upload gambar jika ada
+        if ($request->hasFile('image')) {
+            if ($user->images) {
+                $user->images()->delete();
+                Storage::delete($user->images);
+            }
+            $uploaded = Image::uploadImage($new_image);
+                Image::create([
+                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+                    'src' => 'images/' . $uploaded['src']->basename,
+                    'alt' => Image::getAlt($new_image),
+                    'imageable_id' => $user->nis_nip,
+                    'imageable_type' => "App\Models\User"
+                ]);
+        }
         $updated_profile = $user->update([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],
@@ -245,9 +251,9 @@ class UserController extends Controller
             'jurusan_jabatan' => $validated['jurusan_jabatan'],
         ]);
         if ($updated_profile) {
-            return redirect()->route('profile.update', ['user' => auth()->user()])->with('success', 'Your Account Successfully Updated');
+            return redirect()->route('profile.detail', ['user' => auth()->user()])->with('success', 'Your Account Successfully Updated');
         }
-        redirect()->route('login')->with('error', 'Update Proccess Failed! <br> Please Try Again Later!');
+        redirect()->route('profile.update')->with('error', 'Update Proccess Failed! <br> Please Try Again Later!');
     }
     public function deleteUser(User $user)
     {

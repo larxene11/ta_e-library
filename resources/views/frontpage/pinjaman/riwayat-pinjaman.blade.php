@@ -2,7 +2,7 @@
 @section('body')
 <div class="container mx-auto">
     {{-- BANNER --}}
-    <div class="lg:h-full w-full md:h-[500px] h-[500px] relative">
+    <div class="lg:h-full w-full md:h-[300px] h-[250px] relative">
         <img src="{{ asset('dist/images/book1.jpg') }}" alt="" class="object-cover object-center w-full h-96">
         <div class="text-center text-white absolute top-[50%] left-[50%] -translate-x-[50%] w-full -translate-y-[50%]">
             <h2 class="uppercase lg:px-96 md:px-32 px-10 font-bold lg:text-6xl md:text-5xl text-3xl"
