@@ -47,11 +47,7 @@
                                 </div>
                             </div>
                             <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
-                                <div class="flex items-center mr-auto">
-                                    <input id="remember-me" type="checkbox" class="form-check-input border mr-2">
-                                    <label class="cursor-pointer select-none" for="remember-me">Remember me</label>
-                                </div>
-                                <a href="">Forgot Password?</a> 
+                                <a href="{{ route('password.email') }}">Forgot Password?</a> 
                             </div>
                             <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
                                 <button
