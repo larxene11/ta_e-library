@@ -113,27 +113,35 @@ class UserController extends Controller
         ];
         return view('auth.register', $data);
     }
+
     public function attemptLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'There Is Something Wrong! Please Try Again');
         }
+
         $validated = $validator->validate();
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user) {
+            // Email not found in the database
+            return redirect()->back()->with('error', 'Email not registered!');
+        }
+
         if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
-            // dd(Auth::user());
             if (Auth::user()->level == 'siswa') {
                 return redirect()->route('main');
-            }else{
-                // dd('yes');
+            } else {
                 return redirect()->intended('/dashboard')->with('success', 'Login Success! <br> Welcome ' . auth()->user()->name);
             }
-            
         }
-        return redirect()->back()->with('error', 'Login Failed! <br> Please Try Again');
+
+        return redirect()->back()->with('error', 'Incorrect password! Please try again.');
     }
     
     public function attemptRegister(Request $request)
@@ -146,17 +154,13 @@ class UserController extends Controller
             'tlp' => 'required|numeric',
             'jurusan_jabatan' => 'required|string',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OOPS! <br> An Error Occurred During Registration!');
         }
-
         $validated = $validator->validate();
-
         // Generate a random password
         $generatedPassword = 'password123'; // Adjust the password length as needed
-
-        $user_is_created = User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],
             'email' => $validated['email'],
@@ -165,11 +169,12 @@ class UserController extends Controller
             'jurusan_jabatan' => $validated['jurusan_jabatan'],
             'password' => Hash::make($generatedPassword),
         ]);
-        if ($user_is_created->fails()) {
+        if (!$user) {
             return redirect()->back()->with('error', 'OOPS! <br> Kesalahan Dalam menambahkan data!');
         }
         return redirect()->route('manage_siswa.all')->with('success', 'Data Siswa berhasil ditambahkan!');
     }
+
     public function logout()
     {
         Session::flush();
@@ -177,6 +182,7 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('main')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
     }
+
     public function detailProfile(User $user)
     {
         $data = [
@@ -258,7 +264,7 @@ class UserController extends Controller
     public function deleteUser(User $user)
     {
         if ($user->delete()) {
-            return redirect()->route('manage_student.all')->with('success', 'User @' . $user->name . ' Successfully Deleted');
+            return redirect()->route('manage_siswa.all')->with('success', 'User @' . $user->name . ' Successfully Deleted');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }

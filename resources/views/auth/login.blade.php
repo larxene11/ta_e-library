@@ -4,6 +4,15 @@
     <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}">
 @endsection
 @section('base_body')
+    @if (session()->has('alert'))
+        @include('fragments.alert')
+    @endif
+    @if (session()->has('error'))
+        @include('fragments.error')
+    @endif
+    @if (session()->has('success'))
+        @include('fragments.success')
+    @endif
     <div class="login">
         <div class="container sm:px-10">
             <div class="block xl:grid grid-cols-2 gap-4">
