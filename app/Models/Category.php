@@ -34,47 +34,46 @@ class Category extends Model
             // ... code here
         });
 
-        self::created(function ($category) {
-            if (request()->hasFile('image')) {
-                $uploaded = Image::uploadImage(request()->file('image'));
-                $category->image()->create([
-                    'alt' => Image::getAlt(request()->file('image')),
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
-                    'imageable_id' => $category->id,
-                    'imageable_type' => "App\Models\Category"
-                ]);
-            }
-        });
+        // self::created(function ($category) {
+        //     if (request()->hasFile('image')) {
+        //         $uploaded = Image::uploadImage(request()->file('image'));
+        //         $category->image()->create([
+        //             'alt' => Image::getAlt(request()->file('image')),
+        //             'src' => 'images/' . $uploaded['src']->basename,
+        //             'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+        //             'imageable_id' => $category->id,
+        //             'imageable_type' => "App\Models\Category"
+        //         ]);
+        //     }
+        // });
 
-        self::updating(function ($model) {
-            // ... code here
-        });
+        // self::updating(function ($model) {
+        //     // ... code here
+        // });
 
-        self::updated(function ($category) {
-            if (request()->hasFile('image')) {
-                $uploaded = Image::uploadImage(request()->file('image'));
-                if ($category->image ?? false) {
-                    Storage::delete($category->image->thumb);
-                    Storage::delete($category->image->src);
-                }
-                $category->image()->update([
-                    'alt' => Image::getAlt(request()->file('image')),
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
-                    'imageable_id' => $category->id,
-                    'imageable_type' => "App\Models\Category"
-                ]);
-            }
-        });
+        // self::updated(function ($category) {
+        //     if (request()->hasFile('image')) {
+        //         $uploaded = Image::uploadImage(request()->file('image'));
+        //         if ($category->image ?? false) {
+        //             Storage::delete($category->image->thumb);
+        //             Storage::delete($category->image->src);
+        //         }
+        //         $category->image()->update([
+        //             'alt' => Image::getAlt(request()->file('image')),
+        //             'src' => 'images/' . $uploaded['src']->basename,
+        //             'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
+        //             'imageable_id' => $category->id,
+        //             'imageable_type' => "App\Models\Category"
+        //         ]);
+        //     }
+        // });
 
-        self::deleting(function ($model) {
-            // ... code here
-        });
+        // self::deleting(function ($model) {
+        //     // ... code here
+        // });
 
         self::deleted(function ($model) {
             Book::whereIn('kode_buku', $model->book->map(fn ($item) => $item->kode_buku))->update(['category_id', NULL]);
-            $model->category->image()->delete();
         });
     }
 }
