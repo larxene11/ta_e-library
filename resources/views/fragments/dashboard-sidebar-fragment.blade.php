@@ -13,7 +13,7 @@
                 <li>
                     <a href="{{ route('dashboard') }}" class="side-menu side-menu--active">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
-                        <div class="side-menu__title"> Welcome </div>
+                        <div class="side-menu__title"> Overview </div>
                     </a>
                 </li>
             </ul>
@@ -47,13 +47,13 @@
                 </li>
                 <li>
                     <a href="{{ route('manage_pinjaman.all') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                        <div class="side-menu__icon"> <i data-lucide="book-open"></i> </div>
                         <div class="side-menu__title"> Pinjaman </div>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('manage_kunjungan.all') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                        <div class="side-menu__icon"> <i data-lucide="monitor"></i> </div>
                         <div class="side-menu__title"> Kunjungan </div>
                     </a>
                 </li>

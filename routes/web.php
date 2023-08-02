@@ -53,9 +53,7 @@ Route::controller(GeneralController::class)->group(function () {
 
 //route view tamplate
 Route::controller(ViewTemplateController::class)->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard.index', ['title' => 'Dashboard | E-Library SMANDUTA']);
-    })->name('dashboard')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard', 'dashboard')->name('dashboard')->middleware(['auth', 'ispegawai']);
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->group(function () {

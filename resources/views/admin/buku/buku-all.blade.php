@@ -23,7 +23,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="hidden md:block mx-auto text-slate-500">Showing 1 to 10 of 150 entries</div>
+                <div class="hidden md:block mx-auto text-slate-500"></div>
                 <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                     <form action="{{ route('manage_book.all') }}" method="get">
                         <div class="flex justify-center items-center">
@@ -47,9 +47,9 @@
                     <thead>
                         <tr>
                             <th class="whitespace-nowrap">No</th>
-                            <th class="text-center whitespace-nowrap">KODE BUKU</th>
-                            <th class="text-center whitespace-nowrap">JUDUL</th>
-                            <th class="text-center whitespace-nowrap">PENGARANG</th>
+                            <th class="text-center whitespace-nowrap">BOOK CODE</th>
+                            <th class="text-center whitespace-nowrap">TITLE</th>
+                            <th class="text-center whitespace-nowrap">WRITER</th>
                             <th class="text-center whitespace-nowrap">STATUS</th>
                             <th class="text-center whitespace-nowrap">ACTIONS</th>
                         </tr>

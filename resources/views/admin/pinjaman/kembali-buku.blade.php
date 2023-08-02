@@ -21,6 +21,7 @@
                             @enderror
                             <select name="kode_buku" id="kode_buku" data-placeholder="Pilih Kode Buku yang Dipinjam"
                                 class="tom-select w-full">
+                                <option value="0">None</option>
                                 @foreach ($books as $item)
                                     <option value="{{ $item->kode_buku }}">{{ $item->kode_buku }} {{ $item->judul }}</option>
                                 @endforeach
@@ -33,6 +34,7 @@
                             @enderror
                             <select name="nis" id="nis" data-placeholder="Pilih NIS Siswa"
                                 class="tom-select w-full">
+                                <option value="0">None</option>
                                 @foreach ($users as $item)
                                     <option value="{{ $item->nis_nip}}">{{ $item->nis_nip }}</option>
                                 @endforeach

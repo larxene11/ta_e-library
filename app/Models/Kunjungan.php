@@ -10,6 +10,13 @@ class Kunjungan extends Model
     use HasFactory;
     protected $fillable = ['nama', 'nis', 'alasan_berkunjung', 'tgl_berkunjung'];
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('nama', 'like', '%' . $search . '%');
+        });
+    }
+
     // public function kunjungan()
     // {
     //     return $this->hasMany(User::class, 'nis_nip');
