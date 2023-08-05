@@ -12,7 +12,7 @@ class KunjunganController extends Controller
     {
         $data = [
             'title' => 'Kunjungan | E-Library SMANDUTA',
-            'kunjungan' => Kunjungan::latest(),
+            'kunjungan' => Kunjungan::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
         ];
         return view('admin.kunjungan.kunjungan-all', $data);
     }
@@ -44,7 +44,7 @@ class KunjunganController extends Controller
         $validator = Validator::make($request->all(), [
             'nis' => 'required|integer',
             'nama' => 'required|string',
-            'alasan_berkunjung' => 'required|text',
+            'alasan_berkunjung' => 'required|string',
             'tgl_berkunjung' => 'required|date',
         ]);
         if ($validator->fails()) {
@@ -62,12 +62,13 @@ class KunjunganController extends Controller
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
+
     public function patchKunjungan(Request $request, Kunjungan $kunjungan)
     {
         $validator = Validator::make($request->all(), [
             'nis' => 'required|integer',
             'nama' => 'required|string',
-            'alasan_berkunjung' => 'required|text',
+            'alasan_berkunjung' => 'required|string',
             'tgl_berkunjung' => 'required|date',
         ]);
         if ($validator->fails()) {
@@ -86,6 +87,7 @@ class KunjunganController extends Controller
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
     }
+    
     public function deletekunjungan(kunjungan $kunjungan)
     {
         if ($kunjungan->delete()) {

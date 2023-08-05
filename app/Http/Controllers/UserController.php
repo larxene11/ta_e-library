@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ChangePasswordVerification;
 
 class UserController extends Controller
 {
@@ -51,8 +53,8 @@ class UserController extends Controller
         );
     
         return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['success' => __($status)])
+            : back()->withErrors(['error' => __($status)]);
     }
     
     public function resetPassword(string $token)
@@ -180,7 +182,7 @@ class UserController extends Controller
         Session::flush();
         session()->invalidate();
         Auth::logout();
-        return redirect()->route('main')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
+        return redirect()->route('login')->with('success', 'You Has Been Logged Out!')->withCookie(Cookie::forget('eksklusif_specials_token'));
     }
 
     public function detailProfile(User $user)
@@ -267,5 +269,55 @@ class UserController extends Controller
             return redirect()->route('manage_siswa.all')->with('success', 'User @' . $user->name . ' Successfully Deleted');
         }
         return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
+    }
+
+    public function showChangePasswordForm()
+    {
+        $data = [
+            'title' => 'Change Password | E-Library SMANDUTA'
+        ];
+        return view('frontpage.profile.reset-password',$data);
+    }
+
+    public function verifyChangePassword($token)
+    {
+        $response = Password::reset([
+            'token' => $token,
+            'email' => request()->email,
+            'password' => request()->new_password,
+            'password_confirmation' => request()->new_password_confirmation,
+        ]);
+
+        if ($response == Password::PASSWORD_RESET) {
+            return redirect()->route('main')->with('success', 'Password has been changed successfully!');
+        } else {
+            return redirect()->route('password.change')->with('error', 'Unable to reset password. Please try again later.');
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        // Generate and send reset password email
+        $response = Password::sendResetLink([
+            'email' => $user->email,
+        ]);
+
+        if ($response == Password::RESET_LINK_SENT) {
+            Mail::to($user->email)->send(new ChangePasswordVerification($user, $response));
+            return redirect()->route('password.change')->with('success', 'Verification email sent! Please check your inbox to complete the password change process.');
+        } else {
+            return redirect()->route('password.change')->with('error', 'Unable to send reset password link. Please try again later.');
+        }
     }
 }

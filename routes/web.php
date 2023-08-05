@@ -39,6 +39,18 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/dashboard/profile/update', 'updateProfile')->name('profile.update')->middleware(['auth', 'ispegawai']);
     Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'ispegawai']);
     Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'ispegawai']);
+
+    // Route untuk menampilkan halaman ganti password
+    Route::get('/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth');
+
+    // Route untuk mengirim email verifikasi
+    Route::post('/send-verification-email', 'sendVerificationEmail')->name('password.sendVerification')->middleware('auth');
+
+    // Route untuk verifikasi email reset password
+    Route::get('/verify-change-password/{token}', 'verifyChangePassword')->name('password.verify')->middleware('auth');
+
+    // Route untuk menyimpan perubahan password setelah verifikasi berhasil
+    Route::post('/change-password', 'changePassword')->name('password.submitChange')->middleware('auth');
 });
 
 Route::controller(GeneralController::class)->group(function () {
@@ -53,9 +65,7 @@ Route::controller(GeneralController::class)->group(function () {
 
 //route view tamplate
 Route::controller(ViewTemplateController::class)->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard.index', ['title' => 'Dashboard | E-Library SMANDUTA']);
-    })->name('dashboard')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard', 'dashboard')->name('dashboard')->middleware(['auth', 'ispegawai']);
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->group(function () {

@@ -28,7 +28,7 @@
                             @error('nama')
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
-                            <input id="tgl_pinjaman" name="tgl_pinjaman" type="text" class="form-control"
+                            <input id="nama" name="nama" type="text" class="form-control"
                                 placeholder="Masukan Nama Siswa" value="{{ old('nama') }}">
                         </div>
                         <div>

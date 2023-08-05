@@ -11,8 +11,9 @@
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12">
                 <!-- BEGIN: Form Layout -->
-                <form action="{{ route('manage_kunjungan.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('manage_kunjungan.patch',['kunjungan'=>$kunjungan]) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('patch')
                     <div class="intro-y box p-5">
                         <div class="mt-3">
                             <label for="nis" class="form-label mt-2">NIS</label>
@@ -20,7 +21,7 @@
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
                             <input id="nis" name="nis" type="text" class="form-control"
-                                placeholder="Masukan NIS Siswa" value="{{ old('NIS') }}">
+                                placeholder="Masukan NIS Siswa" value="{{ $kunjungan->nis }}">
                         </div>
                         <div>
                             <label for="nama"
@@ -28,8 +29,8 @@
                             @error('nama')
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
-                            <input id="tgl_pinjaman" name="tgl_pinjaman" type="text" class="form-control"
-                                placeholder="Masukan Nama Siswa" value="{{ old('nama') }}">
+                            <input id="nama" name="nama" type="text" class="form-control"
+                                placeholder="Masukan Nama Siswa" value="{{ $kunjungan->nama }}">
                         </div>
                         <div>
                             <label for="nama"
@@ -38,7 +39,7 @@
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
                             <input id="alasan_berkunjung" name="alasan_berkunjung" type="text" class="form-control"
-                                placeholder="Masukan Alasan Berkunjung" value="{{ old('alasan_berkunjung') }}">
+                                placeholder="Masukan Alasan Berkunjung" value="{{ $kunjungan->alasan_berkunjung }}">
                         </div>
                         <div>
                             <label for="tgl_berkunjung"
@@ -47,7 +48,7 @@
                                 <small class="text-xs text-red-500 ml-1">{{ '*' . $message }}</small>
                             @enderror
                             <input id="tgl_berkunjung" name="tgl_berkunjung" type="date" class="form-control"
-                                placeholder="Masukan Tanggal Berkunjung" value="{{ old('tgl_berkunjung') }}">
+                                placeholder="Masukan Tanggal Berkunjung" value="{{ $kunjungan->tgl_berkunjung }}">
                         </div>                        
                         <div class="text-right mt-5">
                             <a href="{{ route('manage_kunjungan.all') }}"
@@ -66,21 +67,5 @@
 
 @section('script')
     {{-- <script src="{{ asset('dist/js/view/manage-airport/airport.js') }}"></script> --}}
-    <script>
-        function trigger_file_input() {
-            $('#service_image').trigger('click');
-        }
-
-        function previewImage(inputEl, imageEl) {
-            const image = document.querySelector(inputEl)
-            const imagePreview = document.querySelector(imageEl);
-            const fileImage = new FileReader();
-            fileImage.readAsDataURL(image.files[0]);
-            fileImage.onload = function(e) {
-                imagePreview.src = e.target.result;
-            }
-
-            return [image, imagePreview];
-        }
-    </script>
+    
 @endsection

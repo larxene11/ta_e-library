@@ -15,7 +15,7 @@
                     @csrf
                     @method('patch')
                     <input type="hidden" id="deleted_images" name="deleted_images">
-                    < class="intro-y box p-5">
+                    <div class="intro-y box p-5">
                         <div class="mt-3">
                             <label for="kode_buku" class="form-label mt-2">Kode Buku yang Dipinjam</label>
                             @error('kode_buku')
@@ -24,7 +24,7 @@
                             <select name="kode_buku" id="kode_buku" data-placeholder="Pilih Kode Buku yang Dipinjam"
                                 class="tom-select w-full">
                                 @foreach ($books as $item)
-                                    <option value="{{ $item->kode_buku }}">{{ $item->kode_buku }}</option>
+                                    <option value="{{ $item->kode_buku }}"{{ $pinjaman->kode_buku==$item->kode_buku?'selected':null }}>{{ $item->kode_buku }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -35,8 +35,8 @@
                             @enderror
                             <select name="nis" id="nis" data-placeholder="Pilih NIS Siswa"
                                 class="tom-select w-full">
-                                @foreach ($students as $item)
-                                    <option value="{{ $item->nis}}">{{ $item->nis }}</option>
+                                @foreach ($users as $item)
+                                    <option value="{{ $item->nis_nip}}" {{ $pinjaman->nis==$item->nis_nip?'selected':null }}>{{ $item->nis_nip }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -64,6 +64,7 @@
                             <button type="submit"
                                 class="btn text-primary btn-primary w-24">Save</button>
                         </div>
+                    </div>
                 </form>
                 <!-- END: Form Layout -->
             </div>

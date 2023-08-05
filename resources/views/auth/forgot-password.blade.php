@@ -28,20 +28,20 @@
                     <form action="{{ route('password.update') }}" method="post">
                         @csrf
                         <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
-                            Change Password
+                            Reset Password
                         </h2>
                         <div class="p-5">
                             <input type="hidden" name="token" value="{{ request()->token }}">
                             <input type="hidden" name="email" value="{{ request()->email }}">
                             <div class="mt-3">
                                 <label for="password" class="form-label">New Password</label>
-                                <input id="password" type="password" name="password" class="form-control" placeholder="Input text">
+                                <input id="password" type="password" name="password" class="form-control" placeholder="Input New Password">
                             </div>
                             <div class="mt-3">
                                 <label for="password_confirmation" class="form-label">Confirm New Password</label>
-                                <input id="password_confirm" name="password_confirm" type="password" class="form-control" placeholder="Input text">
+                                <input id="password_confirm" name="password_confirm" type="password" class="form-control" placeholder="Input Password Confirm">
                             </div>
-                            <button class="btn btn-primary mt-4">Change Password</button>
+                            <button class="btn btn-primary mt-4">Reset Password</button>
                         </div>
                     </form>
                 </div>

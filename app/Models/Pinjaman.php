@@ -10,6 +10,23 @@ class Pinjaman extends Model
     use HasFactory;
     protected $fillable = ['kode_buku', 'nis', 'tgl_pinjaman', 'tgl_pengembalian', 'status_pengembalian', 'denda'];
 
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['book'] ?? false, function ($query, $category) {
+            return $query->whereHas('book', function ($query) use ($category) {
+                $query->where('kode_buku', $category);
+            });
+        });
+        
+        $query->when($filters['user'] ?? false, function ($query, $category) {
+            return $query->whereHas('user', function ($query) use ($category) {
+                $query->where('nis_nip', $category);
+            });
+        });
+        
+    }
+
     // public function scopeFilter($query, array $filters)
     // {
     //     $query->when($filters['period'] ?? false, function ($query, $period) {
@@ -34,7 +51,7 @@ class Pinjaman extends Model
     }
     public function book()
     {
-        return $this->hasMany(Book::class, 'book_id');
+        return $this->hasMany(Book::class, 'kode_buku');
     }
 
     // // Fungsi untuk menangani pengembalian buku
