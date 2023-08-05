@@ -65,6 +65,8 @@ class PinjamanController extends Controller
         $tgl_pinjaman = Carbon::now(); // Tanggal saat ini
         $tgl_pengembalian = Carbon::now()->addDays(7); // Tambah 7 hari dari tanggal saat ini
         $books = Book::findOrFail($request->kode_buku)->only('status');
+        $denda = '0';
+        
 
         if ($books['status'] != 'ada') {
             Session::flash('error', 'Buku saat ini tidak tersedia');
@@ -85,6 +87,7 @@ class PinjamanController extends Controller
                         'nis' => $validated['nis'],
                         'tgl_pinjaman' => $tgl_pinjaman,
                         'tgl_pengembalian' => $tgl_pengembalian,
+                        'denda' =>$denda
                     ]);
     
                     // Perbarui status buku menjadi 'tidak'
@@ -145,16 +148,29 @@ class PinjamanController extends Controller
         $countRent = $rent->count();
 
         if ($countRent == 1) {
+            // Calculate late fees if book is returned late
+            $dueDate = $rentData->tanggal_kembali;
+            $today = now();
+            $lateDays = max(0, $today->diffInDays($dueDate));
+            $lateFeeRate = 1000; // 1k per day
+    
+            // Calculate total late fee
+            $lateFee = $lateDays * $lateFeeRate;
+    
+            // Update the status and late fee in Pinjaman model
             $rentData->status_pengembalian = 'sudah';
+            $rentData->denda = $lateFee;
             $rentData->save();
+    
             // Perbarui status buku menjadi 'ada'
             $books = Book::findOrFail($request->kode_buku);
             $books->status = 'ada';
             $books->save();
-            return redirect()->route('manage_pinjaman.all')->with('success', 'Buku Berhasil dikembalikan');
+    
+            return redirect()->route('manage_pinjaman.all')->with('success', 'Buku Berhasil dikembalikan. Denda: ' . $lateFee);
         } else {
-            return redirect()->back()->with('error', 'Error Occured, Please Try Again!');
-        }
+            return redirect()->back()->with('error', 'Error Occurred, Please Try Again!');
+        }   
         
     }
 

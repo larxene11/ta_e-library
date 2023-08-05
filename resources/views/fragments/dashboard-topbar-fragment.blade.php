@@ -37,8 +37,8 @@
                                     class="w-4 h-4 mr-2"></i> Profile </a>
                         </li>
                         <li>
-                            <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock"
-                                    class="w-4 h-4 mr-2"></i> Reset Password </a>
+                            <a href="{{ route('password.change') }}" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock"
+                                    class="w-4 h-4 mr-2"></i> Change Password </a>
                         </li>
                         <li>
                             <hr class="dropdown-divider border-white/[0.08]">

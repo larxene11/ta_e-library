@@ -13,6 +13,9 @@
                     <li>
                         <a href="{{ route('buku-catalog') }}" class="mr-4 text-white hover:underline md:mr-6">Catalog</a>
                     </li>
+                    <li>
+                        <a href="{{ route('login') }}" class="mr-4 text-white hover:underline md:mr-6">Sign In</a>
+                    </li>
                 @else
                     <li>
                         <a href="{{ route('main') }}" class="mr-4 text-white hover:underline md:mr-6 ">Home</a>
