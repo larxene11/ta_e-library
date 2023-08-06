@@ -41,16 +41,10 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'ispegawai']);
 
     // Route untuk menampilkan halaman ganti password
-    Route::get('/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth');
-
-    // Route untuk mengirim email verifikasi
-    Route::post('/send-verification-email', 'sendVerificationEmail')->name('password.sendVerification')->middleware('auth');
-
-    // Route untuk verifikasi email reset password
-    Route::get('/verify-change-password/{token}', 'verifyChangePassword')->name('password.verify')->middleware('auth');
+    Route::get('/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth', 'ispegawai');
 
     // Route untuk menyimpan perubahan password setelah verifikasi berhasil
-    Route::post('/change-password', 'changePassword')->name('password.submitChange')->middleware('auth');
+    Route::post('/change-password/update', 'changePassword')->name('password-update')->middleware('auth', 'ispegawai');
 });
 
 Route::controller(GeneralController::class)->group(function () {
