@@ -20,25 +20,21 @@
 			<tr>
 				<th>No</th>
 				<th>Kode Buku</th>
-				<th>Judul</th>
-				<th>Pengarang</th>
-				<th>Penerbit</th>
-				<th>Tahun Terbit</th>
-                <th>Tahun Pengadaan</th>
-                <th>Sumber Pengadaan</th>
+				<th>NIS</th>
+				<th>Tanggal Pinjaman</th>
+				<th>Tanggal Kembali</th>
+				<th>Denda</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($books as $items)
+			@foreach($pinjaman as $items)
 			<tr>
 				<td>{{ $loop->iteration }}</td>
 				<td>{{$items->kode_buku}}</td>
-				<td>{{$items->judul}}</td>
-				<td>{{$items->pengarang}}</td>
-				<td>{{$items->penerbit}}</td>
-				<td>{{$items->tahun_terbit}}</td>
-                <td>{{$items->tahun}}</td>
-                <td>{{$items->dana}}</td>
+				<td>{{$items->nis}}</td>
+				<td>{{$items->tgl_pinjaman}}</td>
+				<td>{{$items->tgl_pengembalian}}</td>
+				<td>{{$items->denda}}</td>
 			</tr>
 			@endforeach
 		</tbody>

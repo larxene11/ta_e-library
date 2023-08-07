@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\Pinjaman;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,14 @@ class PinjamanController extends Controller
         ];
         return view('admin.pinjaman.pinjaman-all', $data);
     }
+
+    public function exportPdf()
+    {
+        $pinjaman = Pinjaman::all();
+        $pdf = Pdf::loadView('pdf.pinjaman-pdf', ['pinjaman' => $pinjaman]);
+        return $pdf->download('LaporanPinjaman-'.Carbon::now()->timestamp.'.pdf');
+    }
+    
     public function createPinjaman()
     {
         $data = [

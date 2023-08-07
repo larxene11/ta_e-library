@@ -70,7 +70,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->gro
     Route::get('/dashboard/book/{book:kode_buku}', 'detailBook')->name('manage_book.detail');
     Route::get('/dashboard/book/{book:kode_buku}/update', 'updateBook')->name('manage_book.update');
     Route::patch('/dashboard/book/{book:kode_buku}', 'patchBook')->name('manage_book.patch');
-    Route::get('/export-pdf', 'exportPdf')->name('exportPDF.buku');
+    Route::get('/export-pdf/buku', 'exportPdf')->name('exportPDF.buku');
     Route::delete('/dashboard/book/{book:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 
@@ -94,6 +94,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::get('/dashboard/pinjaman/{pinjaman:id}/update', 'updatePinjaman')->name('manage_pinjaman.update');
     Route::patch('/dashboard/pinjaman/{pinjaman:id}', 'patchPinjaman')->name('manage_pinjaman.patch');
     Route::delete('/dashboard/pinjaman/{pinjaman:id}/delete', 'deletePinjaman')->name('manage_pinjaman.delete');
+    Route::get('/export-pdf/pinjaman', 'exportPdf')->name('exportPDF.pinjaman');
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
@@ -104,4 +105,5 @@ Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)
     Route::get('/dashboard/kunjungan/{kunjungan:id}/update', 'updatekunjungan')->name('manage_kunjungan.update');
     Route::patch('/dashboard/kunjungan/{kunjungan:id}', 'patchkunjungan')->name('manage_kunjungan.patch');
     Route::delete('/dashboard/kunjungan/{kunjungan:id}/delete', 'deletekunjungan')->name('manage_kunjungan.delete');
+    Route::get('/export-pdf/kunjungan', 'exportPdf')->name('exportPDF.kunjungan');
 });
