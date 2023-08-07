@@ -80,29 +80,7 @@ class User extends Authenticatable
             $user->level = 'siswa';
         });
         
-        self::updating(function ($user) {
-            $new_image = request()->file('image');
-            if (request()->hasFile('image')) {
-                $user->images()->delete();
-                $updated = Image::uploadImage($new_image);
-                Image::create([
-                    'thumb' => 'thumbnails/' . $updated['thumb']->basename,
-                    'src' => 'images/' . $updated['src']->basename,
-                    'alt' => Image::getAlt($new_image),
-                    'imageable_id' => $user->nis_nip,
-                    'imageable_type' => "App\Models\User"
-                ]);
-            }else{
-                $uploaded = Image::uploadImage($new_image);
-                Image::create([
-                    'thumb' => 'thumbnails/' . $uploaded['thumb']->basename,
-                    'src' => 'images/' . $uploaded['src']->basename,
-                    'alt' => Image::getAlt($new_image),
-                    'imageable_id' => $user->nis_nip,
-                    'imageable_type' => "App\Models\User"
-                ]);
-            }
-        });
+        
 
         self::deleted(function ($user) {
             $user->images()->delete();

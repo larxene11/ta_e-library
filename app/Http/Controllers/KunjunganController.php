@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kunjungan;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Validator;
 
 class KunjunganController extends Controller
 {
@@ -22,6 +24,13 @@ class KunjunganController extends Controller
             'title' => 'Add New Kunjungan | E-Library SMANDUTA',
         ];
         return view('admin.kunjungan.kunjungan-add', $data);
+    }
+
+    public function exportPdf()
+    {
+        $kunjungan = Kunjungan::all();
+        $pdf = Pdf::loadView('pdf.kunjungan-pdf', ['pinjaman' => $kunjungan]);
+        return $pdf->download('LaporanKunjungan-'.Carbon::now()->timestamp.'.pdf');
     }
     // public function detailkunjungan(kunjungan $kunjungan)
     // {

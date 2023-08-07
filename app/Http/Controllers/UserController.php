@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
@@ -14,8 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ChangePasswordVerification;
 
 class UserController extends Controller
 {
@@ -161,7 +160,7 @@ class UserController extends Controller
         }
         $validated = $validator->validate();
         // Generate a random password
-        $generatedPassword = 'password123'; // Adjust the password length as needed
+        $generatedPassword = Str::random(8); // Adjust the password length as needed
         $user = User::create([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],
@@ -276,48 +275,27 @@ class UserController extends Controller
         $data = [
             'title' => 'Change Password | E-Library SMANDUTA'
         ];
-        return view('frontpage.profile.reset-password',$data);
-    }
-
-    public function verifyChangePassword($token)
-    {
-        $response = Password::reset([
-            'token' => $token,
-            'email' => request()->email,
-            'password' => request()->new_password,
-            'password_confirmation' => request()->new_password_confirmation,
-        ]);
-
-        if ($response == Password::PASSWORD_RESET) {
-            return redirect()->route('main')->with('success', 'Password has been changed successfully!');
-        } else {
-            return redirect()->route('password.change')->with('error', 'Unable to reset password. Please try again later.');
-        }
+        return view('auth.reset-password',$data);
     }
 
     public function changePassword(Request $request)
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
+            'new_password' => 'required|string|min:8',
+            'new_confirm_password' => ['same:new_password'],
         ]);
 
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            return redirect()->route('password.change')->with('success', 'The Current Password Incorrect!');
         }
 
-        // Generate and send reset password email
-        $response = Password::sendResetLink([
-            'email' => $user->email,
+        $user->update([
+            'password' => Hash::make($request->new_password),
         ]);
 
-        if ($response == Password::RESET_LINK_SENT) {
-            Mail::to($user->email)->send(new ChangePasswordVerification($user, $response));
-            return redirect()->route('password.change')->with('success', 'Verification email sent! Please check your inbox to complete the password change process.');
-        } else {
-            return redirect()->route('password.change')->with('error', 'Unable to send reset password link. Please try again later.');
-        }
+        return redirect()->route('dashboard')->with('success', 'Password has been changed successfully!');
     }
 }
