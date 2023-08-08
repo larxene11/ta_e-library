@@ -31,11 +31,15 @@ class BookController extends Controller
         return view('admin.buku.buku-add', $data);
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $books = Book::all();
-        $pdf = Pdf::loadView('pdf.buku-pdf', ['books' => $books]);
-        return $pdf->download('LaporanBuku-'.Carbon::now()->timestamp.'.pdf');
+        $tglawal = Carbon::parse($request->tglawal)->startOf('day')->toDateTimeString();
+        $tglakhir = Carbon::parse($request->tglakhir)->endOf('day')->toDateTimeString();
+
+        $books = Book::whereBetween('created_at', [$tglawal, $tglakhir])->get();
+
+        $pdf = Pdf::loadView('pdf.buku-pdf', compact('books'))->setPaper('A4');;
+        return $pdf->download('LaporanBuku-' . Carbon::now()->timestamp . '.pdf');
     }
 
     public function detailBook(Book $book)

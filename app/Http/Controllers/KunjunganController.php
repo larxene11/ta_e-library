@@ -18,6 +18,7 @@ class KunjunganController extends Controller
         ];
         return view('admin.kunjungan.kunjungan-all', $data);
     }
+    
     public function createKunjungan()
     {
         $data = [
@@ -26,11 +27,15 @@ class KunjunganController extends Controller
         return view('admin.kunjungan.kunjungan-add', $data);
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $kunjungan = Kunjungan::all();
-        $pdf = Pdf::loadView('pdf.kunjungan-pdf', ['pinjaman' => $kunjungan]);
-        return $pdf->download('LaporanKunjungan-'.Carbon::now()->timestamp.'.pdf');
+        $tglawal = Carbon::parse($request->tglawal)->startOf('day')->toDateTimeString();
+        $tglakhir = Carbon::parse($request->tglakhir)->endOf('day')->toDateTimeString();
+
+        $kunjungan = Kunjungan::whereBetween('tgl_berkunjung', [$tglawal, $tglakhir])->get();
+
+        $pdf = Pdf::loadView('pdf.kunjungan-pdf', compact('kunjungan'))->setPaper('A4');;
+        return $pdf->download('LaporanKunjungan-' . Carbon::now()->timestamp . '.pdf');
     }
     // public function detailkunjungan(kunjungan $kunjungan)
     // {
@@ -48,6 +53,7 @@ class KunjunganController extends Controller
         ];
         return view('admin.kunjungan.kunjungan-edit', $data);
     }
+
     public function storeKunjungan(Request $request)
     {
         $validator = Validator::make($request->all(), [
