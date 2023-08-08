@@ -16,7 +16,7 @@
                     <div class="dropdown-menu w-40">
                         <ul class="dropdown-content">
                             <li>
-                                <a href="{{ route('exportPDF.pinjaman') }}" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF </a>
+                                <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF </a>
                             </li>
                         </ul>
                     </div>
@@ -24,11 +24,17 @@
                 <div class="hidden md:block mx-auto text-slate-500"></div>
                 <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                     <div class="w-56 relative text-slate-500">
-                        <form action="" method="get">
-                            <input type="text" class="form-control w-56 box pr-10" placeholder="Search...">
-                            <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i> 
+                        <form action="{{ route('manage_pinjaman.all') }}" method="get">
+                            <div class="flex justify-center items-center">
+                                <div class="flex">
+                                    <input type="text" name="search" class="form-control w-56 box pr-10" style="border-top-right-radius: 0!important;
+                                        border-bottom-right-radius: 0!important;" placeholder="Search...">
+                                    <button type="submit" class="bg-[#2d2d2d]" style="border-top-right-radius: 0.25rem!important;
+                                        border-bottom-right-radius: 0.25rem!important;"><i class="w-4 h-4 mx-3 text-white rounded-sm"  data-lucide="search"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </form>
-                        
                     </div>
                 </div>
             </div>
@@ -109,7 +115,7 @@
                         @csrf
                         @method('delete')
                         <input type="hidden" value="" id="delete_route_input">
-                        <button type="submit" class="flex items-center btn btn-danger w-24 text-danger"><i
+                        <button class="flex items-center btn btn-danger w-24 text-danger"><i
                                 data-lucide="trash-2"
                                 class="w-4 h-4 mr-1"></i>Delete</button>
                     </form>
@@ -119,6 +125,36 @@
     </div>
 </div>
 <!-- END: Content -->
+<!-- Modal Export PDF -->
+<div id="basic-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body p-10"> 
+                <h3 class="mb-4 text-xl font-medium text-gray-900 ">Choose Date</h3>
+                <form class="space-y-6" action="{{ route('exportPDF.pinjaman') }}" method="GET">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="tglawal"
+                                class="block mb-2 text-sm font-medium text-gray-900">Tanggal
+                                Awal</label>
+                            <input type="date" name="tglawal" id="tglawal"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "required>
+                        </div>
+                        <div>
+                            <label for="tglakhir"
+                                class="block mb-2 text-sm font-medium text-gray-900">Tanggal
+                                Akhir</label>
+                            <input type="date" name="tglakhir" id="tglakhir"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                required>
+                        </div>
+                    <button class="btn btn-primary w-24">Export</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- End Modal -->
 @endsection
 @section('script')
     <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>

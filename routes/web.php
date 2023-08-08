@@ -95,6 +95,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::patch('/dashboard/pinjaman/{pinjaman:id}', 'patchPinjaman')->name('manage_pinjaman.patch');
     Route::delete('/dashboard/pinjaman/{pinjaman:id}/delete', 'deletePinjaman')->name('manage_pinjaman.delete');
     Route::get('/export-pdf/pinjaman', 'exportPdf')->name('exportPDF.pinjaman');
+    Route::get('/get-gambar/{nis}', 'getGambar');
 });
 
 Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
@@ -107,3 +108,4 @@ Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)
     Route::delete('/dashboard/kunjungan/{kunjungan:id}/delete', 'deletekunjungan')->name('manage_kunjungan.delete');
     Route::get('/export-pdf/kunjungan', 'exportPdf')->name('exportPDF.kunjungan');
 });
+

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\User;
+use App\Models\Image;
 use App\Models\Category;
 use App\Models\Pinjaman;
-use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -167,4 +168,32 @@ class GeneralController extends Controller
         redirect()->route('my-account')->with('error', 'Update Proccess Failed! <br> Please Try Again Later!');
     }
 
+    public function showChangePasswordForm()
+    {
+        $data = [
+            'title' => 'Change Password | E-Library SMANDUTA'
+        ];
+        return view('auth.reset-password',$data);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8',
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->route('password.change')->with('success', 'The Current Password Incorrect!');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Password has been changed successfully!');
+    }
 }

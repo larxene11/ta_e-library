@@ -40,11 +40,14 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div id="imageContainer">
+                            <img id="gambarUser" src="" alt="Gambar User" class="max-w-full hidden h-32 mt-5">
+                        </div>
                         <div class="text-right mt-5">
                             <a href="{{ route('manage_pinjaman.all') }}"
                                 class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
-                            <button type="submit"
-                                class="btn text-primary btn-primary w-24">Save</button>
+                            <button
+                                class="btn btn-primary w-24">Save</button>
                         </div>
                     </div>
                 </form>
@@ -57,21 +60,51 @@
 
 @section('script')
 <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>
-    {{-- <script>
-        function trigger_file_input() {
-            $('#service_image').trigger('click');
-        }
+<script>
+    // document.getElementById('nis').addEventListener('change', function() {
+    //     const selectedNIS = this.value;
+    //     if (selectedNIS) {
+    //         loadImage(selectedNIS);
+    //     }
+    // });
 
-        function previewImage(inputEl, imageEl) {
-            const image = document.querySelector(inputEl)
-            const imagePreview = document.querySelector(imageEl);
-            const fileImage = new FileReader();
-            fileImage.readAsDataURL(image.files[0]);
-            fileImage.onload = function(e) {
-                imagePreview.src = e.target.result;
+    // function loadImage(nis) {
+    //     // Buat permintaan Ajax ke server
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.onreadystatechange = function() {
+    //         if (xhr.readyState === XMLHttpRequest.DONE) {
+    //             if (xhr.status === 200) {
+    //                 const imageUrl = URL.createObjectURL(xhr.response);
+    //                 document.getElementById('imageContainer').innerHTML = `<img src="${imageUrl}" alt="Gambar Profil">`;
+    //             } else {
+    //                 document.getElementById('imageContainer').innerHTML = '<p>Gambar Profil Tidak Tersedia</p>';
+    //             }
+    //         }
+    //     };
+    //     xhr.responseType = 'blob';
+    //     xhr.open('GET', `/get-gambar/${nis}`);
+    //     xhr.send();
+    // }
+
+    document.getElementById('nis').addEventListener('input', function() {
+    var nis = this.value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/get-gambar/' + nis, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var gambarUser = document.getElementById('gambarUser');
+
+            if (response.gambar) {
+                gambarUser.src = response.gambar;
+                gambarUser.style.display = 'block'; // Tampilkan elemen img
+            } else {
+                gambarUser.style.display = 'none'; // Sembunyikan elemen img
             }
-
-            return [image, imagePreview];
         }
-    </script> --}}
+    };
+    xhr.send();
+});
+</script>
 @endsection

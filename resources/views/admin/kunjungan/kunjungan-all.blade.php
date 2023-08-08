@@ -14,12 +14,7 @@
                     </button>
                     <div class="dropdown-menu w-40">
                         <ul class="dropdown-content">
-                            <li>
-                                <a href="#" class="dropdown-item"> <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('exportPDF.kunjungan') }}" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF </a>
-                            </li>
+                            <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview" class="dropdown-item"> <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Export to PDF </a>
                         </ul>
                     </div>
                 </div>
@@ -121,6 +116,36 @@
     </div>
 </div>
 <!-- END: Content -->
+<!-- Modal Export PDF -->
+<div id="basic-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body p-10"> 
+                <h3 class="mb-4 text-xl font-medium text-gray-900 ">Choose Date</h3>
+                <form class="space-y-6" action="{{ route('exportPDF.kunjungan') }}" method="GET">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="tglawal"
+                                class="block mb-2 text-sm font-medium text-gray-900">Tanggal
+                                Awal</label>
+                            <input type="date" name="tglawal" id="tglawal"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "required>
+                        </div>
+                        <div>
+                            <label for="tglakhir"
+                                class="block mb-2 text-sm font-medium text-gray-900">Tanggal
+                                Akhir</label>
+                            <input type="date" name="tglakhir" id="tglakhir"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                required>
+                        </div>
+                    <button class="btn btn-primary w-24">Export</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- End Modal -->
 @endsection
 @section('script')
     <script src="{{ asset('dist/js/view/manage-product/product.js') }}"></script>

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class PinjamanController extends Controller
@@ -25,21 +26,45 @@ class PinjamanController extends Controller
         return view('admin.pinjaman.pinjaman-all', $data);
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $pinjaman = Pinjaman::all();
-        $pdf = Pdf::loadView('pdf.pinjaman-pdf', ['pinjaman' => $pinjaman]);
-        return $pdf->download('LaporanPinjaman-'.Carbon::now()->timestamp.'.pdf');
+        $tglawal = Carbon::parse($request->tglawal)->startOf('day')->toDateTimeString();
+        $tglakhir = Carbon::parse($request->tglakhir)->endOf('day')->toDateTimeString();
+
+        $pinjaman = Pinjaman::where('status_pengembalian', 'sudah')->whereBetween('tgl_pengembalian', [$tglawal, $tglakhir])->get();
+
+        $pdf = Pdf::loadView('pdf.pinjaman-pdf', compact('pinjaman'))->setPaper('A4');;
+        return $pdf->download('LaporanPinjaman-' . Carbon::now()->timestamp . '.pdf');
     }
     
     public function createPinjaman()
     {
+        // // Ambil gambar profil siswa menggunakan polimorfisme
+        // $gambarProfil = Gambar::where('imageable_type', 'App\Models\Siswa')
+        //                       ->where('imageable_id', $user->id)
+        //                       ->first();
+
         $data = [
             'title' => 'Add New Pinjaman | E-Library SMANDUTA',
             'books' => Book::latest()->get(),
-            'users' => User::where('level', 'siswa')->latest()->get()
+            'users' => User::where('level', 'siswa')->with('images')->latest()->get()
         ];
         return view('admin.pinjaman.pinjaman-add', $data);
+    }
+
+    public function getGambar($nis)
+    {
+        $user = User::where('level', 'siswa')->where('nis_nip', $nis)->first();
+
+        if ($user) {
+            $gambar = $user->images()->first(); // Menggunakan relasi images
+            if ($gambar) {
+                $gambarPath = asset('storage/' . $gambar->src); // Path gambar
+                return response()->json(['gambar' => $gambarPath]);
+            }
+        }
+
+        return response()->json(['gambar' => null]);
     }
     // public function detailPinjaman(Pinjaman $pinjaman)
     // {
@@ -144,7 +169,7 @@ class PinjamanController extends Controller
     public function kembaliBuku(){
         $data = [
             'title' => 'Pengembalian Buku | E-Library SMANDUTA',
-            'books' => Book::latest()->get(),
+            'books' => Book::where('status', 'tidak')->latest()->get(),
             'users' => User::where('level', 'siswa')->latest()->get()
         ];
         return view('admin.pinjaman.kembali-buku', $data);
@@ -158,7 +183,7 @@ class PinjamanController extends Controller
 
         if ($countRent == 1) {
             // Calculate late fees if book is returned late
-            $dueDate = $rentData->tanggal_kembali;
+            $dueDate = $rentData->tgl_pengembalian;
             $today = now();
             $lateDays = max(0, $today->diffInDays($dueDate));
             $lateFeeRate = 1000; // 1k per day

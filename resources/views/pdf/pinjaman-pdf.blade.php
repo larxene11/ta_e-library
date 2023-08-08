@@ -27,7 +27,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($pinjaman as $items)
+			@forelse($pinjaman as $items)
 			<tr>
 				<td>{{ $loop->iteration }}</td>
 				<td>{{$items->kode_buku}}</td>
@@ -36,7 +36,9 @@
 				<td>{{$items->tgl_pengembalian}}</td>
 				<td>{{$items->denda}}</td>
 			</tr>
-			@endforeach
+			@empty
+			<tr><td>Data Kosong</td></tr>
+			@endforelse
 		</tbody>
 	</table>
  
