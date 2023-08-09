@@ -105,7 +105,7 @@
         <h4 class="font-semibold lg:text-2xl mb-3 lg:text-left md:text-left text-center ">
             Pembaca Terbaik
         </h4>
-        <div class="flex">
+        <div class="flex gap-6">
             @foreach ($users as $borrowers)
             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                 <div class="flex flex-col items-center py-3">

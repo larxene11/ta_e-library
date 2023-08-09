@@ -41,10 +41,10 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'ispegawai']);
 
     // Route untuk menampilkan halaman ganti password
-    Route::get('/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth', 'ispegawai');
+    Route::get('/dashboard/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth', 'ispegawai');
 
     // Route untuk menyimpan perubahan password setelah verifikasi berhasil
-    Route::post('/change-password/update', 'changePassword')->name('password-update')->middleware('auth', 'ispegawai');
+    Route::post('/dashboard/change-password/update', 'changePassword')->name('password-update')->middleware('auth', 'ispegawai');
 });
 
 Route::controller(GeneralController::class)->group(function () {
@@ -55,6 +55,11 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('/my-account', 'my_account')->name('my-account')->middleware('auth');
     Route::patch('/my-account/update/{user:email}', 'patchProfile')->name('manage-update.profile')->middleware('auth');
     Route::get('/loan-history', 'showLoanHistory')->name('loan-history')->middleware('auth');
+    // Route untuk menampilkan halaman ganti password
+    Route::get('/change-password',  'showChangePasswordForm')->name('password.change.main')->middleware('auth');
+
+    // Route untuk menyimpan perubahan password setelah verifikasi berhasil
+    Route::post('/change-password/update', 'changePassword')->name('password-update.main')->middleware('auth');
 });
 
 //route view tamplate

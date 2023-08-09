@@ -20,7 +20,7 @@
             <a href="{{ route('my-account') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Profile</a>
           </li>
           <li>
-            <a href="{{ route('password.change') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Change Password</a>
+            <a href="{{ route('password.change.main') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Change Password</a>
           </li>
           <li>
             <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Sign out</a>
