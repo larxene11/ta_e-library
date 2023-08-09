@@ -13,9 +13,9 @@ class Pinjaman extends Model
 
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['book'] ?? false, function ($query, $category) {
-            return $query->whereHas('book', function ($query) use ($category) {
-                $query->where('kode_buku', $category);
+        $query->when($filters['book'] ?? false, function ($query, $book) {
+            return $query->whereHas('book', function ($query) use ($book) {
+                $query->where('kode_buku', $book);
             });
         });
         

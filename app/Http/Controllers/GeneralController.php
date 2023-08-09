@@ -173,7 +173,7 @@ class GeneralController extends Controller
         $data = [
             'title' => 'Change Password | E-Library SMANDUTA'
         ];
-        return view('auth.reset-password',$data);
+        return view('frontpage.profile.change-password',$data);
     }
 
     public function changePassword(Request $request)
@@ -194,6 +194,6 @@ class GeneralController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Password has been changed successfully!');
+        return redirect()->route('main')->with('success', 'Password has been changed successfully!');
     }
 }
