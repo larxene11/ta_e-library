@@ -160,7 +160,7 @@ class UserController extends Controller
         }
         $validated = $validator->validate();
         // Generate a random password
-        $generatedPassword = Str::random(8); // Adjust the password length as needed
+        $generatedPassword = 'password123'; // Adjust the password length as needed
         $user = User::create([
             'name' => $validated['name'],
             'nis_nip' => $validated['nis_nip'],
