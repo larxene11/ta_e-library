@@ -19,26 +19,24 @@
 		<thead>
 			<tr>
 				<th>No</th>
-				<th>Kode Buku</th>
-				<th>Judul</th>
-				<th>Pengarang</th>
-				<th>Penerbit</th>
-				<th>Tahun Terbit</th>
-                <th>Tahun Pengadaan</th>
-                <th>Sumber Pengadaan</th>
+				<th>NIS</th>
+				<th>Nama</th>
+				<th>Jurusan</th>
+				<th>No Telepon</th>
+				<th>Email</th>
+                <th>Password</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($books as $items)
+			@foreach($siswa as $items)
 			<tr>
 				<td>{{ $loop->iteration }}</td>
-				<td>{{$items->kode_buku}}</td>
-				<td>{{$items->judul}}</td>
-				<td>{{$items->pengarang}}</td>
-				<td>{{$items->penerbit}}</td>
-				<td>{{$items->tahun_terbit}}</td>
-                <td>{{$items->tahun}}</td>
-                <td>{{$items->dana}}</td>
+				<td>{{$items->nis_nip}}</td>
+				<td>{{$items->name}}</td>
+				<td>{{$items->jurusan_jabatan}}</td>
+				<td>{{$items->tlp}}</td>
+				<td>{{$items->email}}</td>
+                <td>{{$items->password}}</td>
 			</tr>
 			@endforeach
 		</tbody>

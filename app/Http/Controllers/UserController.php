@@ -6,7 +6,8 @@ use App\Models\User;
 use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -297,5 +299,13 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Password has been changed successfully!');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $siswa = User::where('level', 'siswa')->get();
+
+        $pdf = Pdf::loadView('pdf.siswa-pdf', compact('siswa'))->setPaper('A4');;
+        return $pdf->download('LaporanKeanggotaan-' . Carbon::now()->timestamp . '.pdf');
     }
 }
