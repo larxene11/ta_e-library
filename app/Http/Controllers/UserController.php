@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         $data = [
            'title' => 'Data Siswa | E-Library SMANDUTA',
-           'users' => User::where('level', 'siswa')->latest()->paginate(10)->withQueryString(),
+           'users' => User::where('level', 'siswa')->latest()->filter(request(['search']))->paginate(10)->withQueryString(),
         ];
         return view('admin.siswa.siswa-all', $data);
     }

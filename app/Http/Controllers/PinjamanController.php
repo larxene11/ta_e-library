@@ -19,7 +19,7 @@ class PinjamanController extends Controller
     {
         $data = [
             'title' => 'Pinjaman | E-Library SMANDUTA',
-            'pinjaman' => Pinjaman::latest()->filter(request(['user','book']))->paginate(10)->withQueryString(),
+            'pinjaman' => Pinjaman::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
             'books' => Book::latest()->get(),
             'users' => User::where('level', 'siswa')->latest()->get()
         ];

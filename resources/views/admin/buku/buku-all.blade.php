@@ -3,7 +3,7 @@
 <!-- BEGIN: Content -->
     <div class="content">
         <h2 class="intro-y text-lg font-medium mt-10">
-            Data List Books
+            Data List Buku
         </h2>
         <div class="grid grid-cols-12 gap-6 mt-5">
             <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
@@ -44,9 +44,9 @@
                     <thead>
                         <tr>
                             <th class="whitespace-nowrap">No</th>
-                            <th class="text-center whitespace-nowrap">BOOK CODE</th>
-                            <th class="text-center whitespace-nowrap">TITLE</th>
-                            <th class="text-center whitespace-nowrap">WRITER</th>
+                            <th class="text-center whitespace-nowrap">KODE BUKU</th>
+                            <th class="text-center whitespace-nowrap">JUDUL</th>
+                            <th class="text-center whitespace-nowrap">PENGARANG</th>
                             <th class="text-center whitespace-nowrap">STATUS</th>
                             <th class="text-center whitespace-nowrap">ACTIONS</th>
                         </tr>
