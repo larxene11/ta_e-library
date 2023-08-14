@@ -19,7 +19,7 @@ class PinjamanController extends Controller
     {
         $data = [
             'title' => 'Pinjaman | E-Library SMANDUTA',
-            'pinjaman' => Pinjaman::latest()->filter(request(['user','book']))->paginate(10)->withQueryString(),
+            'pinjaman' => Pinjaman::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
             'books' => Book::latest()->get(),
             'users' => User::where('level', 'siswa')->latest()->get()
         ];
@@ -170,7 +170,7 @@ class PinjamanController extends Controller
         $data = [
             'title' => 'Pengembalian Buku | E-Library SMANDUTA',
             'books' => Book::where('status', 'tidak')->latest()->get(),
-            'users' => User::where('level', 'siswa')->latest()->get()
+            'users' => User::where('level', 'siswa')->has('pinjaman')->with('pinjaman')->latest()->get()
         ];
         return view('admin.pinjaman.kembali-buku', $data);
     }

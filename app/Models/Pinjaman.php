@@ -13,16 +13,14 @@ class Pinjaman extends Model
 
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['book'] ?? false, function ($query, $book) {
-            return $query->whereHas('book', function ($query) use ($book) {
-                $query->where('kode_buku', $book);
-            });
-        });
-        
-        $query->when($filters['user'] ?? false, function ($query, $category) {
-            return $query->whereHas('user', function ($query) use ($category) {
-                $query->where('nis_nip', $category);
-            });
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('nis', 'like', '%' . $search . '%')
+                         ->orWhere(function ($query) use ($search) {
+                             $query->where('kode_buku', 'like', '%' . $search . '%')
+                                   ->orWhere('tgl_pengembalian', 'like', '%' . $search . '%')
+                                   ->orWhere('tgl_pinjaman', 'like', '%' . $search . '%')
+                                   ->orWhere('status_pengembalian', 'like', '%' . $search . '%');;
+                         });
         });
         
     }

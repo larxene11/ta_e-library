@@ -39,6 +39,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/dashboard/profile/update', 'updateProfile')->name('profile.update')->middleware(['auth', 'ispegawai']);
     Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'ispegawai']);
     Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'ispegawai']);
+    Route::get('/export-pdf/siswa', 'exportPdf')->name('exportPDF.siswa');
 
     // Route untuk menampilkan halaman ganti password
     Route::get('/dashboard/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth', 'ispegawai');

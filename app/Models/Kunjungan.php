@@ -13,7 +13,10 @@ class Kunjungan extends Model
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
-            return $query->where('nama', 'like', '%' . $search . '%');
+            return $query->where('nama', 'like', '%' . $search . '%')->orWhere(function ($query) use ($search) {
+                $query->where('nis', 'like', '%' . $search . '%')
+                      ->orWhere('tgl_berkunjung', 'like', '%' . $search . '%');
+            });
         });
     }
 
