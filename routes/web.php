@@ -25,27 +25,30 @@ use App\Http\Controllers\KunjunganController;
 // });
 
 Route::controller(UserController::class)->group(function () {
-    Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'ispegawai']);
-    Route::get('/dashboard/students/create', 'addStudent')->name('manage_siswa.add')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard/students', 'allStudent')->name('manage_siswa.all')->middleware(['auth', 'isAdmin' ]);
+    Route::get('/dashboard/students/create', 'addStudent')->name('manage_siswa.add')->middleware(['auth', 'isAdmin']);
+    Route::get('/dashboard/employee', 'allPegawai')->name('manage_pegawai.all')->middleware(['auth', 'isAdmin', ]);
+    Route::get('/dashboard/employee/create', 'addPegawai')->name('manage_pegawai.add')->middleware(['auth', 'isAdmin',]);
+    Route::post('/dashboard/employee/store', 'storePegawai')->name('storePegawai')->middleware(['auth', 'isAdmin', ]);
     Route::get('/login', 'login')->name('login')->middleware('guest');
     Route::post('/login', 'attemptLogin')->name('attempt_login')->middleware('guest');
-    Route::post('/dashboard/students/store', 'attemptRegister')->name('attempt_register')->middleware(['auth', 'ispegawai']);
+    Route::post('/dashboard/students/store', 'attemptRegister')->name('attempt_register')->middleware(['auth', 'isAdmin' ]);
     Route::get('/logout', 'logout')->name('logout')->middleware('auth');
     Route::get('/forgot-password', 'requestEmail')->name('password.request')->middleware('guest');
     Route::post('/forgot-password', 'checkEmail')->name('password.email')->middleware('guest');
     Route::get('/reset-password/{token}', 'resetPassword')->name('password.reset')->middleware('guest');
     Route::post('/reset-password', 'updatePassword')->name('password.update')->middleware('guest');
-    Route::get('/dashboard/profile/detail', 'detailProfile')->name('profile.detail')->middleware(['auth', 'ispegawai']);
-    Route::get('/dashboard/profile/update', 'updateProfile')->name('profile.update')->middleware(['auth', 'ispegawai']);
-    Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'ispegawai']);
-    Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'ispegawai']);
+    Route::get('/dashboard/profile/detail', 'detailProfile')->name('profile.detail')->middleware(['auth', 'isAdmin' ]);
+    Route::get('/dashboard/profile/update', 'updateProfile')->name('profile.update')->middleware(['auth', 'isAdmin' ]);
+    Route::patch('/dashboard/profile/{user:email}', 'patchProfile')->name('profile.patch')->middleware(['auth', 'isAdmin' ]);
+    Route::delete('/dashboard/user/{user:email}', 'deleteUser')->name('manage_user.delete')->middleware(['auth', 'isAdmin']);
     Route::get('/export-pdf/siswa', 'exportPdf')->name('exportPDF.siswa');
 
     // Route untuk menampilkan halaman ganti password
-    Route::get('/dashboard/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth', 'ispegawai');
+    Route::get('/dashboard/change-password',  'showChangePasswordForm')->name('password.change')->middleware('auth', 'isAdmin' );
 
     // Route untuk menyimpan perubahan password setelah verifikasi berhasil
-    Route::post('/dashboard/change-password/update', 'changePassword')->name('password-update')->middleware('auth', 'ispegawai');
+    Route::post('/dashboard/change-password/update', 'changePassword')->name('password-update')->middleware('auth', 'isAdmin' );
 });
 
 Route::controller(GeneralController::class)->group(function () {
@@ -63,12 +66,11 @@ Route::controller(GeneralController::class)->group(function () {
     Route::post('/change-password/update', 'changePassword')->name('password-update.main')->middleware('auth');
 });
 
-//route view tamplate
-Route::controller(ViewTemplateController::class)->group(function () {
-    Route::get('/dashboard', 'dashboard')->name('dashboard')->middleware(['auth', 'ispegawai']);
+Route::middleware(['auth', 'isAdmin' ])->group(function () {
+    Route::get('/dashboard', [ViewTemplateController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->group(function () {
+Route::middleware(['auth', 'isAdmin'])->controller(BookController::class)->group(function () {
     // Book Route
     Route::get('/dashboard/book', 'allBook')->name('manage_book.all');
     Route::get('/dashboard/book/create', 'createBook')->name('manage_book.create');
@@ -80,7 +82,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(BookController::class)->gro
     Route::delete('/dashboard/book/{book:kode_buku}', 'deleteBook')->name('manage_book.delete');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(CategoryController::class)->group(function (){
+Route::middleware(['auth', 'isAdmin' ])->controller(CategoryController::class)->group(function (){
     // Category Route
     Route::get('/dashboard/categories', 'allCategory')->name('manage_category.all');
     Route::get('/dashboard/category/create', 'createCategory')->name('manage_category.create');
@@ -90,7 +92,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(CategoryController::class)-
     Route::delete('/dashboard/category/{category:id}/delete', 'deleteCategory')->name('manage_category.delete');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)->group(function (){
+Route::middleware(['auth', 'isAdmin' ])->controller(PinjamanController::class)->group(function (){
     // Pinjaman Route
     Route::get('/dashboard/pinjaman', 'allPinjaman')->name('manage_pinjaman.all');
     Route::get('/dashboard/pinjaman/create', 'createPinjaman')->name('manage_pinjaman.create');
@@ -104,7 +106,7 @@ Route::middleware(['auth', 'ispegawai'])->controller(PinjamanController::class)-
     Route::get('/get-gambar/{nis}', 'getGambar');
 });
 
-Route::middleware(['auth', 'ispegawai'])->controller(KunjunganController::class)->group(function (){
+Route::middleware(['auth', ])->controller(KunjunganController::class)->group(function (){
     // kunjungan Route
     Route::get('/dashboard/kunjungan', 'allkunjungan')->name('manage_kunjungan.all');
     Route::get('/dashboard/kunjungan/create', 'createkunjungan')->name('manage_kunjungan.create');

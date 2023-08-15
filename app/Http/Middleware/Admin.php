@@ -16,11 +16,15 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        // dd(auth()->check());
-        if (auth()->user()->level != 'pegawai') {
-            return redirect()->route('main');
+        if (auth()->check()) {
+            $userLevel = auth()->user()->level;
+            
+            if ($userLevel == 'admin' || $userLevel == 'pegawai') {
+                return $next($request);
+            }
         }
-
-        return $next($request);
+    
+        return redirect()->route('main');
+        
     }
 }

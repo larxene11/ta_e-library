@@ -93,14 +93,21 @@ class UserController extends Controller
     }
 
 
-    // public function allPegawai()
-    // {
-    //     $data = [
-    //        'title' => 'Data Pegawai | E-Library SMANDUTA',
-    //        'users' => User::where('level', 'pegawai')->latest()->paginate(10)->withQueryString(),
-    //     ];
-    //     return view('admin.siswa.siswa-all', $data);
-    // }
+    public function allPegawai()
+    {
+        $data = [
+           'title' => 'Data Pegawai | E-Library SMANDUTA',
+           'users' => User::where('level', 'pegawai')->latest()->paginate(10)->withQueryString(),
+        ];
+        return view('admin.pegawai.pegawai-all', $data);
+    }
+    public function addPegawai()
+    {
+        $data = [
+           'title' => 'Tambah Data Pegawai | E-Library SMANDUTA',
+        ];
+        return view('admin.pegawai.pegawai-add', $data);
+    }
 
     public function login()
     {
@@ -140,7 +147,7 @@ class UserController extends Controller
             if (Auth::user()->level == 'siswa') {
                 return redirect()->route('main');
             } else {
-                return redirect()->intended('/dashboard')->with('success', 'Login Success! <br> Welcome ' . auth()->user()->name);
+                return redirect()->route('dashboard')->with('success', 'Login Success! <br> Welcome ' . auth()->user()->name);
             }
         }
 
@@ -176,6 +183,37 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'OOPS! <br> Kesalahan Dalam menambahkan data!');
         }
         return redirect()->route('manage_siswa.all')->with('success', 'Data Siswa berhasil ditambahkan!');
+    }
+
+    public function storePegawai(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:8|max:50',
+            'email' => 'required|email:dns|unique:users,email',
+            'nis_nip' => 'required|integer',
+            'alamat' => 'required|string',
+            'tlp' => 'required|numeric',
+            'jurusan_jabatan' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'OOPS! <br> An Error Occurred During Registration!');
+        }
+        $validated = $validator->validate();
+        // Generate a random password
+        $generatedPassword = 'password123'; // Adjust the password length as needed
+        $user = User::create([
+            'name' => $validated['name'],
+            'nis_nip' => $validated['nis_nip'],
+            'email' => $validated['email'],
+            'tlp' => $validated['tlp'],
+            'alamat' => $validated['alamat'],
+            'jurusan_jabatan' => $validated['jurusan_jabatan'],
+            'password' => Hash::make($generatedPassword),
+        ]);
+        if (!$user) {
+            return redirect()->back()->with('error', 'OOPS! <br> Kesalahan Dalam menambahkan data!');
+        }
+        return redirect()->route('manage_pegawai.all')->with('success', 'Data Siswa berhasil ditambahkan!');
     }
 
     public function logout()

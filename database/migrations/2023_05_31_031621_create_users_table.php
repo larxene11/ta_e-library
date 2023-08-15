@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('jurusan_jabatan');
             $table->string('tlp');
             $table->string('email')->unique();
-            $table->enum('level', ['pegawai', 'siswa'])->default('siswa');
+            $table->enum('level', ['pegawai', 'siswa','admin'])->default('siswa');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

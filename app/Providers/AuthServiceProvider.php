@@ -35,6 +35,12 @@ class AuthServiceProvider extends ServiceProvider
                 : Response::deny('Kamu Harus Merupakan Pegawai.');
         });
 
+        Gate::define('isAdmin', function (User $user) {
+            return $user->level == 'admin'
+                ? Response::allow()
+                : Response::deny('Kamu Harus Merupakan Admin.');
+        });
+
         Gate::define('isSiswa', function (User $user) {
             return $user->level == 'siswa'
                 ? Response::allow()
