@@ -72,8 +72,8 @@ class Category extends Model
         //     // ... code here
         // });
 
-        self::deleted(function ($model) {
-            Book::whereIn('kode_buku', $model->book->map(fn ($item) => $item->kode_buku))->update(['category_id', NULL]);
-        });
+        // self::deleted(function ($model) {
+        //     Book::whereIn('kode_buku', $model->book->map(fn ($item) => $item->kode_buku))->update(['category_id', NULL]);
+        // });
     }
 }
